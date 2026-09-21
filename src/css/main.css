@@ -41,3 +41,22 @@
     }
   }
 }
+/* Navigation principale : liens sans soulignement par défaut */
+.wp-block-navigation .wp-block-navigation-item__content {
+  color: var(--color-nuit);
+  text-decoration: none;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 2px;
+}
+
+/* Survol : soulignement */
+.wp-block-navigation .wp-block-navigation-item__content:hover {
+  text-decoration: underline;
+}
+
+/* Page en cours : vert foncé + soulignement permanent */
+.wp-block-navigation .current-menu-item > .wp-block-navigation-item__content,
+.wp-block-navigation [aria-current="page"] {
+  color: var(--color-sauge-texte);
+  text-decoration: underline;
+}
