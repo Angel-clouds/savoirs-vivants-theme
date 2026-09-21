@@ -91,3 +91,42 @@
 .wp-block-button.is-style-outline > .wp-block-button__link:hover {
   background-color: var(--color-fond);
 }
+/* Sections pleine largeur collées les unes aux autres (fonds alternés) */
+.wp-block-post-content > .alignfull {
+  margin-block: 0;
+}
+
+/* Style « Surtitre » : petit carré vert + texte mono en capitales */
+.is-style-surtitre {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-titre);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.is-style-surtitre::before {
+  content: "";
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: var(--color-sauge);
+}
+
+/* Style « Carte » */
+.is-style-carte {
+  height: 100%;
+  padding: var(--wp--preset--spacing--40);
+  background: var(--color-blanc);
+  border: 2px solid var(--wp--preset--color--gris-bordure);
+}
+
+/* Icônes de carte : pastille grise */
+.sv-icone img {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.6rem;
+  background: var(--color-fond);
+}

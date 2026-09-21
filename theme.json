@@ -22,7 +22,8 @@
         { "slug": "vert-sauge", "name": "Vert sauge (grands titres, décor)", "color": "#16987C" },
         { "slug": "vert-sauge-texte", "name": "Vert sauge foncé (textes, liens)", "color": "#117A63" },
         { "slug": "blanc", "name": "Blanc", "color": "#FFFFFF" },
-        { "slug": "gris-clair", "name": "Gris clair (fonds)", "color": "#F7F7F7" }
+        { "slug": "gris-clair", "name": "Gris clair (fonds)", "color": "#F7F7F7" },
+        { "slug": "gris-bordure", "name": "Gris bordure (décor)", "color": "#DCDFE6" }
       ]
     },
     "typography": {
