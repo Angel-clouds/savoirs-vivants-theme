@@ -1,16 +1,39 @@
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}},"border":{"bottom":{"color":"var:preset|color|gris-clair","width":"2px"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
 <div class="wp-block-group has-blanc-background-color has-background">
-	<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+	<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 	<div class="wp-block-group">
-		<!-- wp:site-logo {"width":150,"shouldSyncIcon":false} /-->
 
-				<!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","justifyContent":"right"},"style":{"typography":{"fontWeight":"600"},"spacing":{"blockGap":"var:preset|spacing|40"}},"fontFamily":"space-grotesk","fontSize":"medium"} -->
+		<!-- wp:group {"className":"sv-header__brand","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+		<div class="wp-block-group sv-header__brand">
+			<!-- wp:site-logo {"width":44,"isLink":false,"shouldSyncIcon":true} /-->
+			<!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group">
+				<!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700","lineHeight":"1.2"},"elements":{"link":{"color":{"text":"var:preset|color|bleu-nuit"}}}},"fontFamily":"space-mono","fontSize":"medium"} /-->
+				<!-- wp:site-tagline {"style":{"typography":{"textTransform":"uppercase","lineHeight":"1.2"}},"fontSize":"small"} /-->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","justifyContent":"center"},"style":{"typography":{"fontWeight":"600"},"spacing":{"blockGap":"var:preset|spacing|30"}},"fontFamily":"space-grotesk","fontSize":"small"} -->
 			<!-- wp:navigation-link {"label":"Nos projets","url":"/nos-projets/","kind":"custom"} /-->
 			<!-- wp:navigation-link {"label":"CréaBot","url":"/creabot/","kind":"custom"} /-->
 			<!-- wp:navigation-link {"label":"Schlouk de Sciences","url":"/schlouk-de-sciences/","kind":"custom"} /-->
 			<!-- wp:navigation-link {"label":"Sciences participatives","url":"/sciences-participatives/","kind":"custom"} /-->
 			<!-- wp:navigation-link {"label":"Ressourcerie","url":"/ressourcerie/","kind":"custom"} /-->
 		<!-- /wp:navigation -->
+
+		<!-- wp:buttons {"className":"sv-header__actions","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+		<div class="wp-block-buttons sv-header__actions">
+			<!-- wp:button {"textColor":"bleu-nuit","className":"is-style-outline"} -->
+			<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-bleu-nuit-color has-text-color wp-element-button" href="/s-engager/">S'engager</a></div>
+			<!-- /wp:button -->
+			<!-- wp:button -->
+			<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/faire-un-don/">Faire un don</a></div>
+			<!-- /wp:button -->
+		</div>
+		<!-- /wp:buttons -->
+
 	</div>
 	<!-- /wp:group -->
 </div>

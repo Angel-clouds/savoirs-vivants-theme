@@ -60,3 +60,34 @@
   color: var(--color-sauge-texte);
   text-decoration: underline;
 }
+/* Header — mobile d'abord : boutons sur leur propre ligne, pleine largeur */
+.sv-header__actions {
+  order: 3;
+  width: 100%;
+}
+.sv-header__actions .wp-block-button {
+  flex: 1;
+}
+.sv-header__actions .wp-block-button__link {
+  width: 100%;
+  text-align: center;
+}
+
+/* Grand écran : tout sur une seule ligne, comme la maquette */
+@media (min-width: 64rem) {
+  .sv-header__actions {
+    order: 0;
+    width: auto;
+  }
+  .sv-header__actions .wp-block-button {
+    flex: initial;
+  }
+}
+
+/* Bouton contour : bordure épaisse et survol lisible */
+.wp-block-button.is-style-outline > .wp-block-button__link {
+  border: 2px solid currentColor;
+}
+.wp-block-button.is-style-outline > .wp-block-button__link:hover {
+  background-color: var(--color-fond);
+}
