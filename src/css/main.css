@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-/* Verrouillage : on supprime les palettes par défaut de Tailwind.
-   Seules les couleurs et typos de la charte existeront. */
+/* =========================================================
+   1. TOKENS — verrouillés sur la charte (source : theme.json)
+   ========================================================= */
 @theme {
   --color-*: initial;
   --font-*: initial;
@@ -14,6 +15,7 @@
   --color-nuit: var(--wp--preset--color--bleu-nuit);
   --color-blanc: var(--wp--preset--color--blanc);
   --color-fond: var(--wp--preset--color--gris-clair);
+  --color-bordure: var(--wp--preset--color--gris-bordure);
   --font-titre: var(--wp--preset--font-family--space-mono);
   --font-texte: var(--wp--preset--font-family--space-grotesk);
   --text-sm: var(--wp--preset--font-size--small);
@@ -23,6 +25,9 @@
   --text-2xl: var(--wp--preset--font-size--xx-large);
 }
 
+/* =========================================================
+   2. BASE — accessibilité globale
+   ========================================================= */
 @layer base {
   /* Focus clavier visible sur fond clair ET sombre (double anneau) */
   :focus-visible {
@@ -41,26 +46,27 @@
     }
   }
 }
-/* Navigation principale : liens sans soulignement par défaut */
+
+/* =========================================================
+   3. HEADER & NAVIGATION
+   ========================================================= */
 .wp-block-navigation .wp-block-navigation-item__content {
   color: var(--color-nuit);
   text-decoration: none;
   text-underline-offset: 0.35em;
   text-decoration-thickness: 2px;
 }
-
-/* Survol : soulignement */
 .wp-block-navigation .wp-block-navigation-item__content:hover {
   text-decoration: underline;
 }
-
 /* Page en cours : vert foncé + soulignement permanent */
 .wp-block-navigation .current-menu-item > .wp-block-navigation-item__content,
 .wp-block-navigation [aria-current="page"] {
   color: var(--color-sauge-texte);
   text-decoration: underline;
 }
-/* Header — mobile d'abord : boutons sur leur propre ligne, pleine largeur */
+
+/* Mobile d'abord : boutons sur leur propre ligne, pleine largeur */
 .sv-header__actions {
   order: 3;
   width: 100%;
@@ -72,8 +78,6 @@
   width: 100%;
   text-align: center;
 }
-
-/* Grand écran : tout sur une seule ligne, comme la maquette */
 @media (min-width: 64rem) {
   .sv-header__actions {
     order: 0;
@@ -84,16 +88,32 @@
   }
 }
 
-/* Bouton contour : bordure épaisse et survol lisible */
+/* =========================================================
+   4. BOUTONS
+   ========================================================= */
 .wp-block-button.is-style-outline > .wp-block-button__link {
   border: 2px solid currentColor;
 }
 .wp-block-button.is-style-outline > .wp-block-button__link:hover {
   background-color: var(--color-fond);
 }
-/* Sections pleine largeur collées les unes aux autres (fonds alternés) */
+
+/* =========================================================
+   5. SECTIONS & STYLES DE BLOCS
+   ========================================================= */
+/* Sections pleine largeur collées les unes aux autres */
 .wp-block-post-content > .alignfull {
   margin-block: 0;
+}
+/* Sections pleine largeur : marges latérales qui respirent */
+.wp-block-post-content > .alignfull {
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* Contenu des sections : largeur maximale centrée (75rem = wideSize du theme.json) */
+.wp-block-post-content > .alignfull > * {
+  max-width: var(--wp--style--global--wide-size, 75rem);
+  margin-inline: auto !important;
 }
 
 /* Style « Surtitre » : petit carré vert + texte mono en capitales */
@@ -115,18 +135,23 @@
   background: var(--color-sauge);
 }
 
-/* Style « Carte » */
+/* Style « Carte » : même hauteur dans une rangée, sans débordement */
+.wp-block-columns > .wp-block-column:has(> .is-style-carte) {
+  display: flex;
+  flex-direction: column;
+}
 .is-style-carte {
-  height: 100%;
+  flex: 1;
   padding: var(--wp--preset--spacing--40);
   background: var(--color-blanc);
-  border: 2px solid var(--wp--preset--color--gris-bordure);
+  border: 2px solid var(--color-bordure);
 }
 
-/* Icônes de carte : pastille grise */
+/* Icônes de carte : pastille grise, taille forcée
+   (la feuille des blocs WordPress est chargée après la nôtre) */
 .sv-icone img {
-  width: 3rem;
-  height: 3rem;
+  width: 3rem !important;
+  height: 3rem !important;
   padding: 0.6rem;
   background: var(--color-fond);
 }
