@@ -5,9 +5,9 @@
 @theme {
   --color-*: initial;
   --font-*: initial;
+  --text-*: initial;
 }
 
-/* Tokens = variables générées par theme.json (source unique de la charte) */
 @theme inline {
   --color-sauge: var(--wp--preset--color--vert-sauge);
   --color-sauge-texte: var(--wp--preset--color--vert-sauge-texte);
@@ -16,6 +16,11 @@
   --color-fond: var(--wp--preset--color--gris-clair);
   --font-titre: var(--wp--preset--font-family--space-mono);
   --font-texte: var(--wp--preset--font-family--space-grotesk);
+  --text-sm: var(--wp--preset--font-size--small);
+  --text-base: var(--wp--preset--font-size--medium);
+  --text-lg: var(--wp--preset--font-size--large);
+  --text-xl: var(--wp--preset--font-size--x-large);
+  --text-2xl: var(--wp--preset--font-size--xx-large);
 }
 
 @layer base {
