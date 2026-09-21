@@ -39,3 +39,5 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux.
   ressources, chiffres clés (1800 / 1600 / 52 / 7), partenaires, newsletter + soutien.
 - À faire ensuite : footer, pages CréaBot, Schlouk de Sciences, Sciences participatives, Ressourcerie (CPT matériel),
   Outils numériques, À propos, Contact, tarteaucitron.js.
+  - Attention : Tailwind scanne patterns/ et templates/ ; les classes WordPress (size-full, etc.)
+  peuvent générer des utilitaires parasites → les exclure avec `@source not inline("…")`
