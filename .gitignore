@@ -1,3 +1,15 @@
+# Dépendances (réinstallables avec npm install)
 node_modules/
-assets/css/main.css
+
+# Journaux
+*.log
+npm-debug.log*
+
+# Systèmes d'exploitation
 .DS_Store
+Thumbs.db
+*~
+
+# Secrets et archives
+.env
+*.zip
