@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Verrouillage : on supprime les palettes par défaut de Tailwind.
+   Seules les couleurs et typos de la charte existeront. */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+}
+
+/* Tokens = variables générées par theme.json (source unique de la charte) */
+@theme inline {
+  --color-sauge: var(--wp--preset--color--vert-sauge);
+  --color-sauge-texte: var(--wp--preset--color--vert-sauge-texte);
+  --color-nuit: var(--wp--preset--color--bleu-nuit);
+  --color-blanc: var(--wp--preset--color--blanc);
+  --color-fond: var(--wp--preset--color--gris-clair);
+  --font-titre: var(--wp--preset--font-family--space-mono);
+  --font-texte: var(--wp--preset--font-family--space-grotesk);
+}
+
+@layer base {
+  /* Focus clavier visible sur fond clair ET sombre (double anneau) */
+  :focus-visible {
+    outline: 3px solid var(--color-nuit);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--color-blanc);
+  }
+
+  /* Respect des préférences de mouvement réduit */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
