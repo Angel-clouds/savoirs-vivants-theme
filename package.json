@@ -1,21 +1,20 @@
 {
   "name": "savoirs-vivants",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Thème WordPress FSE sur-mesure de l'association Savoirs Vivants",
   "scripts": {
+    "vendor": "rm -rf assets/vendor/tarteaucitron && mkdir -p assets/vendor && cp -r node_modules/tarteaucitronjs assets/vendor/tarteaucitron",
     "dev": "tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --watch",
-    "build": "tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --minify"
+    "build": "npm run vendor && tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --minify"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@fontsource-variable/space-grotesk": "^5.3.0",
     "@fontsource/space-mono": "^5.3.0",
     "@tailwindcss/cli": "^4.3.3",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "tarteaucitronjs": "^1.34.0"
   },
   "allowScripts": {
     "@parcel/watcher@2.5.1": true

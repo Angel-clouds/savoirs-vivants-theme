@@ -123,6 +123,10 @@
   },
   "templateParts": [
     { "name": "header", "title": "En-tête", "area": "header" },
+    { "name": "soutien", "title": "Suivre et soutenir", "area": "uncategorized" },
     { "name": "footer", "title": "Pied de page", "area": "footer" }
+  ],
+  "customTemplates": [
+    { "name": "page-sans-titre", "title": "Page composée (titre dans le contenu)", "postTypes": ["page"] }
   ]
 }

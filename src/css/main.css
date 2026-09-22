@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+/* Tailwind ne doit pas analyser les bibliothèques tierces,
+   ni transformer les classes WordPress en utilitaires parasites. */
+@source not "../../assets/vendor";
 @source not inline("size-full");
 
 /* =========================================================
@@ -30,7 +34,7 @@
    2. BASE — accessibilité globale
    ========================================================= */
 @layer base {
-  /* Focus clavier visible sur fond clair ET sombre (double anneau) */
+  /* Focus clavier visible sur fond clair ET sombre (double anneau) — RGAA 10.7 */
   :focus-visible {
     outline: 3px solid var(--color-nuit);
     outline-offset: 2px;
@@ -48,8 +52,64 @@
   }
 }
 
+/* Texte masqué visuellement mais lu par les lecteurs d'écran
+   (.screen-reader-text est utilisé par WordPress : liens « Lire la suite », réseaux sociaux…) */
+.screen-reader-text,
+.sv-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.screen-reader-text:focus {
+  position: static !important;
+  width: auto;
+  height: auto;
+  clip: auto;
+}
+/* Titres masqués : visibles en pointillés dans l'éditeur pour que l'équipe sache qu'ils existent */
+.editor-styles-wrapper .sv-sr-only {
+  position: static !important;
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip: auto;
+  white-space: normal;
+  outline: 2px dashed var(--color-bordure);
+  font-size: var(--text-sm);
+}
+
 /* =========================================================
-   3. HEADER & NAVIGATION
+   3. MISE EN PAGE — sections pleine largeur
+   ========================================================= */
+/* Sections : marges latérales qui respirent + contenu centré sur 75rem */
+main .wp-block-group.alignfull,
+.sv-bandeau {
+  margin-block: 0;
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+}
+main .wp-block-group.alignfull > *,
+.sv-bandeau > * {
+  max-width: 75rem;
+  margin-inline: auto !important;
+}
+/* Bandeaux sombres d'appel à l'action : lignes plus courtes, lecture confortable */
+main .wp-block-group.alignfull.has-bleu-nuit-background-color > * {
+  max-width: 48rem;
+}
+/* Pages simples (mentions légales…) : texte limité à 48rem */
+.sv-page-simple > .wp-block-post-content > :not(.alignfull):not(.alignwide) {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+/* =========================================================
+   4. HEADER & NAVIGATION
    ========================================================= */
 .wp-block-navigation .wp-block-navigation-item__content {
   color: var(--color-nuit);
@@ -60,14 +120,14 @@
 .wp-block-navigation .wp-block-navigation-item__content:hover {
   text-decoration: underline;
 }
-/* Page en cours : vert foncé + soulignement permanent */
+/* Page en cours : vert foncé + soulignement permanent (couleur ET forme — RGAA 10.6) */
 .wp-block-navigation .current-menu-item > .wp-block-navigation-item__content,
 .wp-block-navigation [aria-current="page"] {
   color: var(--color-sauge-texte);
   text-decoration: underline;
 }
 
-/* Mobile d'abord : boutons sur leur propre ligne, pleine largeur */
+/* Mobile d'abord : boutons du header sur leur propre ligne, pleine largeur */
 .sv-header__actions {
   order: 3;
   width: 100%;
@@ -90,7 +150,7 @@
 }
 
 /* =========================================================
-   4. BOUTONS
+   5. BOUTONS
    ========================================================= */
 .wp-block-button.is-style-outline > .wp-block-button__link {
   border: 2px solid currentColor;
@@ -100,19 +160,9 @@
 }
 
 /* =========================================================
-   5. SECTIONS & STYLES DE BLOCS
+   6. STYLES DE BLOCS (sélectionnables dans l'éditeur)
    ========================================================= */
-/* Sections pleine largeur collées les unes aux autres */
-main .wp-block-group.alignfull {
-  margin-block: 0;
-  padding-inline: clamp(1.5rem, 5vw, 4rem);
-}
-main .wp-block-group.alignfull > * {
-  max-width: 75rem;
-  margin-inline: auto !important;
-}
-
-/* Style « Surtitre » : petit carré vert + texte mono en capitales */
+/* Surtitre : petit carré vert + texte mono en capitales */
 .is-style-surtitre {
   display: flex;
   align-items: center;
@@ -131,16 +181,51 @@ main .wp-block-group.alignfull > * {
   background: var(--color-sauge);
 }
 
-/* Style « Carte » : même hauteur dans une rangée, sans débordement */
-.wp-block-columns > .wp-block-column:has(> .is-style-carte) {
-  display: flex;
-  flex-direction: column;
+/* Titre de carte : bleu nuit, taille normale, sans italique
+   (le vert sauge n'est conforme qu'au-delà de 24px — RGAA 3.2) */
+.is-style-titre-carte {
+  font-size: var(--text-base);
+  font-style: normal;
+  color: var(--color-nuit);
 }
+.is-style-titre-carte a {
+  color: inherit;
+}
+
+/* Carte */
 .is-style-carte {
-  flex: 1;
   padding: var(--wp--preset--spacing--40);
   background: var(--color-blanc);
   border: 2px solid var(--color-bordure);
+}
+
+/* Carte avec image : image collée en haut, texte avec marges */
+.is-style-carte-image {
+  padding: 0 0 var(--wp--preset--spacing--30);
+  background: var(--color-blanc);
+  border: 2px solid var(--color-bordure);
+}
+.is-style-carte-image > * {
+  margin-inline: var(--wp--preset--spacing--30);
+}
+.is-style-carte-image > .wp-block-image,
+.is-style-carte-image > .wp-block-post-featured-image {
+  margin: 0 0 var(--wp--preset--spacing--20);
+}
+.is-style-carte-image > .wp-block-image img,
+.is-style-carte-image > .wp-block-post-featured-image img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Groupe seul dans une colonne : même hauteur que ses voisins */
+.wp-block-columns > .wp-block-column:has(> .wp-block-group:only-child) {
+  display: flex;
+  flex-direction: column;
+}
+.wp-block-column > .wp-block-group:only-child {
+  flex: 1;
 }
 
 /* Icônes de carte : pastille grise, taille forcée
@@ -150,4 +235,211 @@ main .wp-block-group.alignfull > * {
   height: 3rem !important;
   padding: 0.6rem;
   background: var(--color-fond);
+}
+
+/* Logos partenaires */
+.sv-logo img {
+  width: auto !important;
+  max-width: 10rem;
+  height: 4rem !important;
+  object-fit: contain;
+}
+
+/* Photos de l'équipe */
+.sv-portrait img {
+  width: 6rem !important;
+  height: 6rem !important;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Question fréquente (bloc Détails) — ouverture native au clavier, sans JavaScript */
+.is-style-faq {
+  padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+  background: var(--color-blanc);
+  border: 2px solid var(--color-bordure);
+}
+.is-style-faq summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.is-style-faq[open] summary {
+  margin-bottom: var(--wp--preset--spacing--10);
+}
+
+/* =========================================================
+   7. COMPOSANTS
+   ========================================================= */
+/* Chiffres clés */
+.sv-chiffre {
+  margin: 0;
+  font-family: var(--font-titre);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1;
+}
+.sv-chiffre-label {
+  margin-top: 0.5rem;
+  font-size: var(--text-sm);
+}
+
+/* Étapes numérotées (vraies séquences uniquement) */
+.sv-etape {
+  font-family: var(--font-titre);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-sauge-texte);
+}
+
+/* Date d'un événement : pastille « 15 / octobre » */
+.sv-date {
+  flex: none;
+  min-width: 5.5rem;
+  padding: 0.75rem;
+  text-align: center;
+  background: var(--color-nuit);
+  color: var(--color-blanc);
+}
+.sv-date p {
+  margin: 0;
+}
+.sv-date__jour {
+  font-family: var(--font-titre);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+.sv-date__mois {
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
+.sv-evenement__infos {
+  flex: 1 1 16rem;
+}
+
+/* Bouton lié à un champ facultatif (ex. lien d'inscription) : masqué s'il est vide */
+.sv-bouton-optionnel:has(> a:not([href])),
+.sv-bouton-optionnel:has(> a[href=""]) {
+  display: none;
+}
+
+/* Fonds bleu nuit : titres, liens et boutons inversés (contrastes conformes — RGAA 3.2) */
+.has-bleu-nuit-background-color :is(h1, h2, h3, h4) {
+  color: var(--color-blanc);
+}
+.has-bleu-nuit-background-color a:where(:not(.wp-element-button)) {
+  color: var(--color-blanc);
+}
+.has-bleu-nuit-background-color .wp-block-button__link {
+  background-color: var(--color-blanc);
+  color: var(--color-nuit);
+}
+.has-bleu-nuit-background-color .wp-block-button__link:hover {
+  background-color: var(--color-fond);
+}
+.has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
+  background-color: transparent;
+  color: var(--color-blanc);
+}
+.has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   8. FORMULAIRE DE CONTACT
+   ========================================================= */
+.sv-formulaire {
+  display: grid;
+  gap: var(--wp--preset--spacing--20);
+}
+.sv-formulaire__ligne {
+  display: grid;
+  gap: var(--wp--preset--spacing--20);
+}
+@media (min-width: 40rem) {
+  .sv-formulaire__ligne {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.sv-champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+}
+.sv-champ label {
+  font-weight: 700;
+}
+.sv-champ input,
+.sv-champ select,
+.sv-champ textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font: inherit;
+  color: var(--color-nuit);
+  background: var(--color-blanc);
+  border: 2px solid var(--color-nuit); /* contraste du champ ≥ 3:1 — RGAA 3.3 */
+}
+.sv-champ [aria-invalid="true"] {
+  border-width: 3px;
+}
+.sv-champ__aide {
+  font-size: var(--text-sm);
+}
+.sv-champ__erreur {
+  font-weight: 700;
+}
+.sv-champ__erreur::before {
+  content: "⚠ ";
+}
+.sv-piege {
+  position: absolute;
+  left: -9999px;
+}
+.sv-message {
+  padding: var(--wp--preset--spacing--30);
+  border-left: 6px solid var(--color-nuit);
+  background: var(--color-fond);
+}
+.sv-message--succes {
+  border-left-color: var(--color-sauge-texte);
+}
+.sv-message__titre {
+  font-weight: 700;
+}
+
+/* =========================================================
+   9. PIED DE PAGE
+   ========================================================= */
+.sv-pied {
+  border-top: 2px solid var(--color-bordure);
+  font-size: var(--text-sm);
+}
+.sv-liste-liens {
+  padding: 0;
+  list-style: none;
+}
+.sv-liste-liens li + li {
+  margin-top: 0.4rem;
+}
+.sv-pied a {
+  color: var(--color-nuit);
+}
+.sv-liste-liens--ligne {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+.sv-liste-liens--ligne li + li {
+  margin-top: 0;
+}
+/* Bouton « Gestion des cookies » présenté comme un lien */
+.sv-lien-bouton {
+  padding: 0;
+  font: inherit;
+  color: var(--color-nuit);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }

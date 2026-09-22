@@ -13,3 +13,6 @@ Thumbs.db
 # Secrets et archives
 .env
 *.zip
+
+# Documents de travail lourds
+docs/*.pdf

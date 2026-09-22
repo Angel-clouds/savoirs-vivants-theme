@@ -1,0 +1,30 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","anchor":"contenu","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained","contentSize":"75rem"}} -->
+<main class="wp-block-group" id="contenu" style="margin-top:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+	<!-- wp:query-title {"type":"search","level":1} /-->
+	<!-- wp:search {"label":"Rechercher sur le site","buttonText":"Rechercher","buttonUseIcon":false} /-->
+	<!-- wp:query {"queryId":11,"query":{"inherit":true,"perPage":10}} -->
+	<div class="wp-block-query">
+		<!-- wp:post-template -->
+			<!-- wp:post-title {"level":2,"isLink":true,"className":"is-style-titre-carte"} /-->
+			<!-- wp:post-excerpt {"excerptLength":30} /-->
+		<!-- /wp:post-template -->
+		<!-- wp:query-pagination {"paginationArrow":"none"} -->
+			<!-- wp:query-pagination-previous {"label":"Résultats précédents"} /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next {"label":"Résultats suivants"} /-->
+		<!-- /wp:query-pagination -->
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph -->
+			<p>Aucun résultat ne correspond à votre recherche. Essayez avec d'autres mots-clés, ou consultez nos pages <a href="/nos-projets/">Nos projets</a> et <a href="/ressourcerie/">Ressourcerie</a>.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"soutien","tagName":"aside","className":"sv-soutien"} /-->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
