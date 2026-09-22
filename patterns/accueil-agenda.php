@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Agenda
  * Slug: savoirs-vivants/accueil-agenda
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Les trois prochains événements (mis à jour automatiquement).
  * Keywords: agenda, événements
  */

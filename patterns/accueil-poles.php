@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Où agissons-nous ?
  * Slug: savoirs-vivants/accueil-poles
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Grille des pôles et de la Ressourcerie.
  */
 ?>

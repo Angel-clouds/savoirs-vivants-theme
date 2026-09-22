@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Ressources
  * Slug: savoirs-vivants/accueil-ressources
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Trois cartes de ressources.
  */
 $svg = get_template_directory_uri() . '/assets/svg/';

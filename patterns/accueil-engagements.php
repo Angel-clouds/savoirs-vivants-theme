@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Nos engagements
  * Slug: savoirs-vivants/accueil-engagements
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Trois cartes d’engagements.
  */
 $svg = get_template_directory_uri() . '/assets/svg/';

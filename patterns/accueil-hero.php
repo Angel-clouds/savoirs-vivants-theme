@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Hero
  * Slug: savoirs-vivants/accueil-hero
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Titre principal, présentation et photo.
  */
 ?>

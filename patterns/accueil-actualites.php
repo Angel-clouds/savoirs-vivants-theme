@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Actualités
  * Slug: savoirs-vivants/accueil-actualites
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Les trois dernières actualités (articles).
  * Keywords: actualités, articles, blog
  */

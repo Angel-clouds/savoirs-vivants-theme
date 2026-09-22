@@ -7,14 +7,26 @@
 defined( 'ABSPATH' ) || exit;
 
 add_action( 'init', function () {
-	register_block_pattern_category( 'savoirs-vivants', [
-		'label'       => 'Savoirs Vivants – Sections',
-		'description' => 'Sections prêtes à l’emploi, conformes à la charte et au RGAA.',
-	] );
-	register_block_pattern_category( 'savoirs-vivants-pages', [
-		'label'       => 'Savoirs Vivants – Pages complètes',
-		'description' => 'Pages entières construites d’après les maquettes.',
-	] );
+	/*
+	 * Catégories de compositions (inserteur « + » → Compositions).
+	 * Chaque section de chaque page est une composition autonome, réutilisable partout.
+	 */
+	$categories = [
+		'savoirs-vivants'       => [ 'SV · Composants génériques', 'Sections vierges à remplir, conformes à la charte et au RGAA.' ],
+		'savoirs-vivants-pages' => [ 'SV · Pages complètes', 'Pages entières construites d’après les maquettes.' ],
+		'sv-accueil'            => [ 'SV · Accueil', 'Sections de la page d’accueil.' ],
+		'sv-nos-projets'        => [ 'SV · Nos projets', 'Sections de la page Nos projets.' ],
+		'sv-creabot'            => [ 'SV · CréaBot', 'Sections du pôle robotique éducative.' ],
+		'sv-schlouk'            => [ 'SV · Schlouk de Sciences', 'Sections du pôle médiation scientifique.' ],
+		'sv-sciences'           => [ 'SV · Sciences participatives', 'Sections du pôle recherche participative.' ],
+		'sv-ressourcerie'       => [ 'SV · Ressourcerie', 'Sections de la Ressourcerie.' ],
+		'sv-outils'             => [ 'SV · Outils numériques', 'Sections de la page USUEL.' ],
+		'sv-a-propos'           => [ 'SV · À propos', 'Sections de la page À propos.' ],
+		'sv-contact'            => [ 'SV · Contact', 'Sections de la page Contact.' ],
+	];
+	foreach ( $categories as $slug => [ $label, $description ] ) {
+		register_block_pattern_category( $slug, [ 'label' => $label, 'description' => $description ] );
+	}
 
 	register_block_style( 'core/paragraph', [ 'name' => 'surtitre', 'label' => 'Surtitre' ] );
 	register_block_style( 'core/heading', [ 'name' => 'titre-carte', 'label' => 'Titre de carte' ] );

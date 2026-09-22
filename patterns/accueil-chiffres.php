@@ -2,7 +2,7 @@
 /**
  * Title: Accueil – Chiffres clés
  * Slug: savoirs-vivants/accueil-chiffres
- * Categories: savoirs-vivants
+ * Categories: sv-accueil
  * Description: Quatre chiffres clés 2025.
  */
 ?>

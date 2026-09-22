@@ -2,7 +2,7 @@
 /**
  * Title: Partenaires
  * Slug: savoirs-vivants/section-partenaires
- * Categories: savoirs-vivants
+ * Categories: savoirs-vivants, sv-accueil, sv-creabot, sv-schlouk, sv-sciences
  * Description: Bandeau de logos des partenaires (à remplacer par les vrais logos).
  * Keywords: logos, soutiens, financeurs
  */
