@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source not inline("size-full");
 
 /* =========================================================
    1. TOKENS — verrouillés sur la charte (source : theme.json)
@@ -102,17 +103,12 @@
    5. SECTIONS & STYLES DE BLOCS
    ========================================================= */
 /* Sections pleine largeur collées les unes aux autres */
-.wp-block-post-content > .alignfull {
+main .wp-block-group.alignfull {
   margin-block: 0;
-}
-/* Sections pleine largeur : marges latérales qui respirent */
-.wp-block-post-content > .alignfull {
   padding-inline: clamp(1.5rem, 5vw, 4rem);
 }
-
-/* Contenu des sections : largeur maximale centrée (75rem = wideSize du theme.json) */
-.wp-block-post-content > .alignfull > * {
-  max-width: var(--wp--style--global--wide-size, 75rem);
+main .wp-block-group.alignfull > * {
+  max-width: 75rem;
   margin-inline: auto !important;
 }
 
