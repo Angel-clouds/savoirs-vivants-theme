@@ -253,3 +253,33 @@ add_action( 'pre_get_posts', function ( $query ) {
 		}
 	}
 } );
+/**
+ * Confort de saisie : si aucun pôle n'est coché, on le devine d'après le titre
+ * de l'événement (« CréaBot », « Schlouk », « Pint of Science »…).
+ * La case cochée manuellement reste toujours prioritaire.
+ */
+add_action( 'save_post_sv_evenement', function ( $id, $post ) {
+	if ( wp_is_post_autosave( $id ) || wp_is_post_revision( $id ) ) {
+		return;
+	}
+	if ( has_term( '', 'sv_pole', $id ) ) {
+		return; // un pôle est déjà choisi : on ne touche à rien
+	}
+
+	$titre = strtolower( remove_accents( $post->post_title ) );
+
+	$indices = [
+		'creabot'                 => [ 'creabot', 'robotique', 'robotech', 'club maker', 'factory kids' ],
+		'schlouk-de-sciences'     => [ 'schlouk', 'pint of science', 'choco', 'cafe botanique', 'quiz' ],
+		'sciences-participatives' => [ 'sure', 'usuel', 'vir-age', 'otez l', 'crep', 'ilot', 'participativ' ],
+	];
+
+	foreach ( $indices as $pole => $mots ) {
+		foreach ( $mots as $mot ) {
+			if ( str_contains( $titre, $mot ) ) {
+				wp_set_object_terms( $id, $pole, 'sv_pole' );
+				return;
+			}
+		}
+	}
+}, 10, 2 );
