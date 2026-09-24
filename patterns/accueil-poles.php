@@ -25,7 +25,7 @@
 <figure class="wp-block-image size-large"><img alt="" style="aspect-ratio:16/9;object-fit:cover"/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
-<h3 class="wp-block-heading is-style-titre-carte">CréaBot, un robot pour tous</h3>
+<h3 class="wp-block-heading is-style-titre-carte">CréaBot, un robot pour tous</h3> 
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
 <p>La robotique éducative portée avec l'IUT de Haguenau : clubs, stages, interventions scolaires et événements, avec une activité hebdomadaire dans 7 villes du Nord Alsace.</p>
