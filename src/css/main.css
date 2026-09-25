@@ -493,3 +493,465 @@ img[data-sv-substitution] {
 .sv-liste-liens-blanc li + li {
   margin-top: 0.4rem;
 }
+
+/* =========================================================
+   10. UNIVERS DES PÔLES — CréaBot et Schlouk de Sciences
+   ---------------------------------------------------------
+   La classe du <body> est ajoutée par inc/univers.php. Seul le contenu
+   principal (<main>) change : en-tête, « Suivre / Soutenir » et pied de page
+   restent aux couleurs de Savoirs Vivants.
+   Principe : on redéfinit les variables de la charte dans <main>, donc tous
+   les blocs, styles de blocs et compositions suivent sans être modifiés.
+   ========================================================= */
+
+/* Polices auto-hébergées (RGPD : aucun appel à Google Fonts).
+   Elles ne sont téléchargées que sur les pages qui les utilisent. */
+@font-face {
+  font-family: "Orbitron";
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/orbitron-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Exo 2";
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/exo-2-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Bebas Neue";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/bebas-neue-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/poppins-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/poppins-latin-700-normal.woff2") format("woff2");
+}
+
+/* ---------- 10.1 CréaBot (charte graphique CréaBot, juillet 2026) ----------
+   Couleurs officielles : Bleu classique #405EA7, Ciel cosmique #A8A5C2,
+   Rose raisin #B14B95, Violet figue #5D4696, Turquoise #6BC5CE, Texte #160735.
+   Textes : uniquement #160735 ou blanc (associations autorisées par la charte).
+   Contrastes vérifiés (RGAA 3.2) : #160735 sur blanc 18,8:1 · blanc sur violet 7,6:1
+   · blanc sur bleu 6,2:1 · #160735 sur turquoise 9,4:1 · #160735 sur ciel 7,9:1. */
+.sv-univers-creabot main {
+  --cb-bleu: #405ea7;
+  --cb-ciel: #a8a5c2;
+  --cb-rose: #b14b95;
+  --cb-violet: #5d4696;
+  --cb-turquoise: #6bc5ce;
+  --cb-texte: #160735;
+  --cb-fond: color-mix(in srgb, var(--cb-ciel) 18%, #fff); /* Ciel cosmique très clair, fonds de section */
+
+  /* Variables de la charte Savoirs Vivants redéfinies pour ce pôle */
+  --wp--preset--color--bleu-nuit: var(--cb-texte);
+  --wp--preset--color--vert-sauge: var(--cb-turquoise);
+  --wp--preset--color--vert-sauge-texte: var(--cb-violet);
+  --wp--preset--color--gris-clair: var(--cb-fond);
+  --wp--preset--color--gris-bordure: var(--cb-ciel);
+  --wp--preset--font-family--space-mono: "Orbitron", system-ui, sans-serif;
+  --wp--preset--font-family--space-grotesk: "Exo 2", system-ui, sans-serif;
+  --color-nuit: var(--cb-texte);
+  --color-sauge: var(--cb-turquoise);
+  --color-sauge-texte: var(--cb-violet);
+  --color-fond: var(--cb-fond);
+  --color-bordure: var(--cb-ciel);
+  --font-titre: "Orbitron", system-ui, sans-serif;
+  --font-texte: "Exo 2", system-ui, sans-serif;
+
+  font-family: var(--font-texte);
+  color: var(--cb-texte);
+}
+
+/* Titres : Orbitron Black. H1 et H2 en MAJUSCULES, H3 en casse normale, H4 en Exo 2 Bold.
+   Tailles dans les proportions de la charte (22 / 20 / 17 / 15 / 11 pt). */
+.sv-univers-creabot main :is(h1, h2, h3) {
+  font-family: var(--font-titre);
+  font-weight: 900;
+  font-style: normal;
+  color: var(--cb-texte);
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.sv-univers-creabot main :is(h1, h2) {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.sv-univers-creabot main h1 {
+  font-size: clamp(1.625rem, 1.1rem + 2.4vw, 2.5rem);
+}
+.sv-univers-creabot main h2 {
+  font-size: clamp(1.375rem, 1rem + 1.8vw, 2.125rem);
+}
+.sv-univers-creabot main h3 {
+  font-size: clamp(1.125rem, 0.95rem + 0.9vw, 1.5rem);
+}
+.sv-univers-creabot main h3.is-style-titre-carte {
+  font-size: 1.0625rem;
+}
+.sv-univers-creabot main h4 {
+  font-family: var(--font-texte);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-transform: none;
+}
+
+/* Liens : couleur du texte, soulignés (la charte n'autorise que #160735 pour le texte) */
+.sv-univers-creabot main a:where(:not(.wp-element-button)) {
+  color: var(--cb-texte);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.sv-univers-creabot main a:where(:not(.wp-element-button)):hover {
+  text-decoration-thickness: 3px;
+}
+
+/* Surtitre : pastille turquoise ronde, texte Orbitron */
+.sv-univers-creabot main .is-style-surtitre {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.sv-univers-creabot main .is-style-surtitre::before {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
+
+/* Boutons : pastilles arrondies violet figue, texte blanc */
+.sv-univers-creabot main .wp-block-button__link {
+  font-family: var(--font-texte);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: none;
+  border-radius: 999px;
+  background-color: var(--cb-violet);
+  color: #fff;
+}
+.sv-univers-creabot main .wp-block-button__link:hover {
+  background-color: var(--cb-bleu);
+}
+.sv-univers-creabot main .is-style-outline > .wp-block-button__link {
+  background-color: transparent;
+  color: var(--cb-texte);
+  border-color: var(--cb-violet);
+}
+.sv-univers-creabot main .is-style-outline > .wp-block-button__link:hover {
+  background-color: var(--cb-fond);
+}
+
+/* Formes arrondies : la charte privilégie des formes douces, sans angle vif */
+.sv-univers-creabot main :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+.sv-univers-creabot main .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+  border-radius: 1.25rem;
+}
+.sv-univers-creabot main .is-style-carte-image > .wp-block-image img {
+  border-radius: 0;
+}
+.sv-univers-creabot main .sv-icone img {
+  border-radius: 50%;
+}
+
+/* Chiffres clés : liseré violet au-dessus de chaque carte */
+.sv-univers-creabot main .wp-block-group:has(> .sv-chiffre) {
+  border-top: 6px solid var(--cb-violet);
+}
+.sv-univers-creabot main .sv-chiffre {
+  font-weight: 900;
+}
+
+/* Date d'événement : violet figue, texte blanc */
+.sv-univers-creabot main .sv-date {
+  background: var(--cb-violet);
+  border-radius: 1rem;
+}
+
+/* Bandeaux foncés (appel à l'action) : violet figue au lieu du bleu nuit.
+   Les classes de couleur de WordPress sont en !important, d'où celui-ci. */
+.sv-univers-creabot main .has-bleu-nuit-background-color {
+  background-color: var(--cb-violet) !important;
+}
+.sv-univers-creabot main .has-bleu-nuit-background-color :is(h1, h2, h3, h4, p, li) {
+  color: #fff;
+}
+.sv-univers-creabot main .has-bleu-nuit-background-color .wp-block-button__link {
+  background-color: #fff;
+  color: var(--cb-texte);
+}
+.sv-univers-creabot main .has-bleu-nuit-background-color .wp-block-button__link:hover {
+  background-color: var(--cb-turquoise);
+}
+.sv-univers-creabot main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff !important;
+}
+.sv-univers-creabot main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
+  background-color: var(--cb-bleu);
+}
+
+/* Motif principal (circuits, Ciel cosmique) : décor en coin de l'introduction
+   et des bandeaux violets. Image de fond CSS = purement décorative, ignorée
+   par les lecteurs d'écran (RGAA 1.1). Fondu progressif pour ne jamais gêner la lecture.
+   Réservé aux écrans larges : sur mobile, il passerait sous le titre (interdit par la charte). */
+@media (min-width: 48rem) {
+  .sv-univers-creabot main .wp-block-post-content > .alignfull:first-child,
+  .sv-univers-creabot main .has-bleu-nuit-background-color.alignfull {
+    position: relative;
+    isolation: isolate;
+  }
+  .sv-univers-creabot main .wp-block-post-content > .alignfull:first-child::before,
+  .sv-univers-creabot main .has-bleu-nuit-background-color.alignfull::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    width: min(35%, 26rem);
+    height: 14rem;
+    background: url("../svg/creabot-circuit.svg") top right / 6.5rem repeat;
+    opacity: 0.6;
+    mask-image: linear-gradient(to bottom left, #000 20%, transparent 85%);
+    pointer-events: none;
+  }
+  .sv-univers-creabot main .has-bleu-nuit-background-color.alignfull::before {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- 10.2 Schlouk de Sciences (univers de l'affiche « On recherche des bénévoles ») ----------
+   Couleurs relevées sur l'affiche : Bleu Schlouk #34A5C9, Orange #EE5723, Encre #342C6F.
+   Le bleu et l'orange d'origine n'atteignent pas 4,5:1 avec du texte blanc : ils restent
+   décoratifs. Les éléments qui portent du texte utilisent des teintes foncées :
+   blanc sur bleu foncé #1B7A9C 4,9:1 · blanc sur orange foncé #C7461A 4,9:1
+   · encre sur blanc 12,7:1 · encre sur bleu très clair 11,5:1 (RGAA 3.2). */
+.sv-univers-schlouk main {
+  --sk-bleu: #34a5c9;
+  --sk-bleu-fonce: #1b7a9c;
+  --sk-orange: #ee5723;
+  --sk-orange-fonce: #c7461a;
+  --sk-encre: #342c6f;
+  --sk-fond: #eaf6fb;
+  --sk-bordure: #b9e1ee;
+
+  --wp--preset--color--bleu-nuit: var(--sk-encre);
+  --wp--preset--color--vert-sauge: var(--sk-orange);
+  --wp--preset--color--vert-sauge-texte: var(--sk-bleu-fonce);
+  --wp--preset--color--gris-clair: var(--sk-fond);
+  --wp--preset--color--gris-bordure: var(--sk-bordure);
+  --wp--preset--font-family--space-mono: "Bebas Neue", "Arial Narrow", sans-serif;
+  --wp--preset--font-family--space-grotesk: "Poppins", system-ui, sans-serif;
+  --color-nuit: var(--sk-encre);
+  --color-sauge: var(--sk-orange);
+  --color-sauge-texte: var(--sk-bleu-fonce);
+  --color-fond: var(--sk-fond);
+  --color-bordure: var(--sk-bordure);
+  --font-titre: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-texte: "Poppins", system-ui, sans-serif;
+
+  font-family: var(--font-texte);
+  color: var(--sk-encre);
+}
+
+/* Titres : Bebas Neue (police condensée en capitales, comme l'affiche) */
+.sv-univers-schlouk main :is(h1, h2, h3) {
+  font-family: var(--font-titre);
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: var(--sk-encre);
+}
+.sv-univers-schlouk main h1 {
+  font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5rem);
+}
+.sv-univers-schlouk main h2 {
+  font-size: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
+}
+.sv-univers-schlouk main h3 {
+  font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+}
+.sv-univers-schlouk main h3.is-style-titre-carte {
+  font-size: 1.625rem;
+}
+.sv-univers-schlouk main h4 {
+  font-family: var(--font-texte);
+  font-weight: 700;
+}
+
+/* Titres de section en bandeau bleu arrondi, comme « Pourquoi rejoindre le collectif » */
+.sv-univers-schlouk main h2:not(.sv-sr-only) {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.3em 1.1em 0.2em 0.8em;
+  background: var(--sk-bleu-fonce);
+  color: #fff;
+  border-radius: 0.4rem 999px 999px 0.4rem;
+}
+.sv-univers-schlouk main h2.has-text-align-center:not(.sv-sr-only) {
+  margin-inline: auto;
+  padding-inline: 1.1em;
+  border-radius: 999px;
+}
+
+/* Liens : encre, soulignés (le bleu foncé serait trop pâle sur les fonds clairs) */
+.sv-univers-schlouk main a:where(:not(.wp-element-button)) {
+  color: var(--sk-encre);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.sv-univers-schlouk main a:where(:not(.wp-element-button)):hover {
+  text-decoration-thickness: 3px;
+}
+
+/* Surtitre : Bebas en bleu foncé, pastille orange */
+.sv-univers-schlouk main .is-style-surtitre {
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--sk-bleu-fonce);
+}
+.sv-univers-schlouk main .is-style-surtitre::before {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+}
+
+/* Boutons : orange foncé, arrondis */
+.sv-univers-schlouk main .wp-block-button__link {
+  font-family: var(--font-texte);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: none;
+  border-radius: 999px;
+  background-color: var(--sk-orange-fonce);
+  color: #fff;
+}
+.sv-univers-schlouk main .wp-block-button__link:hover {
+  background-color: var(--sk-encre);
+}
+.sv-univers-schlouk main .is-style-outline > .wp-block-button__link {
+  background-color: transparent;
+  color: var(--sk-encre);
+  border-color: var(--sk-encre);
+}
+.sv-univers-schlouk main .is-style-outline > .wp-block-button__link:hover {
+  background-color: var(--sk-fond);
+}
+
+/* Cartes et images aux formes arrondies */
+.sv-univers-schlouk main :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+.sv-univers-schlouk main .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+  border-radius: 1.5rem;
+}
+.sv-univers-schlouk main .is-style-carte-image > .wp-block-image img {
+  border-radius: 0;
+}
+.sv-univers-schlouk main .sv-icone img {
+  border-radius: 50%;
+}
+
+/* Photo de l'introduction : forme organique + tache orange derrière, comme sur l'affiche */
+.sv-univers-schlouk main .wp-block-post-content > .alignfull:first-child .wp-block-image {
+  position: relative;
+  isolation: isolate;
+}
+.sv-univers-schlouk main .wp-block-post-content > .alignfull:first-child .wp-block-image img {
+  border-radius: 58% 42% 45% 55% / 45% 55% 45% 55%;
+}
+.sv-univers-schlouk main .wp-block-post-content > .alignfull:first-child .wp-block-image::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6% -4% 10% 14%;
+  background: var(--sk-orange);
+  border-radius: 42% 58% 62% 38% / 55% 40% 60% 45%;
+  pointer-events: none;
+}
+
+/* Chiffres clés : Bebas en orange foncé (grand texte, 4,9:1) */
+.sv-univers-schlouk main .sv-chiffre {
+  font-size: clamp(2.5rem, 7vw, 3.25rem);
+  font-weight: 400;
+  color: var(--sk-orange-fonce);
+}
+
+/* Listes : coches orange dans un cercle (décoratives, la liste reste une vraie liste) */
+.sv-univers-schlouk main ul.wp-block-list {
+  padding-left: 0;
+  list-style: none;
+}
+.sv-univers-schlouk main ul.wp-block-list > li {
+  position: relative;
+  padding-left: 2.25rem;
+}
+.sv-univers-schlouk main ul.wp-block-list > li + li {
+  margin-top: 0.6rem;
+}
+.sv-univers-schlouk main ul.wp-block-list > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EE5723' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 11.1V12a9 9 0 1 1-5.3-8.2'/%3E%3Cpath d='M21 4 12 13.1 9 10.1'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Date d'événement : bleu foncé, arrondie */
+.sv-univers-schlouk main .sv-date {
+  background: var(--sk-bleu-fonce);
+  border-radius: 1rem;
+}
+.sv-univers-schlouk main .sv-date__jour {
+  font-size: 2.25rem;
+  font-weight: 400;
+}
+
+/* Bandeaux foncés (appel à l'action) : orange foncé comme le pied de l'affiche */
+.sv-univers-schlouk main .has-bleu-nuit-background-color {
+  background-color: var(--sk-orange-fonce) !important;
+}
+.sv-univers-schlouk main .has-bleu-nuit-background-color :is(h1, h2, h3, h4, p, li) {
+  color: #fff;
+}
+.sv-univers-schlouk main .has-bleu-nuit-background-color h2:not(.sv-sr-only) {
+  padding: 0;
+  background: none;
+}
+.sv-univers-schlouk main .has-bleu-nuit-background-color .wp-block-button__link {
+  background-color: #fff;
+  color: var(--sk-encre);
+}
+.sv-univers-schlouk main .has-bleu-nuit-background-color .wp-block-button__link:hover {
+  background-color: var(--sk-fond);
+}
+.sv-univers-schlouk main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff !important;
+}
+.sv-univers-schlouk main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
+  background-color: var(--sk-encre);
+}

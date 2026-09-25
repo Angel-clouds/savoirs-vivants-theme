@@ -28,7 +28,11 @@ add_filter( 'render_block_data', function ( $bloc ) {
 		return $bloc;
 	}
 
-	$balises->set_attribute( 'src', SV_URI . '/assets/svg/substitution.svg' );
+	// Déclinaison aux couleurs du pôle sur les pages CréaBot et Schlouk (inc/univers.php).
+	$univers = function_exists( 'sv_univers_courant' ) ? sv_univers_courant() : '';
+	$fichier = $univers ? 'substitution-' . $univers . '.svg' : 'substitution.svg';
+
+	$balises->set_attribute( 'src', SV_URI . '/assets/svg/' . $fichier );
 	$balises->set_attribute( 'alt', '' );          // décorative : rien à annoncer
 	$balises->set_attribute( 'aria-hidden', 'true' );
 	$balises->set_attribute( 'data-sv-substitution', 'true' );
