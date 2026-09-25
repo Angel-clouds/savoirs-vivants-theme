@@ -282,6 +282,18 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color > * {
 .is-style-carte-image:not(:has(img)) {
   padding-top: var(--wp--preset--spacing--30);
 }
+/* Image de substitution (en attendant les photos définitives) */
+img[data-sv-substitution] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--color-sauge);
+}
+.sv-icone img[data-sv-substitution],
+.sv-portrait img[data-sv-substitution],
+.sv-logo img[data-sv-substitution] {
+  object-fit: contain;
+}
 
 /* =========================================================
    7. COMPOSANTS
