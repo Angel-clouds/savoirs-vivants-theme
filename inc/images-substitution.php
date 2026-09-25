@@ -4,23 +4,28 @@
  * en attendant les photos définitives. Dès qu'une image est importée dans le bloc,
  * la substitution disparaît d'elle-même.
  *
+ * On intervient AVANT le rendu (render_block_data) et non après (render_block_core/image) :
+ * la fonction de rendu du cœur, render_block_core_image(), renvoie une chaîne vide
+ * quand la balise <img> n'a pas de src. Un filtre placé après ne reçoit donc plus rien
+ * à modifier. En ajoutant le src en amont, le cœur affiche le bloc normalement.
+ *
  * Pour désactiver après la mise en ligne : commenter la ligne correspondante
  * dans functions.php.
  */
 defined( 'ABSPATH' ) || exit;
 
-add_filter( 'render_block_core/image', function ( $html, $bloc ) {
+add_filter( 'render_block_data', function ( $bloc ) {
+	if ( 'core/image' !== ( $bloc['blockName'] ?? '' ) ) {
+		return $bloc;
+	}
 	// Le bloc a déjà une image choisie dans la médiathèque : on ne touche à rien.
 	if ( ! empty( $bloc['attrs']['id'] ) || ! empty( $bloc['attrs']['url'] ) ) {
-		return $html;
+		return $bloc;
 	}
 
-	$balises = new WP_HTML_Tag_Processor( $html );
-	if ( ! $balises->next_tag( 'img' ) ) {
-		return $html;
-	}
-	if ( $balises->get_attribute( 'src' ) ) {
-		return $html;
+	$balises = new WP_HTML_Tag_Processor( $bloc['innerHTML'] ?? '' );
+	if ( ! $balises->next_tag( 'img' ) || $balises->get_attribute( 'src' ) ) {
+		return $bloc;
 	}
 
 	$balises->set_attribute( 'src', SV_URI . '/assets/svg/substitution.svg' );
@@ -28,5 +33,9 @@ add_filter( 'render_block_core/image', function ( $html, $bloc ) {
 	$balises->set_attribute( 'aria-hidden', 'true' );
 	$balises->set_attribute( 'data-sv-substitution', 'true' );
 
-	return $balises->get_updated_html();
-}, 10, 2 );
+	// Le rendu du cœur lit innerContent : on met à jour les deux.
+	$bloc['innerHTML']    = $balises->get_updated_html();
+	$bloc['innerContent'] = array( $bloc['innerHTML'] );
+
+	return $bloc;
+} );
