@@ -352,6 +352,24 @@ img[data-sv-substitution] {
 .sv-chiffre {
   min-height: 2.75rem; /* réserve la même hauteur pour tous les chiffres */
 }
+/* Cartes de tarif (titre, prix, « par an », texte, bouton — ex. adhésion) :
+   prix détaché du titre, « par an » collé au prix, bouton toujours en bas de carte
+   pour que les boutons de cartes voisines soient alignés */
+.is-style-carte:has(> .sv-chiffre):has(> .wp-block-buttons) > .sv-chiffre {
+  min-height: 0;
+  margin-top: var(--wp--preset--spacing--20);
+}
+.is-style-carte:has(> .sv-chiffre):has(> .wp-block-buttons) > .sv-chiffre + p {
+  margin-top: 0.25rem;
+}
+.is-style-carte:has(> .sv-chiffre):has(> .wp-block-buttons) > .wp-block-buttons {
+  margin-top: auto;
+  padding-top: var(--wp--preset--spacing--20);
+}
+.is-style-carte:has(> .sv-chiffre):has(> .wp-block-buttons) .wp-block-button,
+.is-style-carte:has(> .sv-chiffre):has(> .wp-block-buttons) .wp-block-button__link {
+  width: 100%;
+}
 /* Grille de 4 colonnes dont la dernière ligne incomplète est centrée :
    8 pistes, chaque carte en occupe 2 (même largeur et même gouttière qu'en 4 colonnes) */
 @media (min-width: 48rem) {

@@ -15,7 +15,7 @@
 <!-- wp:paragraph -->
 <p>Rejoignez l'association : les cotisations sont maintenues pour l'exercice débutant le 1<sup>er</sup> septembre 2025.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"grid","minimumColumnWidth":"14rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"grid","minimumColumnWidth":"14rem","columnCount":3}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">
