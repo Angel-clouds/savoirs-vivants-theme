@@ -21,6 +21,11 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 2. **Charte verrouillée** (theme.json = source unique) : Bleu nuit #222A60, Vert sauge #16987C
    (titres ≥ 24px et décor uniquement), Vert foncé #117A63 (liens), Blanc, Gris clair #F7F7F7,
    Gris bordure #DCDFE6. Space Mono (titres) / Space Grotesk (texte), auto-hébergées.
+   **Exception validée : univers des pôles** (inc/univers.php, section 10 de src/css/main.css),
+   limitée au `<main>` des pages du pôle (en-tête, Soutien et pied de page restent à la charte globale) :
+   - CréaBot : Orbitron (titres) / Exo 2 (texte), couleurs `--cb-*` ;
+   - Schlouk de Sciences : Bebas Neue (titres) / Poppins (texte), couleurs `--sk-*`.
+   Polices auto-hébergées (assets/fonts). Contrastes RGAA à respecter comme pour la charte globale.
 3. **Mobile-first** : CSS de base pour mobile, puis `@media (min-width: …)`.
 4. **RGPD** : aucun script tiers sans consentement (tarteaucitron.js, inc/assets.php).
 5. **Autonomie de l'éditeur** : sections = compositions (catégorie « Savoirs Vivants – Sections »),
@@ -38,6 +43,7 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   « savoirs-vivants/evenement », filtre « événements à venir ».
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
 - inc/redirections.php : 301 depuis les anciennes adresses.
+- inc/securite.php : comptes masqués (REST, archives d'auteur, sitemap, oEmbed), commentaires fermés.
 - inc/univers.php : classe `sv-univers-creabot` / `sv-univers-schlouk` sur le <body> des pages de pôle
   (et sous-pages) ; la section 10 de src/css/main.css applique la charte du pôle au seul <main>
   (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins).

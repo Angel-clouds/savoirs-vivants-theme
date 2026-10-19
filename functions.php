@@ -15,3 +15,4 @@ require_once SV_DIR . '/inc/formulaire-contact.php'; // Formulaire de contact ac
 require_once SV_DIR . '/inc/redirections.php';       // Redirections 301 depuis l'ancien site
 require_once SV_DIR . '/inc/images-substitution.php'; // Image de substitution pour les blocs Image vides
 require_once SV_DIR . '/inc/univers.php';           // Univers graphiques des pôles (CréaBot, Schlouk)
+require_once SV_DIR . '/inc/securite.php';          // Comptes non exposés, commentaires fermés

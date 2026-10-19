@@ -40,6 +40,13 @@
     outline-offset: 2px;
     box-shadow: 0 0 0 5px var(--color-blanc);
   }
+  /* Sur fond bleu nuit (bloc Soutien, bandeaux d'appel, y compris leurs variantes violet
+     CréaBot et encre Schlouk) : anneau inversé, contour blanc (13,4:1 sur le bleu nuit)
+     et liseré bleu nuit côté élément pour les boutons blancs — RGAA 10.7 */
+  .has-bleu-nuit-background-color :focus-visible {
+    outline-color: var(--color-blanc);
+    box-shadow: 0 0 0 2px var(--color-nuit);
+  }
 
   /* Respect des préférences de mouvement réduit */
   @media (prefers-reduced-motion: reduce) {
