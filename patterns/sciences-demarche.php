@@ -14,7 +14,7 @@
 <!-- wp:paragraph -->
 <p>De la collecte des données à la diffusion des résultats, citoyens et chercheurs avancent ensemble.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem","columnCount":4}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">

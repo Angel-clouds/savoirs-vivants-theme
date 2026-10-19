@@ -1,8 +1,8 @@
 <?php
 /**
- * Univers graphiques des pôles : CréaBot et Schlouk de Sciences ont leur propre charte.
+ * Univers graphiques des pôles : CréaBot, Schlouk de Sciences et Sciences participatives ont leur propre habillage.
  *
- * On ajoute une classe au <body> (sv-univers-creabot, sv-univers-schlouk) sur la page du pôle,
+ * On ajoute une classe au <body> (sv-univers-creabot, sv-univers-schlouk, sv-univers-sciences) sur la page du pôle,
  * ses sous-pages et l'archive de son pôle dans l'agenda. Le CSS (section 10 de src/css/main.css)
  * n'applique la charte du pôle qu'au contenu principal (<main>) : l'en-tête, le bloc « Suivre /
  * Soutenir » et le pied de page restent aux couleurs de Savoirs Vivants.
@@ -17,13 +17,14 @@ defined( 'ABSPATH' ) || exit;
  */
 function sv_univers_pages() {
 	return [
-		'creabot'             => 'creabot',
-		'schlouk-de-sciences' => 'schlouk',
+		'creabot'                 => 'creabot',
+		'schlouk-de-sciences'     => 'schlouk',
+		'sciences-participatives' => 'sciences',
 	];
 }
 
 /**
- * Univers graphique de la page affichée : « creabot », « schlouk » ou chaîne vide.
+ * Univers graphique de la page affichée : « creabot », « schlouk », « sciences » ou chaîne vide.
  */
 function sv_univers_courant() {
 	static $courant = null;

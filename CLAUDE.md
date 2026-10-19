@@ -48,7 +48,8 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - assets/js/carrousel.js : carrousel accessible sur toute Boucle de requête de classe sv-carrousel (chargé à la demande).
 - inc/univers.php : classe `sv-univers-creabot` / `sv-univers-schlouk` sur le <body> des pages de pôle
   (et sous-pages) ; la section 10 de src/css/main.css applique la charte du pôle au seul <main>
-  (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins).
+  (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins ;
+  Sciences participatives : charte globale, titres Space Mono italique vert sauge, motifs du rapport d'activités).
 - parts/soutien.html : bloc « Suivre / Soutenir » affiché avant le pied de page sur toutes les pages.
 
 ## État d'avancement (v0.2)

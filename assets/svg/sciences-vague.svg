@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="24" viewBox="0 0 96 24">
+  <!-- Frise sinueuse (pavage horizontal), comme la frise des temps forts du rapport d'activités -->
+  <path d="M0 12 C24 -2 24 -2 48 12 S72 26 96 12" fill="none" stroke="#16987C" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -603,7 +603,7 @@ img[data-sv-substitution] {
 }
 
 /* =========================================================
-   10. UNIVERS DES PÔLES — CréaBot et Schlouk de Sciences
+   10. UNIVERS DES PÔLES — CréaBot, Schlouk de Sciences, Sciences participatives
    ---------------------------------------------------------
    La classe du <body> est ajoutée par inc/univers.php. Seul le contenu
    principal (<main>) change : en-tête, « Suivre / Soutenir » et pied de page
@@ -1062,4 +1062,181 @@ img[data-sv-substitution] {
 }
 .sv-univers-schlouk main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
   background-color: var(--sk-encre);
+}
+
+/* ---------------------------------------------------------
+   Sciences participatives — d'après la partie du pôle dans le Rapport
+   d'activités 2025 : charte globale conservée (Space Mono / Space Grotesk,
+   bleu nuit, vert sauge, vert foncé), titres en Space Mono italique vert sauge,
+   filigrane d'anneaux en écho au logo, frise sinueuse pour la démarche,
+   encadré vert arrondi comme « Et après ? ».
+   Vert sauge réservé aux titres ≥ 24 px (3,6:1) ; textes et fonds sous texte
+   blanc en vert foncé (5,3:1) — RGAA 3.2.
+   --------------------------------------------------------- */
+.sv-univers-sciences main {
+  --sp-fond: color-mix(in srgb, var(--wp--preset--color--vert-sauge) 7%, #fff);
+
+  --wp--preset--color--gris-clair: var(--sp-fond);
+  --color-fond: var(--sp-fond);
+}
+
+/* Titres h1 et h2 : Space Mono gras italique, vert sauge (tous ≥ 28 px).
+   Les petits h2 (« Ils soutiennent nos actions », 14 px) restent en bleu nuit. */
+.sv-univers-sciences main :is(h1, h2):not(.has-small-font-size) {
+  font-style: italic;
+  color: var(--color-sauge);
+}
+.sv-univers-sciences main .is-style-surtitre {
+  font-style: italic;
+  color: var(--color-sauge-texte);
+}
+.sv-univers-sciences main .is-style-surtitre::before {
+  border-radius: 50%;
+}
+
+/* Introduction : filigrane d'anneaux à droite (image de fond = décor, ignorée
+   par les lecteurs d'écran) */
+.sv-univers-sciences main .wp-block-post-content > .alignfull:first-child {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.sv-univers-sciences main .wp-block-post-content > .alignfull:first-child::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: -9rem;
+  width: 22rem;
+  aspect-ratio: 1;
+  translate: 0 -50%;
+  background: url("../svg/sciences-motif.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+@media (min-width: 64rem) {
+  .sv-univers-sciences main .wp-block-post-content > .alignfull:first-child::after {
+    right: -6rem;
+    width: 34rem;
+  }
+}
+
+/* Boutons : vert foncé légèrement arrondis */
+.sv-univers-sciences main .wp-block-button__link {
+  border-radius: 0.5rem;
+  background-color: var(--color-sauge-texte);
+}
+.sv-univers-sciences main .wp-block-button__link:hover {
+  background-color: var(--color-nuit);
+}
+.sv-univers-sciences main .is-style-outline > .wp-block-button__link {
+  background-color: transparent;
+}
+
+/* Cartes et images arrondies */
+.sv-univers-sciences main :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.sv-univers-sciences main .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+  border-radius: 1rem;
+}
+.sv-univers-sciences main .is-style-carte-image > .wp-block-image img {
+  border-radius: 0;
+}
+
+/* Chiffres clés : sans cadre, grands chiffres en italique vert sauge, comme dans le rapport */
+.sv-univers-sciences main .is-style-carte:has(> .sv-chiffre) {
+  background: transparent;
+  border: 0;
+  border-top: 4px solid var(--color-sauge);
+  border-radius: 0;
+}
+.sv-univers-sciences main .sv-chiffre {
+  font-size: clamp(2.25rem, 6vw, 3rem);
+  font-style: italic;
+  color: var(--color-sauge);
+}
+
+/* Démarche : étapes reliées par une frise sinueuse (écrans larges), numéros en pastilles */
+.sv-univers-sciences main .is-style-carte:has(> .sv-etape) {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  overflow: visible;
+}
+.sv-univers-sciences main .sv-etape {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin: 0;
+  color: #fff;
+  background: var(--color-sauge-texte);
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px var(--color-fond); /* détache la pastille de la frise */
+}
+@media (min-width: 48rem) {
+  .sv-univers-sciences main .wp-block-group:has(> .is-style-carte > .sv-etape) {
+    position: relative;
+    isolation: isolate;
+  }
+  .sv-univers-sciences main .wp-block-group:has(> .is-style-carte > .sv-etape)::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0.75rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 1.5rem;
+    background: url("../svg/sciences-vague.svg") left center / auto 100% repeat-x;
+    pointer-events: none;
+  }
+}
+
+/* Listes (Cap sur 2026) : puces rondes vert sauge */
+.sv-univers-sciences main ul.wp-block-list {
+  padding-left: 0;
+  list-style: none;
+}
+.sv-univers-sciences main ul.wp-block-list > li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.sv-univers-sciences main ul.wp-block-list > li + li {
+  margin-top: 0.5rem;
+}
+.sv-univers-sciences main ul.wp-block-list > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: var(--color-sauge);
+  border-radius: 50%;
+}
+
+/* Bandeau d'appel : encadré vert foncé arrondi, comme « Et après ? » dans le rapport
+   (blanc sur vert foncé : 5,3:1). Les classes de couleur de WordPress sont en !important. */
+.sv-univers-sciences main .has-bleu-nuit-background-color {
+  background-color: var(--color-sauge-texte) !important;
+}
+.sv-univers-sciences main .has-bleu-nuit-background-color :is(h1, h2, h3, h4) {
+  color: #fff;
+}
+/* Encadré détaché des bords (les sections pleine largeur sont forcées en !important, section 3) */
+.sv-univers-sciences main .wp-block-group.alignfull.has-bleu-nuit-background-color {
+  width: min(75rem, calc(100vw - 2 * clamp(1.5rem, 5vw, 4rem)));
+  max-width: none !important;
+  margin-inline: auto !important;
+  margin-block: var(--wp--preset--spacing--60);
+  border-radius: 1.5rem;
+}
+.sv-univers-sciences main .has-bleu-nuit-background-color .wp-block-button__link {
+  color: var(--color-sauge-texte);
+  background-color: #fff;
+}
+.sv-univers-sciences main .has-bleu-nuit-background-color .wp-block-button__link:hover {
+  color: #fff;
+  background-color: var(--color-nuit);
 }
