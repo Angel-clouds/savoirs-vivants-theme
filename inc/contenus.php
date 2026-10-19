@@ -37,6 +37,24 @@ function sv_champs_editeur(): array {
 
 add_action( 'init', function () {
 
+	/*
+	 * Pôles déclarés AVANT les événements : leurs règles d'adresse (/agenda/pole/creabot/)
+	 * passent ainsi devant celles des fichiers joints aux événements (/agenda/xxx/yyy/),
+	 * qui les capturaient et renvoyaient une 404.
+	 */
+	register_taxonomy( 'sv_pole', [ 'sv_evenement' ], [
+		'labels'            => [
+			'name'          => 'Pôles',
+			'singular_name' => 'Pôle',
+			'add_new_item'  => 'Ajouter un pôle',
+		],
+		'hierarchical'      => true,
+		'public'            => true,
+		'show_in_rest'      => true,
+		'show_admin_column' => true,
+		'rewrite'           => [ 'slug' => 'agenda/pole', 'with_front' => false ],
+	] );
+
 	/* ---------- Événements (Agenda) ---------- */
 	register_post_type( 'sv_evenement', [
 		'labels'        => [
@@ -62,19 +80,6 @@ add_action( 'init', function () {
 		'template'      => [
 			[ 'core/paragraph', [ 'placeholder' => 'Décrivez l’événement : programme, public concerné, intervenant·es…' ] ],
 		],
-	] );
-
-	register_taxonomy( 'sv_pole', [ 'sv_evenement' ], [
-		'labels'            => [
-			'name'          => 'Pôles',
-			'singular_name' => 'Pôle',
-			'add_new_item'  => 'Ajouter un pôle',
-		],
-		'hierarchical'      => true,
-		'public'            => true,
-		'show_in_rest'      => true,
-		'show_admin_column' => true,
-		'rewrite'           => [ 'slug' => 'agenda/pole', 'with_front' => false ],
 	] );
 
 	/* ---------- Matériel (Ressourcerie) ---------- */
@@ -153,6 +158,18 @@ add_action( 'init', function () {
  * Permaliens régénérés à l'activation du thème (sinon /agenda/ et /ressourcerie/xxx/ renverraient une 404).
  */
 add_action( 'after_switch_theme', 'flush_rewrite_rules' );
+
+/**
+ * Permaliens régénérés une seule fois quand les règles d'adresse du thème changent
+ * (incrémenter SV_REGLES_ADRESSES à chaque modification d'un « rewrite »).
+ */
+const SV_REGLES_ADRESSES = '2';
+add_action( 'init', function () {
+	if ( get_option( 'sv_regles_adresses' ) !== SV_REGLES_ADRESSES ) {
+		flush_rewrite_rules( false );
+		update_option( 'sv_regles_adresses', SV_REGLES_ADRESSES );
+	}
+}, 99 );
 
 /**
  * Source de liaison (Block Bindings) : affiche les informations d'un événement

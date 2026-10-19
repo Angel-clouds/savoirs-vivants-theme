@@ -51,6 +51,8 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 
 ## État d'avancement (v0.2)
 - Fait : header, footer, soutien, tous les modèles, toutes les pages en compositions, agenda,
-  ressourcerie, formulaire, cookies, redirections.
-- À faire : carrousel d'actualités accessible, déclaration d'accessibilité, audit RGAA complet,
+  ressourcerie, formulaire, cookies, redirections, plan du site, déclaration d'accessibilité (non conforme),
+  mentions légales, politique de confidentialité, faire un don.
+- Marqueurs à remplacer avant mise en ligne : `<mark class="sv-a-completer">` (chercher « sv-a-completer »).
+- À faire : carrousel d'actualités accessible, audit RGAA complet,
   outil de newsletter, plateforme de dons, mise en ligne.
