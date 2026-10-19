@@ -2,7 +2,7 @@
 
 ## Projet
 Thème FSE 100 % sur-mesure (pas de thème enfant, pas de page builder) pour savoirsvivants.fr,
-association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (http://localhost:10003/).
+association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (adresse dans CLAUDE.local.md, non versionné).
 
 ## Stack
 - WordPress block theme : theme.json v3, templates/*.html, parts/*.html, patterns/*.php, WordPress ≥ 6.7

@@ -1,0 +1,6 @@
+# Fichiers de développement du thème : inaccessibles depuis le navigateur (serveur Apache).
+# Sur Nginx, ce fichier est ignoré : voir la règle équivalente dans la configuration du serveur.
+<FilesMatch "^(CLAUDE(\.local)?\.md|package(-lock)?\.json|\.gitignore)$">
+	Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/wp-content/themes/savoirs-vivants/(src|node_modules|\.vscode)/

@@ -76,6 +76,19 @@ add_action( 'template_redirect', function () {
 		return; // la page s'affiche avec les erreurs et les valeurs saisies
 	}
 
+	// Limite anti-abus : 5 envois par heure et par connexion (empreinte de l'IP, jamais l'IP en clair).
+	$ip     = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+	$limite = 'sv_contact_' . wp_hash( $ip );
+	$envois = (int) get_transient( $limite );
+	if ( $envois >= 5 ) {
+		$GLOBALS['sv_contact'] = [
+			'erreurs' => [ 'general' => 'Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr.' ],
+			'valeurs' => $valeurs,
+		];
+		return;
+	}
+	set_transient( $limite, $envois + 1, HOUR_IN_SECONDS );
+
 	$objet_libelle = sv_contact_objets()[ $valeurs['objet'] ];
 	$envoye        = wp_mail(
 		apply_filters( 'sv_contact_destinataire', get_option( 'admin_email' ) ),
@@ -88,7 +101,8 @@ add_action( 'template_redirect', function () {
 			$valeurs['email'],
 			$valeurs['message']
 		),
-		[ 'Reply-To: ' . $valeurs['prenom'] . ' ' . $valeurs['nom'] . ' <' . $valeurs['email'] . '>' ]
+		// Adresse validée seule : un nom contenant « , autre@adresse » ne peut pas ajouter de destinataire.
+		[ 'Reply-To: ' . $valeurs['email'] ]
 	);
 
 	wp_safe_redirect( add_query_arg( 'envoi', $envoye ? 'ok' : 'erreur', $retour ) . '#formulaire-contact' );
