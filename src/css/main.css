@@ -324,6 +324,25 @@ img[data-sv-substitution] {
 .sv-chiffre {
   min-height: 2.75rem; /* réserve la même hauteur pour tous les chiffres */
 }
+/* Grille de 4 colonnes dont la dernière ligne incomplète est centrée :
+   8 pistes, chaque carte en occupe 2 (même largeur et même gouttière qu'en 4 colonnes) */
+@media (min-width: 48rem) {
+  .wp-block-group.sv-grille-centree {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .wp-block-group.sv-grille-centree > * {
+    grid-column: span 2;
+  }
+  .wp-block-group.sv-grille-centree > :nth-child(4n + 1):nth-last-child(3) {
+    grid-column: 2 / span 2;
+  }
+  .wp-block-group.sv-grille-centree > :nth-child(4n + 1):nth-last-child(2) {
+    grid-column: 3 / span 2;
+  }
+  .wp-block-group.sv-grille-centree > :nth-child(4n + 1):last-child {
+    grid-column: 4 / span 2;
+  }
+}
 /* Étapes numérotées (vraies séquences uniquement) */
 .sv-etape {
   font-family: var(--font-titre);

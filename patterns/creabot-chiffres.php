@@ -11,8 +11,8 @@
 <!-- wp:heading {"className":"sv-sr-only"} -->
 <h2 class="wp-block-heading sv-sr-only">CréaBot en chiffres (2025)</h2>
 <!-- /wp:heading -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|10"}}},"layout":{"type":"grid","minimumColumnWidth":"9rem"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--10)">
+<!-- wp:group {"className":"sv-grille-centree","style":{"spacing":{"margin":{"top":"var:preset|spacing|10"}}},"layout":{"type":"grid","minimumColumnWidth":"9rem","columnCount":4}} -->
+<div class="wp-block-group sv-grille-centree" style="margin-top:var(--wp--preset--spacing--10)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">
 <!-- wp:paragraph {"align":"center","className":"sv-chiffre"} -->
