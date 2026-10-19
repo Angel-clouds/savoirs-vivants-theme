@@ -3,7 +3,7 @@
  * Title: Accueil – Actualités
  * Slug: savoirs-vivants/accueil-actualites
  * Categories: sv-accueil
- * Description: Les trois dernières actualités (articles).
+ * Description: Carrousel accessible des dernières actualités (articles), sans défilement automatique.
  * Keywords: actualités, articles, blog
  */
 ?>
@@ -18,12 +18,13 @@
 <!-- wp:paragraph -->
 <p>Événements, projets, retombées dans la presse : les dernières nouvelles de Savoirs Vivants.</p>
 <!-- /wp:paragraph -->
-<!-- wp:query {"queryId":1,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}}} -->
-<div class="wp-block-query" style="margin-top:var(--wp--preset--spacing--40)">
-<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+<!-- wp:query {"queryId":1,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"className":"sv-carrousel","style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}}} -->
+<div class="wp-block-query sv-carrousel" style="margin-top:var(--wp--preset--spacing--40)">
+<!-- wp:post-template {"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
 <!-- wp:group {"className":"is-style-carte-image"} -->
 <div class="wp-block-group is-style-carte-image">
 <!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
+<!-- wp:post-terms {"term":"category","fontSize":"small"} /-->
 <!-- wp:post-date {"fontSize":"small"} /-->
 <!-- wp:post-title {"level":3,"isLink":true,"className":"is-style-titre-carte"} /-->
 <!-- wp:post-excerpt {"excerptLength":22} /-->

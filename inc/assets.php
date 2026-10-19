@@ -55,6 +55,18 @@ add_action( 'wp_enqueue_scripts', function () {
 } );
 
 /**
+ * Carrousel accessible : script chargé uniquement sur les pages qui contiennent
+ * une « Boucle de requête » portant la classe sv-carrousel.
+ */
+add_filter( 'render_block_core/query', function ( $html, $bloc ) {
+	if ( str_contains( $bloc['attrs']['className'] ?? '', 'sv-carrousel' ) ) {
+		$js = '/assets/js/carrousel.js';
+		wp_enqueue_script( 'sv-carrousel', SV_URI . $js, [], filemtime( SV_DIR . $js ), [ 'strategy' => 'defer', 'in_footer' => true ] );
+	}
+	return $html;
+}, 10, 2 );
+
+/**
  * Éditeur : même feuille que le site, pour un rendu identique.
  */
 add_action( 'after_setup_theme', function () {

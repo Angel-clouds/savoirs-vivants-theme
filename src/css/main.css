@@ -532,6 +532,49 @@ img[data-sv-substitution] {
   cursor: pointer;
 }
 
+/* Carrousel accessible (assets/js/carrousel.js) : commandes au-dessus des articles,
+   cibles tactiles de 44 px minimum (RGAA 13.x / WCAG 2.5.5) */
+.sv-carrousel__commandes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--20);
+  margin-bottom: var(--wp--preset--spacing--30);
+}
+.sv-carrousel__commandes[hidden],
+.sv-carrousel .wp-block-post-template > [hidden] {
+  display: none !important;
+}
+.sv-carrousel__bouton {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-nuit);
+  background: var(--color-blanc);
+  border: 2px solid var(--color-nuit);
+  cursor: pointer;
+}
+.sv-carrousel__bouton:hover {
+  color: var(--color-blanc);
+  background: var(--color-nuit);
+}
+.sv-carrousel__etat {
+  order: 3;
+  width: 100%;
+  margin: 0;
+  font-size: var(--text-sm);
+  text-align: center;
+}
+@media (min-width: 40rem) {
+  .sv-carrousel__etat {
+    order: 0;
+    width: auto;
+  }
+}
+
 /* Liste de liens sur fond sombre (page Contact) */
 .sv-liste-liens-blanc {
   padding: 0;

@@ -44,6 +44,8 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
 - inc/redirections.php : 301 depuis les anciennes adresses.
 - inc/securite.php : comptes masqués (REST, archives d'auteur, sitemap, oEmbed), commentaires fermés.
+- inc/smtp.php : envoi SMTP via phpmailer_init, identifiants SV_SMTP_* dans wp-config.php (jamais dans le thème).
+- assets/js/carrousel.js : carrousel accessible sur toute Boucle de requête de classe sv-carrousel (chargé à la demande).
 - inc/univers.php : classe `sv-univers-creabot` / `sv-univers-schlouk` sur le <body> des pages de pôle
   (et sous-pages) ; la section 10 de src/css/main.css applique la charte du pôle au seul <main>
   (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins).
@@ -52,7 +54,7 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 ## État d'avancement (v0.2)
 - Fait : header, footer, soutien, tous les modèles, toutes les pages en compositions, agenda,
   ressourcerie, formulaire, cookies, redirections, plan du site, déclaration d'accessibilité (non conforme),
-  mentions légales, politique de confidentialité, faire un don.
+  mentions légales, politique de confidentialité, faire un don, carrousel d'actualités.
 - Marqueurs à remplacer avant mise en ligne : `<mark class="sv-a-completer">` (chercher « sv-a-completer »).
-- À faire : carrousel d'actualités accessible, audit RGAA complet,
+- À faire : audit RGAA complet,
   outil de newsletter, plateforme de dons, mise en ligne.
