@@ -29,7 +29,7 @@
 <h2 class="wp-block-heading">Responsable du traitement</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Savoirs Vivants, 30 rue du Maire André Traband, 67500 Haguenau, représentée par <mark class="sv-a-completer">[À COMPLÉTER : nom et fonction du ou de la représentante légale]</mark>.</p>
+<p>Savoirs Vivants, 30 rue du Maire André Traband, 67500 Haguenau, représentée par sa présidente, Laure Froehlig.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->

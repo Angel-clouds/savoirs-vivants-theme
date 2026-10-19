@@ -22,24 +22,36 @@
 				<!-- wp:heading {"className":"is-style-titre-carte"} -->
 				<h2 class="wp-block-heading is-style-titre-carte">En bref</h2>
 				<!-- /wp:heading -->
-				<!-- wp:paragraph -->
-				<p><strong>Âge conseillé</strong></p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_age"}}}}} -->
-				<p></p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph -->
-				<p><strong>Tarif de location</strong></p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_tarif"}}}}} -->
-				<p></p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph -->
-				<p><strong>Équipement nécessaire à la maison</strong></p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_prerequis"}}}}} -->
-				<p></p>
-				<!-- /wp:paragraph -->
+				<!-- wp:group {"className":"sv-bref__ligne","style":{"spacing":{"blockGap":"var:preset|spacing|10"}}} -->
+				<div class="wp-block-group sv-bref__ligne">
+					<!-- wp:paragraph -->
+					<p><strong>Âge conseillé</strong></p>
+					<!-- /wp:paragraph -->
+					<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_age"}}}}} -->
+					<p></p>
+					<!-- /wp:paragraph -->
+				</div>
+				<!-- /wp:group -->
+				<!-- wp:group {"className":"sv-bref__ligne","style":{"spacing":{"blockGap":"var:preset|spacing|10"}}} -->
+				<div class="wp-block-group sv-bref__ligne">
+					<!-- wp:paragraph -->
+					<p><strong>Tarif de location</strong></p>
+					<!-- /wp:paragraph -->
+					<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_tarif"}}}}} -->
+					<p></p>
+					<!-- /wp:paragraph -->
+				</div>
+				<!-- /wp:group -->
+				<!-- wp:group {"className":"sv-bref__ligne","style":{"spacing":{"blockGap":"var:preset|spacing|10"}}} -->
+				<div class="wp-block-group sv-bref__ligne">
+					<!-- wp:paragraph -->
+					<p><strong>Équipement nécessaire à la maison</strong></p>
+					<!-- /wp:paragraph -->
+					<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_prerequis"}}}}} -->
+					<p></p>
+					<!-- /wp:paragraph -->
+				</div>
+				<!-- /wp:group -->
 				<!-- wp:buttons -->
 				<div class="wp-block-buttons">
 					<!-- wp:button -->

@@ -16,4 +16,4 @@
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-temps-forts"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-public-lieux"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-2026"} /-->
-<!-- wp:pattern {"slug":"savoirs-vivants/section-partenaires"} /-->
+<!-- wp:pattern {"slug":"savoirs-vivants/creabot-partenaires"} /-->

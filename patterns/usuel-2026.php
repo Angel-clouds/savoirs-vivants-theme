@@ -24,7 +24,7 @@
 <!-- wp:buttons -->
 <div class="wp-block-buttons">
 <!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#">Lire l'article dans la RFAS</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://shs.cairn.info/revue-francaise-des-affaires-sociales-2026-1-page-185?lang=fr">Lire l'article dans la RFAS</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"textColor":"bleu-nuit","className":"is-style-outline"} -->
 <div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-bleu-nuit-color has-text-color wp-element-button" href="/contact/">Devenir testeur</a></div>

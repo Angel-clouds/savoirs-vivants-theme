@@ -263,6 +263,27 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color > * {
   height: 4rem !important;
   object-fit: contain;
 }
+/* Nom du partenaire sous le logo : le nom est porté par ce texte visible,
+   l'image reste donc décorative (alt vide, pas de double annonce) — RGAA 1.2 */
+.sv-logos .sv-logo {
+  margin: 0;
+  text-align: center;
+}
+.sv-logos .sv-logo img {
+  display: block;
+  margin-inline: auto;
+}
+.sv-logos .sv-logo figcaption {
+  margin-top: 0.5rem;
+  font-size: var(--text-sm);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+/* Fiche matériel « En bref » : une information non renseignée masque aussi son libellé */
+.sv-bref__ligne:has(> p:last-child:empty) {
+  display: none;
+}
 
 /* Photos de l'équipe */
 .sv-portrait img {

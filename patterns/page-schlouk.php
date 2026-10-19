@@ -15,4 +15,4 @@
 <!-- wp:pattern {"slug":"savoirs-vivants/schlouk-formats"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/schlouk-agenda"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/schlouk-benevoles"} /-->
-<!-- wp:pattern {"slug":"savoirs-vivants/section-partenaires"} /-->
+<!-- wp:pattern {"slug":"savoirs-vivants/schlouk-partenaires"} /-->

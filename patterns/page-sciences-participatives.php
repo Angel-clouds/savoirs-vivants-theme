@@ -15,4 +15,4 @@
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-demarche"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-2026"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-participer"} /-->
-<!-- wp:pattern {"slug":"savoirs-vivants/section-partenaires"} /-->
+<!-- wp:pattern {"slug":"savoirs-vivants/sciences-partenaires"} /-->
