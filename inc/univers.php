@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Identifiant de page (slug) ou terme de pôle → univers graphique.
  */
-function sv_univers_pages() {
+function sv_univers_pages(): array {
 	return [
 		'creabot'                 => 'creabot',
 		'schlouk-de-sciences'     => 'schlouk',
@@ -26,7 +26,7 @@ function sv_univers_pages() {
 /**
  * Univers graphique de la page affichée : « creabot », « schlouk », « sciences » ou chaîne vide.
  */
-function sv_univers_courant() {
+function sv_univers_courant(): string {
 	static $courant = null;
 	if ( null !== $courant ) {
 		return $courant;

@@ -191,7 +191,7 @@ function sv_heure( string $heure ): string {
 	return $heure ? str_replace( ':', ' h ', $heure ) : '';
 }
 
-function sv_valeur_evenement( array $args, $bloc ) {
+function sv_valeur_evenement( array $args, $bloc ): string {
 	$id   = $bloc->context['postId'] ?? get_the_ID();
 	$date = get_post_meta( $id, 'sv_date', true );
 	$ts   = $date ? strtotime( $date . ' 12:00:00' ) : false;

@@ -254,7 +254,7 @@ add_action( 'admin_notices', function () {
  *
  * @return array|WP_Error [ 'fichiers' => int, 'ignores' => string[] ]
  */
-function sv_minisites_importer( int $post_id, array $fichier ) {
+function sv_minisites_importer( int $post_id, array $fichier ): array|WP_Error {
 	$tmp = (string) ( $fichier['tmp_name'] ?? '' );
 
 	try {
@@ -319,7 +319,7 @@ function sv_minisites_importer( int $post_id, array $fichier ) {
 /**
  * Contrôles du fichier envoyé : erreur d'envoi, origine, poids, extension, type MIME réel, signature.
  */
-function sv_minisites_verifier_envoi( array $fichier ) {
+function sv_minisites_verifier_envoi( array $fichier ): bool|WP_Error {
 	$erreurs = [
 		UPLOAD_ERR_INI_SIZE   => 'fichier trop lourd pour le serveur (upload_max_filesize).',
 		UPLOAD_ERR_FORM_SIZE  => 'fichier trop lourd.',
@@ -367,7 +367,7 @@ function sv_minisites_verifier_envoi( array $fichier ) {
 /**
  * Chemin relatif propre (séparateurs « / ») ou WP_Error si le nom est dangereux.
  */
-function sv_minisites_chemin( string $nom ) {
+function sv_minisites_chemin( string $nom ): string|WP_Error {
 	$nom = str_replace( '\\', '/', $nom ); // archives créées sous Windows
 	if ( '' === $nom || str_contains( $nom, "\0" ) || ! mb_check_encoding( $nom, 'UTF-8' ) ) {
 		return new WP_Error( 'nom', 'nom de fichier illisible (encodage). Recréez le .zip avec des noms sans accents.' );
@@ -397,7 +397,7 @@ function sv_minisites_chemin( string $nom ) {
  *
  * @return array|WP_Error [ 'fichiers' => [ index zip => chemin relatif ], 'ignores' => string[], 'index' => string ]
  */
-function sv_minisites_inventaire( ZipArchive $zip ) {
+function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error {
 	$limites = sv_minisites_limites();
 	$types   = sv_minisites_types();
 
@@ -486,7 +486,7 @@ function sv_minisites_inventaire( ZipArchive $zip ) {
  *
  * @return int|WP_Error Poids total écrit.
  */
-function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossier ) {
+function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossier ): int|WP_Error {
 	$limites = sv_minisites_limites();
 	$total   = 0;
 
@@ -534,7 +534,7 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 /**
  * Dossier wp-content/uploads/mini-sites/ protégé contre l'accès direct et le listage.
  */
-function sv_minisites_preparer_base() {
+function sv_minisites_preparer_base(): string|WP_Error {
 	$base = sv_minisites_base();
 	if ( ! wp_mkdir_p( $base ) ) {
 		return new WP_Error( 'ecriture', 'impossible de créer wp-content/uploads/mini-sites/.' );
