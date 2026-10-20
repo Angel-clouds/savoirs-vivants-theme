@@ -3,10 +3,18 @@
  * Savoirs Vivants — chargeur du thème.
  * Chaque fonctionnalité vit dans son propre fichier de inc/.
  */
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-define( 'SV_DIR', get_template_directory() );
-define( 'SV_URI', get_template_directory_uri() );
+define('SV_DIR', get_template_directory());
+define('SV_URI', get_template_directory_uri());
+
+// Traductions du thème (languages/savoirs-vivants-de_DE.mo…). Sur « init » : depuis WordPress 6.7,
+// charger un domaine de traduction plus tôt déclenche un avertissement.
+add_action(
+    'init', function () {
+        load_theme_textdomain('savoirs-vivants', SV_DIR . '/languages');
+    }, 0
+);
 
 require_once SV_DIR . '/inc/assets.php';             // CSS, JS, tarteaucitron
 require_once SV_DIR . '/inc/blocks.php';             // Styles de blocs + catégories de compositions

@@ -1,0 +1,1853 @@
+# Copyright (C) 2026 Savoirs Vivants
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Savoirs Vivants 0.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/savoirs-vivants\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-20T13:54:24+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: savoirs-vivants\n"
+
+#. Theme Name of the theme
+#. Author of the theme
+#: style.css
+msgid "Savoirs Vivants"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://savoirsvivants.fr"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Thème FSE sur-mesure, accessible (RGAA) et mobile-first."
+msgstr ""
+
+#: inc/blocks.php:16
+msgid "SV · Composants génériques"
+msgstr ""
+
+#: inc/blocks.php:16
+msgid "Sections vierges à remplir, conformes à la charte et au RGAA."
+msgstr ""
+
+#: inc/blocks.php:17
+msgid "SV · Pages complètes"
+msgstr ""
+
+#: inc/blocks.php:17
+msgid "Pages entières construites d’après les maquettes."
+msgstr ""
+
+#: inc/blocks.php:18
+msgid "SV · Accueil"
+msgstr ""
+
+#: inc/blocks.php:18
+msgid "Sections de la page d’accueil."
+msgstr ""
+
+#: inc/blocks.php:19
+msgid "SV · Nos projets"
+msgstr ""
+
+#: inc/blocks.php:19
+msgid "Sections de la page Nos projets."
+msgstr ""
+
+#: inc/blocks.php:20
+msgid "SV · CréaBot"
+msgstr ""
+
+#: inc/blocks.php:20
+msgid "Sections du pôle robotique éducative."
+msgstr ""
+
+#: inc/blocks.php:21
+msgid "SV · Schlouk de Sciences"
+msgstr ""
+
+#: inc/blocks.php:21
+msgid "Sections du pôle médiation scientifique."
+msgstr ""
+
+#: inc/blocks.php:22
+msgid "SV · Sciences participatives"
+msgstr ""
+
+#: inc/blocks.php:22
+msgid "Sections du pôle recherche participative."
+msgstr ""
+
+#: inc/blocks.php:23
+msgid "SV · Ressourcerie"
+msgstr ""
+
+#: inc/blocks.php:23
+msgid "Sections de la Ressourcerie."
+msgstr ""
+
+#: inc/blocks.php:24
+msgid "SV · Outils numériques"
+msgstr ""
+
+#: inc/blocks.php:24
+msgid "Sections de la page USUEL."
+msgstr ""
+
+#: inc/blocks.php:25
+msgid "SV · À propos"
+msgstr ""
+
+#: inc/blocks.php:25
+msgid "Sections de la page À propos."
+msgstr ""
+
+#: inc/blocks.php:26
+msgid "SV · Contact"
+msgstr ""
+
+#: inc/blocks.php:26
+msgid "Sections de la page Contact."
+msgstr ""
+
+#: inc/blocks.php:32
+msgid "Surtitre"
+msgstr ""
+
+#: inc/blocks.php:33
+msgid "Titre de carte"
+msgstr ""
+
+#: inc/blocks.php:34
+msgid "Carte"
+msgstr ""
+
+#: inc/blocks.php:35
+msgid "Carte avec image"
+msgstr ""
+
+#: inc/blocks.php:36
+msgid "Question fréquente"
+msgstr ""
+
+#: inc/contenus.php:19
+msgid "Informations de l’événement"
+msgstr ""
+
+#: inc/contenus.php:21
+msgctxt "champ d’un événement"
+msgid "Date"
+msgstr ""
+
+#: inc/contenus.php:21
+msgid "Obligatoire pour apparaître dans l’agenda."
+msgstr ""
+
+#: inc/contenus.php:22
+msgid "Heure de début"
+msgstr ""
+
+#: inc/contenus.php:23
+msgid "Heure de fin"
+msgstr ""
+
+#: inc/contenus.php:24
+msgctxt "champ d’un événement"
+msgid "Lieu"
+msgstr ""
+
+#: inc/contenus.php:24
+msgid "Ex. : IUT de Haguenau, 30 rue du Maire André Traband"
+msgstr ""
+
+#: inc/contenus.php:25
+msgid "Lien d’inscription (facultatif)"
+msgstr ""
+
+#: inc/contenus.php:29
+msgid "Informations du matériel"
+msgstr ""
+
+#: inc/contenus.php:31
+msgid "Âge conseillé"
+msgstr ""
+
+#: inc/contenus.php:31
+msgid "Ex. : Dès 6 ans"
+msgstr ""
+
+#: inc/contenus.php:32
+msgid "Tarif de location"
+msgstr ""
+
+#: inc/contenus.php:32
+msgid "Ex. : 15 € la semaine"
+msgstr ""
+
+#: inc/contenus.php:33
+msgid "Équipement nécessaire à la maison"
+msgstr ""
+
+#: inc/contenus.php:33
+msgid "Ex. : ordinateur ou tablette"
+msgstr ""
+
+#: inc/contenus.php:50
+msgid "Pôles"
+msgstr ""
+
+#: inc/contenus.php:51
+msgid "Pôle"
+msgstr ""
+
+#: inc/contenus.php:52
+msgid "Ajouter un pôle"
+msgstr ""
+
+#: inc/contenus.php:66
+msgid "Événements"
+msgstr ""
+
+#: inc/contenus.php:67
+msgid "Événement"
+msgstr ""
+
+#: inc/contenus.php:68
+msgctxt "menu d’administration"
+msgid "Agenda"
+msgstr ""
+
+#: inc/contenus.php:69
+#: inc/contenus.php:70
+msgid "Ajouter un événement"
+msgstr ""
+
+#: inc/contenus.php:71
+msgid "Modifier l’événement"
+msgstr ""
+
+#: inc/contenus.php:72
+msgid "Nouvel événement"
+msgstr ""
+
+#: inc/contenus.php:73
+msgid "Voir l’événement"
+msgstr ""
+
+#: inc/contenus.php:74
+msgid "Rechercher un événement"
+msgstr ""
+
+#: inc/contenus.php:75
+msgid "Aucun événement trouvé"
+msgstr ""
+
+#: inc/contenus.php:76
+msgid "Tous les événements"
+msgstr ""
+
+#: inc/contenus.php:86
+msgid "Décrivez l’événement : programme, public concerné, intervenant·es…"
+msgstr ""
+
+#: inc/contenus.php:95
+msgctxt "type de contenu (pluriel)"
+msgid "Matériel"
+msgstr ""
+
+#: inc/contenus.php:96
+msgctxt "type de contenu (singulier)"
+msgid "Matériel"
+msgstr ""
+
+#: inc/contenus.php:97
+msgctxt "menu d’administration"
+msgid "Ressourcerie"
+msgstr ""
+
+#: inc/contenus.php:98
+#: inc/contenus.php:99
+msgid "Ajouter du matériel"
+msgstr ""
+
+#: inc/contenus.php:100
+msgid "Modifier le matériel"
+msgstr ""
+
+#: inc/contenus.php:101
+msgid "Voir la fiche"
+msgstr ""
+
+#: inc/contenus.php:102
+msgid "Rechercher du matériel"
+msgstr ""
+
+#: inc/contenus.php:103
+msgid "Aucun matériel trouvé"
+msgstr ""
+
+#: inc/contenus.php:104
+msgid "Tout le matériel"
+msgstr ""
+
+#: inc/contenus.php:114
+msgid "Présentez le matériel : ce qu’il permet de faire, comment l’utiliser…"
+msgstr ""
+
+#: inc/contenus.php:122
+msgid "Types de matériel"
+msgstr ""
+
+#: inc/contenus.php:123
+msgid "Type de matériel"
+msgstr ""
+
+#: inc/contenus.php:124
+msgid "Ajouter un type"
+msgstr ""
+
+#: inc/contenus.php:205
+msgid "Événement (Savoirs Vivants)"
+msgstr ""
+
+#. translators: heure d'un événement. 1 : heures, 2 : minutes (français « 10 h 50 », allemand « %1$s:%2$s Uhr »).
+#: inc/contenus.php:223
+#, php-format
+msgctxt "heure d’un événement"
+msgid "%1$s h %2$s"
+msgstr ""
+
+#. translators: horaires d'un événement. 1 : heure de début, 2 : heure de fin.
+#: inc/contenus.php:240
+#, php-format
+msgid "De %1$s à %2$s"
+msgstr ""
+
+#. translators: %s : heure de début d'un événement sans heure de fin.
+#: inc/contenus.php:247
+#, php-format
+msgid "À partir de %s"
+msgstr ""
+
+#. translators: format de la date complète d'un événement (voir https://www.php.net/manual/fr/datetime.format.php ; allemand : « l, j. F Y »).
+#: inc/contenus.php:262
+msgctxt "format de date d’un événement"
+msgid "l j F Y"
+msgstr ""
+
+#: inc/contenus.php:264
+msgid "Date à venir"
+msgstr ""
+
+#: inc/formulaire-contact.php:21
+msgid "Demande de renseignement"
+msgstr ""
+
+#: inc/formulaire-contact.php:22
+msgid "Adhésion à l’association"
+msgstr ""
+
+#: inc/formulaire-contact.php:23
+msgid "Emprunt de matériel (Ressourcerie)"
+msgstr ""
+
+#: inc/formulaire-contact.php:24
+msgid "Clubs, stages ou interventions CréaBot"
+msgstr ""
+
+#: inc/formulaire-contact.php:25
+msgid "Schlouk de Sciences (conférence, bénévolat)"
+msgstr ""
+
+#: inc/formulaire-contact.php:26
+msgid "Recherche participative"
+msgstr ""
+
+#: inc/formulaire-contact.php:27
+msgid "Autre demande"
+msgstr ""
+
+#: inc/formulaire-contact.php:58
+msgid "La session a expiré. Rechargez la page puis envoyez de nouveau votre message."
+msgstr ""
+
+#: inc/formulaire-contact.php:61
+msgid "Indiquez votre prénom."
+msgstr ""
+
+#: inc/formulaire-contact.php:64
+msgid "Indiquez votre nom."
+msgstr ""
+
+#: inc/formulaire-contact.php:67
+msgid "Indiquez une adresse e-mail valide, au format nom@exemple.fr."
+msgstr ""
+
+#: inc/formulaire-contact.php:70
+msgid "Choisissez l’objet de votre demande."
+msgstr ""
+
+#: inc/formulaire-contact.php:73
+msgid "Rédigez votre message."
+msgstr ""
+
+#: inc/formulaire-contact.php:87
+msgid "Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr."
+msgstr ""
+
+#. translators: %s : titre de la page contenant le formulaire de contact en erreur.
+#. translators: %s : message d'erreur d'un champ du formulaire de contact.
+#: inc/formulaire-contact.php:123
+#: inc/formulaire-contact.php:157
+#, php-format
+msgid "Erreur : %s"
+msgstr ""
+
+#: inc/formulaire-contact.php:140
+msgid "Prénom"
+msgstr ""
+
+#: inc/formulaire-contact.php:141
+msgctxt "nom de famille"
+msgid "Nom"
+msgstr ""
+
+#: inc/formulaire-contact.php:142
+msgid "Adresse e-mail"
+msgstr ""
+
+#: inc/formulaire-contact.php:143
+msgid "Objet de la demande"
+msgstr ""
+
+#: inc/formulaire-contact.php:144
+msgid "Votre message"
+msgstr ""
+
+#: inc/formulaire-contact.php:166
+msgid "Merci, votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais."
+msgstr ""
+
+#. translators: %s : lien vers l'adresse e-mail de l'association.
+#: inc/formulaire-contact.php:170
+#, php-format
+msgid "L’envoi du message a échoué. Écrivez-nous directement à %s."
+msgstr ""
+
+#. translators: %d : nombre d'erreurs dans le formulaire de contact.
+#: inc/formulaire-contact.php:181
+#, php-format
+msgid "Le formulaire contient %d erreur :"
+msgid_plural "Le formulaire contient %d erreurs :"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/formulaire-contact.php:193
+msgid "Tous les champs sont obligatoires."
+msgstr ""
+
+#: inc/formulaire-contact.php:210
+msgid "Format attendu : nom@exemple.fr"
+msgstr ""
+
+#: inc/formulaire-contact.php:219
+msgid "Choisir un objet"
+msgstr ""
+
+#: inc/formulaire-contact.php:233
+msgid "Ne pas remplir ce champ"
+msgstr ""
+
+#: inc/formulaire-contact.php:238
+msgid "Vos données servent uniquement à répondre à votre demande et ne sont jamais transmises à des tiers."
+msgstr ""
+
+#: inc/formulaire-contact.php:240
+msgid "En savoir plus sur la gestion de vos données"
+msgstr ""
+
+#: inc/formulaire-contact.php:247
+msgid "Envoyer le message"
+msgstr ""
+
+#: inc/mini-sites.php:121
+#: inc/mini-sites.php:123
+#: inc/mini-sites.php:124
+msgid "Mini-sites"
+msgstr ""
+
+#: inc/mini-sites.php:122
+msgid "Mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:125
+#: inc/mini-sites.php:126
+msgid "Ajouter un mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:127
+msgid "Modifier le mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:128
+msgid "Rechercher un mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:129
+msgid "Aucun mini-site trouvé"
+msgstr ""
+
+#: inc/mini-sites.php:155
+#: inc/mini-sites.php:157
+#: inc/mini-sites.php:186
+#: inc/mini-sites.php:187
+msgid "Catégories de mini-sites"
+msgstr ""
+
+#: inc/mini-sites.php:156
+msgid "Catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:158
+msgid "Toutes les catégories"
+msgstr ""
+
+#: inc/mini-sites.php:159
+msgid "Catégorie parente"
+msgstr ""
+
+#: inc/mini-sites.php:160
+msgid "Catégorie parente :"
+msgstr ""
+
+#: inc/mini-sites.php:161
+msgid "Modifier la catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:162
+msgid "Voir la catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:163
+msgid "Mettre à jour la catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:164
+msgid "Ajouter une catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:165
+msgid "Nom de la nouvelle catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:166
+msgid "Rechercher une catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:167
+msgid "Aucune catégorie trouvée"
+msgstr ""
+
+#: inc/mini-sites.php:168
+msgid "← Retour aux catégories"
+msgstr ""
+
+#: inc/mini-sites.php:228
+msgid "Nom du mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:236
+msgid "Fichiers du mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:239
+msgid "Description courte (affichée sur la carte)"
+msgstr ""
+
+#: inc/mini-sites.php:262
+msgid "Mini-site en ligne"
+msgstr ""
+
+#: inc/mini-sites.php:263
+#: inc/mini-sites.php:895
+#: inc/mini-sites.php:955
+msgid "(nouvel onglet)"
+msgstr ""
+
+#. translators: 1 : nombre de fichiers, 2 : poids total (ex. 2 Mo), 3 : date et heure de l'import.
+#: inc/mini-sites.php:271
+#, php-format
+msgid "%1$d fichier, %2$s, importé le %3$s."
+msgid_plural "%1$d fichiers, %2$s, importés le %3$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: format de la date d'import d'un mini-site (allemand : « j. F Y, H:i »).
+#: inc/mini-sites.php:275
+msgctxt "date d’import d’un mini-site"
+msgid "j F Y à H:i"
+msgstr ""
+
+#: inc/mini-sites.php:281
+msgid "Fichiers importés. Le mini-site sera accessible une fois publié."
+msgstr ""
+
+#: inc/mini-sites.php:283
+msgid "Aucun fichier importé : le mini-site n’apparaîtra pas sur le site."
+msgstr ""
+
+#: inc/mini-sites.php:287
+msgid "L’extension PHP « zip » n’est pas active sur le serveur : import impossible."
+msgstr ""
+
+#: inc/mini-sites.php:291
+msgid "Votre compte ne permet pas d’importer du code (droit « unfiltered_html » requis)."
+msgstr ""
+
+#: inc/mini-sites.php:298
+msgid "Remplacer par un nouveau fichier .zip"
+msgstr ""
+
+#: inc/mini-sites.php:298
+msgid "Fichier .zip du mini-site"
+msgstr ""
+
+#. translators: %s : taille maximale du fichier .zip (ex. 50 Mo).
+#: inc/mini-sites.php:304
+#, php-format
+msgid "Le fichier est importé à l’enregistrement (« Publier » ou « Mettre à jour »), puis supprimé du serveur. Taille maximale : %s."
+msgstr ""
+
+#. translators: %s : nom du fichier index.html.
+#: inc/mini-sites.php:309
+#, php-format
+msgid "Une page %s est obligatoire, à la racine du .zip ou dans un dossier unique."
+msgstr ""
+
+#. translators: %s : liste des extensions de fichier acceptées.
+#: inc/mini-sites.php:313
+#, php-format
+msgid "Fichiers acceptés : %s. Les autres sont ignorés ; un fichier PHP ou exécutable fait refuser le .zip."
+msgstr ""
+
+#: inc/mini-sites.php:315
+msgid "Aucune ressource externe (CDN, Google Fonts, statistiques…) : incluez les bibliothèques dans le .zip, sinon elles seront bloquées."
+msgstr ""
+
+#. translators: %s : raison du refus de l'import du mini-site.
+#: inc/mini-sites.php:346
+#, php-format
+msgid "Import refusé : %s"
+msgstr ""
+
+#. translators: %d : nombre de fichiers importés.
+#: inc/mini-sites.php:349
+#, php-format
+msgid "Mini-site importé : %d fichier."
+msgid_plural "Mini-site importé : %d fichiers."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s : liste des fichiers ignorés lors de l'import.
+#: inc/mini-sites.php:353
+#, php-format
+msgid "Fichiers ignorés (type non accepté) : %s"
+msgstr ""
+
+#: inc/mini-sites.php:393
+msgid "archive .zip illisible ou corrompue."
+msgstr ""
+
+#: inc/mini-sites.php:420
+msgid "impossible de finaliser l’import (droits d’écriture du dossier uploads)."
+msgstr ""
+
+#: inc/mini-sites.php:452
+msgid "fichier trop lourd pour le serveur (upload_max_filesize)."
+msgstr ""
+
+#: inc/mini-sites.php:453
+msgid "fichier trop lourd."
+msgstr ""
+
+#: inc/mini-sites.php:454
+msgid "envoi interrompu, réessayez."
+msgstr ""
+
+#: inc/mini-sites.php:455
+msgid "dossier temporaire du serveur manquant."
+msgstr ""
+
+#: inc/mini-sites.php:456
+msgid "écriture impossible sur le serveur."
+msgstr ""
+
+#: inc/mini-sites.php:457
+msgid "envoi bloqué par une extension PHP."
+msgstr ""
+
+#: inc/mini-sites.php:461
+msgid "échec de l’envoi."
+msgstr ""
+
+#: inc/mini-sites.php:466
+msgid "fichier non reçu par le formulaire."
+msgstr ""
+
+#: inc/mini-sites.php:472
+#, php-format
+msgid "le fichier doit peser au plus %s."
+msgstr ""
+
+#: inc/mini-sites.php:476
+msgid "le fichier doit porter l’extension .zip."
+msgstr ""
+
+#: inc/mini-sites.php:483
+msgid "le contenu du fichier n’est pas une archive .zip."
+msgstr ""
+
+#: inc/mini-sites.php:489
+msgid "archive .zip vide ou non valide."
+msgstr ""
+
+#: inc/mini-sites.php:502
+msgid "nom de fichier illisible (encodage). Recréez le .zip avec des noms sans accents."
+msgstr ""
+
+#: inc/mini-sites.php:505
+#, php-format
+msgid "nom de fichier interdit : %s"
+msgstr ""
+
+#: inc/mini-sites.php:514
+#: inc/mini-sites.php:637
+#, php-format
+msgid "chemin interdit : %s"
+msgstr ""
+
+#: inc/mini-sites.php:518
+#, php-format
+msgid "trop de sous-dossiers : %s"
+msgstr ""
+
+#: inc/mini-sites.php:535
+#, php-format
+msgid "plus de %d fichiers dans l’archive."
+msgstr ""
+
+#: inc/mini-sites.php:546
+msgid "archive corrompue."
+msgstr ""
+
+#: inc/mini-sites.php:556
+#, php-format
+msgid "lien symbolique interdit : %s"
+msgstr ""
+
+#: inc/mini-sites.php:560
+#, php-format
+msgid "fichier exécutable côté serveur interdit : %s"
+msgstr ""
+
+#: inc/mini-sites.php:581
+#, php-format
+msgid "fichier présent deux fois : %s"
+msgstr ""
+
+#: inc/mini-sites.php:588
+#: inc/mini-sites.php:657
+#, php-format
+msgid "plus de %s une fois décompressé."
+msgstr ""
+
+#: inc/mini-sites.php:591
+#, php-format
+msgid "taux de compression anormal (archive piégée ?) : %s"
+msgstr ""
+
+#: inc/mini-sites.php:606
+msgid "aucune page index.html à la racine du mini-site."
+msgstr ""
+
+#: inc/mini-sites.php:625
+msgid "impossible de créer le dossier d’extraction."
+msgstr ""
+
+#: inc/mini-sites.php:632
+#, php-format
+msgid "impossible de créer le dossier de %s."
+msgstr ""
+
+#: inc/mini-sites.php:643
+#, php-format
+msgid "extraction impossible : %s"
+msgstr ""
+
+#: inc/mini-sites.php:653
+#, php-format
+msgid "contenu incohérent : %s"
+msgstr ""
+
+#: inc/mini-sites.php:672
+msgid "impossible de créer wp-content/uploads/mini-sites/."
+msgstr ""
+
+#: inc/mini-sites.php:881
+#: inc/mini-sites.php:978
+msgid "Aucun mini-site n’est publié pour le moment."
+msgstr ""
+
+#. translators: %d : nombre de mini-sites dans la colonne.
+#. translators: %d : nombre de mini-sites dans la catégorie.
+#: inc/mini-sites.php:926
+#: inc/mini-sites.php:1009
+#, php-format
+msgid "%d mini-site"
+msgid_plural "%d mini-sites"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/mini-sites.php:938
+#: inc/mini-sites.php:1020
+msgid "Aucun mini-site pour le moment."
+msgstr ""
+
+#: inc/mini-sites.php:954
+msgid "Mini-site sans titre"
+msgstr ""
+
+#: inc/securite.php:45
+msgctxt "auteur affiché dans les flux RSS"
+msgid "L’équipe Savoirs Vivants"
+msgstr ""
+
+#: inc/securite.php:138
+msgid "XML-RPC est désactivé sur ce site."
+msgstr ""
+
+#: patterns/a-propos-adhesion.php
+msgctxt "Pattern title"
+msgid "À propos – Adhésion"
+msgstr ""
+
+#: patterns/a-propos-adhesion.php
+msgctxt "Pattern description"
+msgid "Les trois tarifs de cotisation (ancre #adherer)."
+msgstr ""
+
+#: patterns/a-propos-chiffres.php
+msgctxt "Pattern title"
+msgid "À propos – Chiffres 2025"
+msgstr ""
+
+#: patterns/a-propos-chiffres.php
+msgctxt "Pattern description"
+msgid "Quatre chiffres clés de l’association."
+msgstr ""
+
+#: patterns/a-propos-equipe.php
+msgctxt "Pattern title"
+msgid "À propos – Équipe salariée"
+msgstr ""
+
+#: patterns/a-propos-equipe.php
+msgctxt "Pattern description"
+msgid "Portraits, noms et fonctions."
+msgstr ""
+
+#: patterns/a-propos-gouvernance.php
+msgctxt "Pattern title"
+msgid "À propos – Gouvernance"
+msgstr ""
+
+#: patterns/a-propos-gouvernance.php
+msgctxt "Pattern description"
+msgid "Bureau, conseil d’administration et membres de droit."
+msgstr ""
+
+#: patterns/a-propos-hero.php
+msgctxt "Pattern title"
+msgid "À propos – Introduction"
+msgstr ""
+
+#: patterns/a-propos-hero.php
+#: patterns/creabot-hero.php
+#: patterns/ressourcerie-hero.php
+#: patterns/schlouk-hero.php
+msgctxt "Pattern description"
+msgid "Titre, présentation, boutons et photo."
+msgstr ""
+
+#: patterns/a-propos-histoire.php
+msgctxt "Pattern title"
+msgid "À propos – Notre histoire"
+msgstr ""
+
+#: patterns/a-propos-histoire.php
+msgctxt "Pattern description"
+msgid "Histoire, extrait des statuts et évolution 2025."
+msgstr ""
+
+#: patterns/accueil-actualites.php
+msgctxt "Pattern title"
+msgid "Accueil – Actualités"
+msgstr ""
+
+#: patterns/accueil-actualites.php
+msgctxt "Pattern description"
+msgid "Carrousel accessible des dernières actualités (articles), sans défilement automatique."
+msgstr ""
+
+#: patterns/accueil-agenda.php
+msgctxt "Pattern title"
+msgid "Accueil – Agenda"
+msgstr ""
+
+#: patterns/accueil-agenda.php
+msgctxt "Pattern description"
+msgid "Les trois prochains événements (mis à jour automatiquement)."
+msgstr ""
+
+#: patterns/accueil-chiffres.php
+msgctxt "Pattern title"
+msgid "Accueil – Chiffres clés"
+msgstr ""
+
+#: patterns/accueil-chiffres.php
+msgctxt "Pattern description"
+msgid "Quatre chiffres clés 2025."
+msgstr ""
+
+#: patterns/accueil-engagements.php
+msgctxt "Pattern title"
+msgid "Accueil – Nos engagements"
+msgstr ""
+
+#: patterns/accueil-engagements.php
+msgctxt "Pattern description"
+msgid "Trois cartes d’engagements."
+msgstr ""
+
+#: patterns/accueil-hero.php
+msgctxt "Pattern title"
+msgid "Accueil – Hero"
+msgstr ""
+
+#: patterns/accueil-hero.php
+msgctxt "Pattern description"
+msgid "Titre principal, présentation et photo."
+msgstr ""
+
+#: patterns/accueil-poles.php
+msgctxt "Pattern title"
+msgid "Accueil – Où agissons-nous ?"
+msgstr ""
+
+#: patterns/accueil-poles.php
+msgctxt "Pattern description"
+msgid "Grille des pôles et de la Ressourcerie."
+msgstr ""
+
+#: patterns/accueil-ressources.php
+msgctxt "Pattern title"
+msgid "Accueil – Ressources"
+msgstr ""
+
+#: patterns/accueil-ressources.php
+msgctxt "Pattern description"
+msgid "Trois cartes de ressources."
+msgstr ""
+
+#: patterns/contact-formulaire.php
+msgctxt "Pattern title"
+msgid "Contact – Formulaire et coordonnées"
+msgstr ""
+
+#: patterns/contact-formulaire.php
+msgctxt "Pattern description"
+msgid "Formulaire accessible, coordonnées et réseaux des pôles."
+msgstr ""
+
+#: patterns/contact-hero.php
+msgctxt "Pattern title"
+msgid "Contact – Introduction"
+msgstr ""
+
+#: patterns/contact-hero.php
+msgctxt "Pattern description"
+msgid "Titre, présentation et photo."
+msgstr ""
+
+#: patterns/creabot-2026.php
+msgctxt "Pattern title"
+msgid "CréaBot – Perspectives 2026"
+msgstr ""
+
+#: patterns/creabot-2026.php
+msgctxt "Pattern description"
+msgid "Bandeau sombre : consolidation et concours."
+msgstr ""
+
+#: patterns/creabot-actions.php
+msgctxt "Pattern title"
+msgid "CréaBot – Les cinq actions"
+msgstr ""
+
+#: patterns/creabot-actions.php
+msgctxt "Pattern description"
+msgid "Clubs, clubs maker, stages, interventions, événementiel."
+msgstr ""
+
+#: patterns/creabot-agenda.php
+msgctxt "Pattern title"
+msgid "CréaBot – Prochains rendez-vous"
+msgstr ""
+
+#: patterns/creabot-agenda.php
+msgctxt "Pattern description"
+msgid "Événements à venir du pôle CréaBot (mis à jour automatiquement)."
+msgstr ""
+
+#: patterns/creabot-chiffres.php
+msgctxt "Pattern title"
+msgid "CréaBot – Chiffres 2025"
+msgstr ""
+
+#: patterns/creabot-chiffres.php
+msgctxt "Pattern description"
+msgid "Sept chiffres clés du pôle."
+msgstr ""
+
+#: patterns/creabot-hero.php
+msgctxt "Pattern title"
+msgid "CréaBot – Introduction"
+msgstr ""
+
+#: patterns/creabot-partenaires.php
+msgctxt "Pattern title"
+msgid "CréaBot – Partenaires"
+msgstr ""
+
+#: patterns/creabot-partenaires.php
+msgctxt "Pattern description"
+msgid "Partenaires du pôle CréaBot (Rapport d'activités 2025, p. 25). Logos à importer dans chaque bloc Image."
+msgstr ""
+
+#: patterns/creabot-pourquoi.php
+msgctxt "Pattern title"
+msgid "CréaBot – Pourquoi la robotique ?"
+msgstr ""
+
+#: patterns/creabot-pourquoi.php
+msgctxt "Pattern description"
+msgid "Texte et photo."
+msgstr ""
+
+#: patterns/creabot-public-lieux.php
+msgctxt "Pattern title"
+msgid "CréaBot – Pour qui et où ?"
+msgstr ""
+
+#: patterns/creabot-public-lieux.php
+msgctxt "Pattern description"
+msgid "Publics accueillis et villes des clubs."
+msgstr ""
+
+#: patterns/creabot-temps-forts.php
+msgctxt "Pattern title"
+msgid "CréaBot – Temps forts et ouvertures"
+msgstr ""
+
+#: patterns/creabot-temps-forts.php
+msgctxt "Pattern description"
+msgid "Factory Kids, RobotechGirls, Fête de la science, Karlsruhe."
+msgstr ""
+
+#: patterns/generique-agenda.php
+msgctxt "Pattern title"
+msgid "Composant – Prochains événements"
+msgstr ""
+
+#: patterns/generique-agenda.php
+msgctxt "Pattern description"
+msgid "Liste automatique des 3 prochains événements de l’agenda."
+msgstr ""
+
+#: patterns/generique-ambitions.php
+msgctxt "Pattern title"
+msgid "Composant – Ambitions 2026"
+msgstr ""
+
+#: patterns/generique-ambitions.php
+msgctxt "Pattern description"
+msgid "Bandeau bleu nuit : deux projets phares de 2026 (concours de robotique, réalité virtuelle dans de nouveaux EHPAD)."
+msgstr ""
+
+#: patterns/generique-appel.php
+msgctxt "Pattern title"
+msgid "Composant – Bandeau d’appel à l’action"
+msgstr ""
+
+#: patterns/generique-appel.php
+msgctxt "Pattern description"
+msgid "Bandeau bleu nuit : titre, texte et deux boutons (contrastes automatiques)."
+msgstr ""
+
+#: patterns/generique-cartes-icones.php
+msgctxt "Pattern title"
+msgid "Composant – Trois cartes avec icône"
+msgstr ""
+
+#: patterns/generique-cartes-icones.php
+msgctxt "Pattern description"
+msgid "Titre de section et trois cartes (icône, titre, texte)."
+msgstr ""
+
+#: patterns/generique-cartes-images.php
+msgctxt "Pattern title"
+msgid "Composant – Trois cartes avec photo"
+msgstr ""
+
+#: patterns/generique-cartes-images.php
+msgctxt "Pattern description"
+msgid "Titre de section et trois cartes (photo, titre, texte, lien)."
+msgstr ""
+
+#: patterns/generique-chiffres.php
+msgctxt "Pattern title"
+msgid "Composant – Chiffres clés"
+msgstr ""
+
+#: patterns/generique-chiffres.php
+msgctxt "Pattern description"
+msgid "Quatre chiffres sur fond gris (titre lu par les lecteurs d’écran)."
+msgstr ""
+
+#: patterns/generique-etapes.php
+msgctxt "Pattern title"
+msgid "Composant – Étapes numérotées"
+msgstr ""
+
+#: patterns/generique-etapes.php
+msgctxt "Pattern description"
+msgid "Trois étapes (uniquement pour une vraie séquence)."
+msgstr ""
+
+#: patterns/generique-faq.php
+msgctxt "Pattern title"
+msgid "Composant – Questions fréquentes"
+msgstr ""
+
+#: patterns/generique-faq.php
+msgctxt "Pattern description"
+msgid "Trois questions-réponses dépliables (clavier, sans JavaScript)."
+msgstr ""
+
+#: patterns/generique-fiertes.php
+msgctxt "Pattern title"
+msgid "Composant – Nos fiertés"
+msgstr ""
+
+#: patterns/generique-fiertes.php
+msgctxt "Pattern description"
+msgid "Deux reconnaissances 2025 en photo + texte : shooting avec Yann Arthus-Bertrand, SURe au Sénat. Photos : renseigner le texte alternatif."
+msgstr ""
+
+#: patterns/generique-hero-image.php
+msgctxt "Pattern title"
+msgid "Composant – Introduction avec photo"
+msgstr ""
+
+#: patterns/generique-hero-image.php
+msgctxt "Pattern description"
+msgid "Titre principal (h1), texte, boutons et photo. À placer une seule fois, en haut de page."
+msgstr ""
+
+#: patterns/generique-hero-texte.php
+msgctxt "Pattern title"
+msgid "Composant – Introduction sans photo"
+msgstr ""
+
+#: patterns/generique-hero-texte.php
+msgctxt "Pattern description"
+msgid "Titre principal (h1) et texte. À placer une seule fois, en haut de page."
+msgstr ""
+
+#: patterns/generique-personnes.php
+msgctxt "Pattern title"
+msgid "Composant – Équipe"
+msgstr ""
+
+#: patterns/generique-personnes.php
+msgctxt "Pattern description"
+msgid "Quatre cartes : portrait, nom et fonction."
+msgstr ""
+
+#: patterns/generique-texte-image.php
+msgctxt "Pattern title"
+msgid "Composant – Texte et photo"
+msgstr ""
+
+#: patterns/generique-texte-image.php
+msgctxt "Pattern description"
+msgid "Titre, paragraphes et photo côte à côte."
+msgstr ""
+
+#: patterns/generique-transfrontalier.php
+msgctxt "Pattern title"
+msgid "Composant – Dimension transfrontalière"
+msgstr ""
+
+#: patterns/generique-transfrontalier.php
+msgctxt "Pattern description"
+msgid "Encart gris compact : ancrage franco-allemand (Karlsruhe, festival Mint, École européenne)."
+msgstr ""
+
+#: patterns/nos-projets-appel.php
+msgctxt "Pattern title"
+msgid "Nos projets – Appel à projets"
+msgstr ""
+
+#: patterns/nos-projets-appel.php
+msgctxt "Pattern description"
+msgid "Bandeau sombre : proposer un projet."
+msgstr ""
+
+#: patterns/nos-projets-hero.php
+msgctxt "Pattern title"
+msgid "Nos projets – Introduction"
+msgstr ""
+
+#: patterns/nos-projets-hero.php
+msgctxt "Pattern description"
+msgid "Titre et présentation de la page."
+msgstr ""
+
+#: patterns/nos-projets-impact.php
+msgctxt "Pattern title"
+msgid "Nos projets – Impact 2025"
+msgstr ""
+
+#: patterns/nos-projets-impact.php
+msgctxt "Pattern description"
+msgid "Chiffres clés de l’association."
+msgstr ""
+
+#: patterns/nos-projets-methode.php
+msgctxt "Pattern title"
+msgid "Nos projets – Méthode commune"
+msgstr ""
+
+#: patterns/nos-projets-methode.php
+msgctxt "Pattern description"
+msgid "Les quatre dimensions communes aux chantiers."
+msgstr ""
+
+#: patterns/nos-projets-poles.php
+msgctxt "Pattern title"
+msgid "Nos projets – Les trois pôles"
+msgstr ""
+
+#: patterns/nos-projets-poles.php
+msgctxt "Pattern description"
+msgid "Trois cartes vers CréaBot, Schlouk de Sciences et Sciences participatives."
+msgstr ""
+
+#: patterns/page-a-propos.php
+msgctxt "Pattern title"
+msgid "Page – À propos"
+msgstr ""
+
+#: patterns/page-a-propos.php
+msgctxt "Pattern description"
+msgid "Histoire, équipe, gouvernance et adhésion (maquette « À propos »)."
+msgstr ""
+
+#: patterns/page-accessibilite.php
+msgctxt "Pattern title"
+msgid "Page – Déclaration d'accessibilité"
+msgstr ""
+
+#: patterns/page-accessibilite.php
+msgctxt "Pattern description"
+msgid "Déclaration d'accessibilité au format RGAA 4.1.2 (statut : non conforme tant qu'aucun audit n'est réalisé)."
+msgstr ""
+
+#: patterns/page-accueil.php
+msgctxt "Pattern title"
+msgid "Page d'accueil complète"
+msgstr ""
+
+#: patterns/page-accueil.php
+msgctxt "Pattern description"
+msgid "Toutes les sections de l’accueil, dans l’ordre des maquettes."
+msgstr ""
+
+#: patterns/page-contact.php
+msgctxt "Pattern title"
+msgid "Page – Contact"
+msgstr ""
+
+#: patterns/page-contact.php
+msgctxt "Pattern description"
+msgid "Formulaire accessible et coordonnées (maquette « Contact »)."
+msgstr ""
+
+#: patterns/page-creabot.php
+msgctxt "Pattern title"
+msgid "Page – CréaBot"
+msgstr ""
+
+#: patterns/page-creabot.php
+msgctxt "Pattern description"
+msgid "Pôle robotique éducative (maquette « CréaBot »)."
+msgstr ""
+
+#: patterns/page-faire-un-don.php
+msgctxt "Pattern title"
+msgid "Page – Faire un don"
+msgstr ""
+
+#: patterns/page-faire-un-don.php
+msgctxt "Pattern description"
+msgid "Appel au don, autres façons de soutenir l'association. Remplacer les marqueurs [À COMPLÉTER] et [LIEN HELLOASSO]."
+msgstr ""
+
+#: patterns/page-mentions-legales.php
+msgctxt "Pattern title"
+msgid "Page – Mentions légales"
+msgstr ""
+
+#: patterns/page-mentions-legales.php
+msgctxt "Pattern description"
+msgid "Éditeur, publication, hébergement et propriété intellectuelle (loi LCEN). Remplacer les marqueurs [À COMPLÉTER]."
+msgstr ""
+
+#: patterns/page-nos-projets.php
+msgctxt "Pattern title"
+msgid "Page – Nos projets"
+msgstr ""
+
+#: patterns/page-nos-projets.php
+msgctxt "Pattern description"
+msgid "Présentation des trois pôles (maquette « Nos projets »)."
+msgstr ""
+
+#: patterns/page-outils-numeriques.php
+msgctxt "Pattern title"
+msgid "Page – Outils numériques (USUEL)"
+msgstr ""
+
+#: patterns/page-outils-numeriques.php
+msgctxt "Pattern description"
+msgid "Présentation de l’outil USUEL (maquette « Outils numériques »)."
+msgstr ""
+
+#: patterns/page-plan-du-site.php
+msgctxt "Pattern title"
+msgid "Page – Plan du site"
+msgstr ""
+
+#: patterns/page-plan-du-site.php
+msgctxt "Pattern description"
+msgid "Liste de toutes les pages, mise à jour automatiquement (RGAA 12.1)."
+msgstr ""
+
+#: patterns/page-politique-confidentialite.php
+msgctxt "Pattern title"
+msgid "Page – Politique de confidentialité"
+msgstr ""
+
+#: patterns/page-politique-confidentialite.php
+msgctxt "Pattern description"
+msgid "Données collectées, finalités, durée de conservation, droits RGPD et cookies. Remplacer les marqueurs [À COMPLÉTER]."
+msgstr ""
+
+#: patterns/page-ressourcerie.php
+msgctxt "Pattern title"
+msgid "Page – Ressourcerie"
+msgstr ""
+
+#: patterns/page-ressourcerie.php
+msgctxt "Pattern description"
+msgid "Matériel à emprunter, modalités et FAQ (maquette « Ressourcerie »)."
+msgstr ""
+
+#: patterns/page-schlouk.php
+msgctxt "Pattern title"
+msgid "Page – Schlouk de Sciences"
+msgstr ""
+
+#: patterns/page-schlouk.php
+msgctxt "Pattern description"
+msgid "Pôle médiation scientifique (maquette « Schlouk de Sciences »)."
+msgstr ""
+
+#: patterns/page-sciences-participatives.php
+msgctxt "Pattern title"
+msgid "Page – Sciences participatives"
+msgstr ""
+
+#: patterns/page-sciences-participatives.php
+msgctxt "Pattern description"
+msgid "Pôle recherche participative (maquette « Sciences participatives »)."
+msgstr ""
+
+#: patterns/pied-de-page.php
+msgctxt "Pattern title"
+msgid "Pied de page (contenu)"
+msgstr ""
+
+#: patterns/pied-de-page.php
+msgctxt "Pattern description"
+msgid "Contenu traduisible du pied de page, appelé par parts/footer.html. Les textes sont en gettext (domaine savoirs-vivants) : modifier ce fichier plutôt que le pied de page dans l'éditeur de site, sinon les traductions sont perdues."
+msgstr ""
+
+#: patterns/pied-de-page.php:19
+msgid "Association loi 1901. Un laboratoire citoyen tourné vers la médiation et l’intermédiation scientifique en Nord Alsace."
+msgstr ""
+
+#: patterns/pied-de-page.php:30
+msgid "Nos pôles"
+msgstr ""
+
+#: patterns/pied-de-page.php:34
+msgid "CréaBot – Robotique éducative"
+msgstr ""
+
+#: patterns/pied-de-page.php:36
+msgid "Sciences participatives"
+msgstr ""
+
+#: patterns/pied-de-page.php:37
+msgid "Agenda"
+msgstr ""
+
+#: patterns/pied-de-page.php:46
+msgid "L’association"
+msgstr ""
+
+#: patterns/pied-de-page.php:50
+msgid "À propos"
+msgstr ""
+
+#: patterns/pied-de-page.php:51
+msgid "Ressourcerie"
+msgstr ""
+
+#: patterns/pied-de-page.php:52
+msgid "Outils numériques"
+msgstr ""
+
+#: patterns/pied-de-page.php:53
+msgid "Actualités"
+msgstr ""
+
+#: patterns/pied-de-page.php:54
+msgid "Contact"
+msgstr ""
+
+#: patterns/pied-de-page.php:63
+msgid "Nous suivre"
+msgstr ""
+
+#. translators: 1 : réseau social, 2 : compte (ex. « Instagram de CréaBot »).
+#: patterns/pied-de-page.php:67
+#: patterns/pied-de-page.php:68
+#: patterns/pied-de-page.php:69
+#: patterns/pied-de-page.php:70
+#: patterns/pied-de-page.php:71
+#: patterns/pied-de-page.php:72
+#: patterns/pied-de-page.php:73
+#, php-format
+msgid "%1$s de %2$s"
+msgstr ""
+
+#: patterns/pied-de-page.php:88
+msgid "Plan du site"
+msgstr ""
+
+#: patterns/pied-de-page.php:89
+msgid "Mentions légales"
+msgstr ""
+
+#: patterns/pied-de-page.php:90
+msgid "Politique de confidentialité"
+msgstr ""
+
+#: patterns/pied-de-page.php:91
+msgid "Accessibilité : non conforme"
+msgstr ""
+
+#: patterns/pied-de-page.php:95
+msgid "Gestion des cookies"
+msgstr ""
+
+#: patterns/ressourcerie-catalogue.php
+msgctxt "Pattern title"
+msgid "Ressourcerie – Matériel disponible"
+msgstr ""
+
+#: patterns/ressourcerie-catalogue.php
+msgctxt "Pattern description"
+msgid "Liste automatique des fiches du menu « Ressourcerie »."
+msgstr ""
+
+#: patterns/ressourcerie-faq.php
+msgctxt "Pattern title"
+msgid "Ressourcerie – Questions fréquentes"
+msgstr ""
+
+#: patterns/ressourcerie-faq.php
+msgctxt "Pattern description"
+msgid "Quatre questions-réponses (ouverture au clavier, sans JavaScript)."
+msgstr ""
+
+#: patterns/ressourcerie-hero.php
+msgctxt "Pattern title"
+msgid "Ressourcerie – Introduction"
+msgstr ""
+
+#: patterns/ressourcerie-minisites.php
+msgctxt "Pattern title"
+msgid "Ressourcerie – Mini-sites"
+msgstr ""
+
+#: patterns/ressourcerie-minisites.php
+msgctxt "Pattern description"
+msgid "Mini-sites pédagogiques : une colonne par catégorie principale, regroupés par sous-catégorie, générée automatiquement depuis Ressourcerie → Catégories de mini-sites."
+msgstr ""
+
+#: patterns/ressourcerie-modalites.php
+msgctxt "Pattern title"
+msgid "Ressourcerie – Comment ça marche ?"
+msgstr ""
+
+#: patterns/ressourcerie-modalites.php
+msgctxt "Pattern description"
+msgid "Trois étapes d’emprunt."
+msgstr ""
+
+#: patterns/schlouk-agenda.php
+msgctxt "Pattern title"
+msgid "Schlouk – Prochains rendez-vous"
+msgstr ""
+
+#: patterns/schlouk-agenda.php
+msgctxt "Pattern description"
+msgid "Événements à venir du pôle Schlouk de Sciences (automatique)."
+msgstr ""
+
+#: patterns/schlouk-benevoles.php
+msgctxt "Pattern title"
+msgid "Schlouk – Rejoindre le collectif"
+msgstr ""
+
+#: patterns/schlouk-benevoles.php
+msgctxt "Pattern description"
+msgid "Bandeau sombre : chercheurs et bénévoles."
+msgstr ""
+
+#: patterns/schlouk-chiffres.php
+msgctxt "Pattern title"
+msgid "Schlouk – Chiffres 2025"
+msgstr ""
+
+#: patterns/schlouk-chiffres.php
+msgctxt "Pattern description"
+msgid "Quatre chiffres clés du collectif."
+msgstr ""
+
+#: patterns/schlouk-formats.php
+msgctxt "Pattern title"
+msgid "Schlouk – Les quatre formats"
+msgstr ""
+
+#: patterns/schlouk-formats.php
+msgctxt "Pattern description"
+msgid "Conférences, quiz, Choco’Sciences, Collab’."
+msgstr ""
+
+#: patterns/schlouk-hero.php
+msgctxt "Pattern title"
+msgid "Schlouk – Introduction"
+msgstr ""
+
+#: patterns/schlouk-partenaires.php
+msgctxt "Pattern title"
+msgid "Schlouk de Sciences – Partenaires"
+msgstr ""
+
+#: patterns/schlouk-partenaires.php
+msgctxt "Pattern description"
+msgid "Partenaires du pôle Schlouk de Sciences (Rapport d'activités 2025, p. 37). Logos à importer dans chaque bloc Image."
+msgstr ""
+
+#: patterns/schlouk-pint-of-science.php
+msgctxt "Pattern title"
+msgid "Schlouk – Pint of Science"
+msgstr ""
+
+#: patterns/schlouk-pint-of-science.php
+msgctxt "Pattern description"
+msgid "Photo, présentation du festival et ses chiffres."
+msgstr ""
+
+#: patterns/sciences-2026.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Cap sur 2026"
+msgstr ""
+
+#: patterns/sciences-2026.php
+msgctxt "Pattern description"
+msgid "Perspectives par projet."
+msgstr ""
+
+#: patterns/sciences-chiffres.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Chiffres 2025"
+msgstr ""
+
+#: patterns/sciences-chiffres.php
+msgctxt "Pattern description"
+msgid "Quatre chiffres clés du pôle."
+msgstr ""
+
+#: patterns/sciences-demarche.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Notre démarche"
+msgstr ""
+
+#: patterns/sciences-demarche.php
+msgctxt "Pattern description"
+msgid "Quatre étapes : collecter, traiter, restituer, diffuser."
+msgstr ""
+
+#: patterns/sciences-hero.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Introduction"
+msgstr ""
+
+#: patterns/sciences-hero.php
+msgctxt "Pattern description"
+msgid "Titre et présentation du pôle."
+msgstr ""
+
+#: patterns/sciences-partenaires.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Partenaires"
+msgstr ""
+
+#: patterns/sciences-partenaires.php
+msgctxt "Pattern description"
+msgid "Partenaires du pôle Sciences et recherche participative (Rapport d'activités 2025, p. 51). Logos à importer dans chaque bloc Image."
+msgstr ""
+
+#: patterns/sciences-participer.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Participer"
+msgstr ""
+
+#: patterns/sciences-participer.php
+msgctxt "Pattern description"
+msgid "Bandeau sombre : devenir acteur du savoir."
+msgstr ""
+
+#: patterns/sciences-portails.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Portails de restitution citoyenne"
+msgstr ""
+
+#: patterns/sciences-portails.php
+msgctxt "Pattern description"
+msgid "Quatre cartes (SURe, Vir-Age, Ôtez l’Eau, USUEL) vers les données collectées avec les habitants. Portails en préparation : remplacer les marqueurs par les liens à leur mise en ligne."
+msgstr ""
+
+#: patterns/sciences-projets.php
+msgctxt "Pattern title"
+msgid "Sciences participatives – Les cinq projets"
+msgstr ""
+
+#: patterns/sciences-projets.php
+msgctxt "Pattern description"
+msgid "SURe, Vir-Age, Ôtez l’Eau, CReP, USUEL."
+msgstr ""
+
+#: patterns/section-partenaires.php
+msgctxt "Pattern title"
+msgid "Partenaires"
+msgstr ""
+
+#: patterns/section-partenaires.php
+msgctxt "Pattern description"
+msgid "Principaux financeurs et partenaires de l'association (Rapport d'activités 2025). Logos à importer dans chaque bloc Image."
+msgstr ""
+
+#: patterns/usuel-2026.php
+msgctxt "Pattern title"
+msgid "USUEL – Application web"
+msgstr ""
+
+#: patterns/usuel-2026.php
+msgctxt "Pattern description"
+msgid "Texte, boutons et photo : les prochaines étapes."
+msgstr ""
+
+#: patterns/usuel-benefices.php
+msgctxt "Pattern title"
+msgid "USUEL – Pour qui ?"
+msgstr ""
+
+#: patterns/usuel-benefices.php
+msgctxt "Pattern description"
+msgid "Trois cartes : personnes accompagnées, médiateurs, recherche."
+msgstr ""
+
+#: patterns/usuel-chiffres.php
+msgctxt "Pattern title"
+msgid "USUEL – Chiffres"
+msgstr ""
+
+#: patterns/usuel-chiffres.php
+msgctxt "Pattern description"
+msgid "Trois chiffres clés du projet."
+msgstr ""
+
+#: patterns/usuel-hero.php
+msgctxt "Pattern title"
+msgid "USUEL – Introduction"
+msgstr ""
+
+#: patterns/usuel-hero.php
+msgctxt "Pattern description"
+msgid "Titre, présentation, boutons et capture de l’outil."
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Bleu nuit"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Vert sauge (grands titres, décor)"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Vert sauge foncé (textes, liens)"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Blanc"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Gris clair (fonds)"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Gris bordure (décor)"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Space Mono (titres)"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Space Grotesk (texte)"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Petit"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Normal"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Grand"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Très grand"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Titre de page"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "XS"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "S"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "M"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "L"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "XL"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "2XL"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Section"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "En-tête"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Suivre et soutenir"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Pied de page"
+msgstr ""
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Page composée (titre dans le contenu)"
+msgstr ""

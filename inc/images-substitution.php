@@ -12,34 +12,36 @@
  * Pour désactiver après la mise en ligne : commenter la ligne correspondante
  * dans functions.php.
  */
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-add_filter( 'render_block_data', function ( $bloc ) {
-	if ( 'core/image' !== ( $bloc['blockName'] ?? '' ) ) {
-		return $bloc;
-	}
-	// Le bloc a déjà une image choisie dans la médiathèque : on ne touche à rien.
-	if ( ! empty( $bloc['attrs']['id'] ) || ! empty( $bloc['attrs']['url'] ) ) {
-		return $bloc;
-	}
+add_filter(
+    'render_block_data', function ( $bloc ) {
+        if ('core/image' !== ( $bloc['blockName'] ?? '' ) ) {
+            return $bloc;
+        }
+        // Le bloc a déjà une image choisie dans la médiathèque : on ne touche à rien.
+        if (! empty($bloc['attrs']['id']) || ! empty($bloc['attrs']['url']) ) {
+            return $bloc;
+        }
 
-	$balises = new WP_HTML_Tag_Processor( $bloc['innerHTML'] ?? '' );
-	if ( ! $balises->next_tag( 'img' ) || $balises->get_attribute( 'src' ) ) {
-		return $bloc;
-	}
+        $balises = new WP_HTML_Tag_Processor($bloc['innerHTML'] ?? '');
+        if (! $balises->next_tag('img') || $balises->get_attribute('src') ) {
+            return $bloc;
+        }
 
-	// Déclinaison aux couleurs du pôle sur les pages CréaBot et Schlouk (inc/univers.php).
-	$univers = function_exists( 'sv_univers_courant' ) ? sv_univers_courant() : '';
-	$fichier = $univers ? 'substitution-' . $univers . '.svg' : 'substitution.svg';
+        // Déclinaison aux couleurs du pôle sur les pages CréaBot et Schlouk (inc/univers.php).
+        $univers = function_exists('sv_univers_courant') ? sv_univers_courant() : '';
+        $fichier = $univers ? 'substitution-' . $univers . '.svg' : 'substitution.svg';
 
-	$balises->set_attribute( 'src', SV_URI . '/assets/svg/' . $fichier );
-	$balises->set_attribute( 'alt', '' );          // décorative : rien à annoncer
-	$balises->set_attribute( 'aria-hidden', 'true' );
-	$balises->set_attribute( 'data-sv-substitution', 'true' );
+        $balises->set_attribute('src', SV_URI . '/assets/svg/' . $fichier);
+        $balises->set_attribute('alt', '');          // décorative : rien à annoncer
+        $balises->set_attribute('aria-hidden', 'true');
+        $balises->set_attribute('data-sv-substitution', 'true');
 
-	// Le rendu du cœur lit innerContent : on met à jour les deux.
-	$bloc['innerHTML']    = $balises->get_updated_html();
-	$bloc['innerContent'] = array( $bloc['innerHTML'] );
+        // Le rendu du cœur lit innerContent : on met à jour les deux.
+        $bloc['innerHTML']    = $balises->get_updated_html();
+        $bloc['innerContent'] = array( $bloc['innerHTML'] );
 
-	return $bloc;
-} );
+        return $bloc;
+    } 
+);

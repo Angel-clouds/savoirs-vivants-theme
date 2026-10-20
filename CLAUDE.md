@@ -62,6 +62,22 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins ;
   Sciences participatives : charte globale, titres Space Mono italique vert sauge, motifs du rapport d'activités).
 - parts/soutien.html : bloc « Suivre / Soutenir » affiché avant le pied de page sur toutes les pages.
+- parts/footer.html appelle la composition patterns/pied-de-page.php (Inserter: no) : textes en gettext.
+  Ne pas modifier le pied de page dans l'éditeur de site (la copie en base remplacerait le fichier et figerait le texte).
+
+## Traduction (i18n, préparation FR/DE)
+- Text domain `savoirs-vivants`, chargé sur `init` (functions.php), `Domain Path: /languages`.
+- Tout texte affiché par inc/ passe par gettext (`__()`, `esc_html__()`, `_n()`, `_x()` + commentaire
+  `/* translators: */` pour chaque `%s`/`%d`). Exceptions volontaires : noms des termes créés par défaut
+  (contenus), e-mails destinés à l'équipe, fichiers de protection générés.
+- Textes d'un modèle .html : impossible en gettext → les déplacer dans une composition PHP appelée par le modèle.
+  Une apostrophe droite d'un modèle est affichée « ’ » (wptexturize) : écrire directement « ’ » dans les chaînes.
+- Dictionnaire : `wp i18n make-pot . languages/savoirs-vivants.pot --domain=savoirs-vivants --exclude=node_modules,assets/vendor,src`.
+  Traductions DANS le thème : `languages/de_DE.po` / `de_DE.mo` (nom = locale seule, sans préfixe de domaine).
+- inc/univers.php compare aussi le slug de la traduction dans la langue par défaut (Polylang, `sv_univers_source()`).
+- Bannière tarteaucitron : langue = `determine_locale()` si le fichier de langue existe, sinon `fr`.
+- Reste à faire : JS (carrousel.js, editeur-champs.js : `wp_set_script_translations`), liens internes en dur
+  (/agenda/, /contact/…) dans les compositions et le pied de page.
 
 ## État d'avancement (v0.2)
 - Fait : header, footer, soutien, tous les modèles, toutes les pages en compositions, agenda,
