@@ -60,3 +60,17 @@ add_filter( 'feed_links_show_comments_feed', '__return_false' );
 // Réglage « Autoriser les commentaires » forcé à « fermé » pour les nouveaux contenus.
 add_filter( 'pre_option_default_comment_status', fn() => 'closed' );
 add_filter( 'pre_option_default_ping_status', fn() => 'closed' );
+
+/**
+ * En-têtes de sécurité des pages publiques (les mini-sites envoient les leurs, inc/mini-sites.php).
+ */
+add_action( 'send_headers', function () {
+	header( 'X-Content-Type-Options: nosniff' );
+	header( 'X-Frame-Options: SAMEORIGIN' );
+	header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+	header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()' );
+} );
+
+// Version de WordPress retirée du code des pages et des flux.
+remove_action( 'wp_head', 'wp_generator' );
+add_filter( 'the_generator', '__return_empty_string' );

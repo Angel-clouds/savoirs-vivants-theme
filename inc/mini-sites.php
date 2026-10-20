@@ -77,6 +77,13 @@ function sv_minisites_types(): array {
  */
 const SV_MINISITES_INTERDITS = '/\.(php\d?|phtml|phar|pht|phps|shtml?|cgi|pl|asp|aspx|jsp|htaccess|htpasswd|user\.ini)(\.|$)/i';
 
+/**
+ * Suffixe ajouté à chaque fichier extrait : en accès direct (hors /mini-sites/…), le serveur l'envoie
+ * comme un fichier inconnu (téléchargement), jamais comme une page HTML exécutée sur le site.
+ * Le bac à sable de /mini-sites/<slug>/ reste ainsi le seul moyen d'afficher un mini-site.
+ */
+const SV_MINISITES_SUFFIXE = '.sv-data';
+
 function sv_minisites_base(): string {
 	return wp_upload_dir( null, false )['basedir'] . '/mini-sites';
 }
@@ -492,7 +499,7 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 	$racine = realpath( $dossier );
 
 	foreach ( $fichiers as $i => $chemin ) {
-		$cible = $dossier . '/' . $chemin;
+		$cible = $dossier . '/' . $chemin . SV_MINISITES_SUFFIXE;
 		if ( ! wp_mkdir_p( dirname( $cible ) ) ) {
 			return new WP_Error( 'ecriture', sprintf( 'impossible de créer le dossier de %s.', $chemin ) );
 		}
@@ -629,7 +636,8 @@ function sv_minisites_servir( string $slug, ?string $fichier ): void {
 	}
 
 	$racine = realpath( sv_minisites_base() . '/' . $dossier );
-	$chemin = realpath( $racine . '/' . $relatif );
+	// Fichier suffixé ; à défaut, mini-site importé avant l'ajout du suffixe (à réimporter).
+	$chemin = realpath( $racine . '/' . $relatif . SV_MINISITES_SUFFIXE ) ?: realpath( $racine . '/' . $relatif );
 	if ( ! $racine || ! $chemin || ! str_starts_with( $chemin, $racine . DIRECTORY_SEPARATOR ) || ! is_file( $chemin ) ) {
 		return;
 	}
@@ -660,12 +668,12 @@ function sv_minisites_servir( string $slug, ?string $fichier ): void {
 
 /**
  * Politique de sécurité : bac à sable (origine opaque) et ressources limitées au mini-site.
- * Le domaine est écrit en toutes lettres : « 'self' » n'est pas fiable dans un document en bac à sable.
+ * L'adresse est écrite en toutes lettres (« 'self' » n'est pas fiable dans un document en bac à sable)
+ * et se termine par « / » : la source couvre tout le mini-site et rien d'autre. Le mini-site ne peut
+ * ni charger ni interroger le reste du site (API REST, administration…).
  */
 function sv_minisites_csp( WP_Post $post ): string {
-	$p       = wp_parse_url( home_url() );
-	$origine = $p['scheme'] . '://' . $p['host'] . ( isset( $p['port'] ) ? ':' . $p['port'] : '' );
-	$ici     = "'self' $origine";
+	$ici = sv_minisites_url( $post );
 
 	return implode( '; ', apply_filters( 'sv_minisites_csp', [
 		'sandbox allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads',
@@ -678,14 +686,14 @@ function sv_minisites_csp( WP_Post $post ): string {
 		"connect-src $ici",
 		"worker-src $ici blob:",
 		"frame-src $ici",
-		'form-action ' . sv_minisites_url( $post ),
+		"form-action $ici",
 		"base-uri $ici",
 		"frame-ancestors 'self'",
 	], $post ) );
 }
 
 /* -------------------------------------------------------------------------
- * Affichage : [sv_mini_sites pole="creabot" niveau="4"]
+ * Affichage : [sv_mini_sites pole="creabot" niveau="4"] (cartes) ou format="liste" titre="CréaBot" (colonne compacte)
  * ---------------------------------------------------------------------- */
 
 /**
@@ -696,7 +704,7 @@ function sv_minisites_csp( WP_Post $post ): string {
  * - image d'illustration décorative (alt vide) : le titre suffit à identifier le mini-site (RGAA 1.2).
  */
 add_shortcode( 'sv_mini_sites', function ( $atts ) {
-	$atts   = shortcode_atts( [ 'pole' => '', 'niveau' => '4' ], $atts, 'sv_mini_sites' );
+	$atts   = shortcode_atts( [ 'pole' => '', 'niveau' => '4', 'format' => 'cartes', 'titre' => '' ], $atts, 'sv_mini_sites' );
 	$niveau = min( 6, max( 2, (int) $atts['niveau'] ) );
 
 	$requete = [
@@ -712,6 +720,10 @@ add_shortcode( 'sv_mini_sites', function ( $atts ) {
 		$requete['tax_query'] = [ [ 'taxonomy' => 'sv_pole', 'field' => 'slug', 'terms' => sanitize_title( $atts['pole'] ) ] ];
 	}
 	$minisites = get_posts( $requete );
+
+	if ( 'liste' === $atts['format'] ) {
+		return sv_minisites_liste( $minisites, $atts['titre'], $niveau );
+	}
 
 	if ( ! $minisites ) {
 		return '<p class="sv-minisites__vide">Aucun mini-site n’est publié pour le moment.</p>';
@@ -736,3 +748,49 @@ add_shortcode( 'sv_mini_sites', function ( $atts ) {
 	}
 	return $html . '</ul>';
 } );
+
+/**
+ * Format « liste » : une colonne par pôle, lisible même avec de nombreux mini-sites
+ * ([sv_mini_sites pole="creabot" format="liste" titre="CréaBot" niveau="3"]).
+ *
+ * Accessibilité :
+ * - le titre de colonne (niveau réglable, RGAA 9.1) annonce aussi le nombre de mini-sites ;
+ * - les mini-sites sont des liens dans une liste <ul> et non des titres : la navigation
+ *   par titres reste courte, même avec des dizaines de ressources ;
+ * - ouverture dans un nouvel onglet signalée (icône + texte pour les lecteurs d'écran, RGAA 13.2) ;
+ * - une fiche sans titre reste identifiable (« Mini-site sans titre ») au lieu d'un lien vide (RGAA 6.2).
+ */
+function sv_minisites_liste( array $minisites, string $titre, int $niveau ): string {
+	$nombre = count( $minisites );
+	$html   = '<div class="sv-minisites-colonne">';
+
+	if ( '' !== $titre ) {
+		// Compteur masqué à zéro : le message « Aucun mini-site » le dit déjà.
+		$compteur = $nombre ? sprintf( 1 === $nombre ? '%d mini-site' : '%d mini-sites', $nombre ) : '';
+		$html    .= sprintf(
+			'<h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d>',
+			$niveau,
+			esc_html( $titre ),
+			$compteur ? ' <span class="sv-minisites-colonne__nombre">' . esc_html( $compteur ) . '</span>' : ''
+		);
+	}
+
+	if ( ! $minisites ) {
+		return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div>';
+	}
+
+	$html .= '<ul class="sv-minisites-liste">';
+	foreach ( $minisites as $minisite ) {
+		$nom   = get_the_title( $minisite );
+		$html .= sprintf(
+			'<li><a href="%1$s" target="_blank" rel="noopener">%2$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> (nouvel onglet)</span></a>',
+			esc_url( sv_minisites_url( $minisite ) ),
+			esc_html( '' !== $nom ? $nom : 'Mini-site sans titre' )
+		);
+		if ( has_excerpt( $minisite ) ) {
+			$html .= '<p>' . esc_html( get_the_excerpt( $minisite ) ) . '</p>';
+		}
+		$html .= '</li>';
+	}
+	return $html . '</ul></div>';
+}

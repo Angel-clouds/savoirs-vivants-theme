@@ -9,7 +9,7 @@
  * - aucun défilement automatique : l'utilisateur garde la main (13.8) ;
  * - vrais <button> « Précédent » / « Suivant », placés avant les articles, avec aria-controls ;
  * - articles masqués avec l'attribut hidden : ni lus, ni atteignables au clavier ;
- * - chaque article est annoncé « Article 2 sur 4 » (role="group" + aria-roledescription) ;
+ * - la liste reste une liste ; chaque article donne sa position « 2 sur 4 » (aria-posinset / aria-setsize) ;
  * - position visible et annoncée poliment après chaque clic (aria-live="polite", 7.5) ;
  * - aucune animation : l'affichage change instantanément (pas de gêne vestibulaire).
  *
@@ -44,11 +44,11 @@
 		}
 
 		liste.id = liste.id || 'sv-carrousel-liste-' + compteur;
-		liste.setAttribute( 'role', 'none' ); // les <li> deviennent des groupes « diapositive »
+		// La liste <ul>/<li> est conservée (role="group" est interdit sur <li> en HTML) ;
+		// la position réelle est donnée malgré les articles masqués : « 2 sur 4 ».
 		articles.forEach( function ( article, i ) {
-			article.setAttribute( 'role', 'group' );
-			article.setAttribute( 'aria-roledescription', 'diapositive' );
-			article.setAttribute( 'aria-label', 'Article ' + ( i + 1 ) + ' sur ' + articles.length );
+			article.setAttribute( 'aria-posinset', i + 1 );
+			article.setAttribute( 'aria-setsize', articles.length );
 		} );
 
 		// Commandes : insérées avant la liste pour être atteintes avant les articles.

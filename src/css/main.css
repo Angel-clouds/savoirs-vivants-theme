@@ -443,9 +443,11 @@ img[data-sv-substitution] {
 .has-bleu-nuit-background-color .wp-block-button__link:hover {
   background-color: var(--color-fond);
 }
+/* !important : la classe de couleur choisie dans l'éditeur (.has-bleu-nuit-color, déclarée
+   !important par WordPress) rendrait le bouton invisible sur fond bleu nuit (RGAA 3.2). */
 .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
   background-color: transparent;
-  color: var(--color-blanc);
+  color: var(--color-blanc) !important;
 }
 .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
   text-decoration: underline;
@@ -479,6 +481,52 @@ img[data-sv-substitution] {
 .sv-minisite__icone {
   margin-left: 0.3em;
   text-decoration: none;
+}
+
+/* Format « liste » : une colonne par pôle (1 sur mobile, jusqu'à 3 sur écran large,
+   grille de la composition). Lignes compactes séparées par un filet : la colonne reste
+   lisible avec des dizaines de mini-sites. */
+.sv-minisites-colonne__titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  padding-bottom: var(--wp--preset--spacing--10);
+  font-size: var(--text-lg);
+  border-bottom: 3px solid var(--color-sauge);
+}
+.sv-minisites-colonne__nombre {
+  font-family: var(--font-texte);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-nuit); /* le titre est vert sauge : 3,6:1 en 14px, insuffisant (RGAA 3.2) */
+}
+.sv-minisites-colonne__vide {
+  margin: var(--wp--preset--spacing--20) 0 0;
+  font-size: var(--text-sm);
+}
+.sv-minisites-liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sv-minisites-liste > li {
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--color-bordure);
+}
+.sv-minisites-liste > li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.sv-minisites-liste a {
+  font-weight: 600;
+}
+.sv-minisites-liste p {
+  margin: 0.25rem 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.45;
 }
 
 /* =========================================================
