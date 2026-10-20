@@ -118,15 +118,15 @@ add_action(
         register_post_type(
             'sv_minisite', [
             'labels'              => [
-            'name'          => 'Mini-sites',
-            'singular_name' => 'Mini-site',
-            'menu_name'     => 'Mini-sites',
-            'all_items'     => 'Mini-sites',
-            'add_new'       => 'Ajouter un mini-site',
-            'add_new_item'  => 'Ajouter un mini-site',
-            'edit_item'     => 'Modifier le mini-site',
-            'search_items'  => 'Rechercher un mini-site',
-            'not_found'     => 'Aucun mini-site trouvé',
+            'name'          => __('Mini-sites', 'savoirs-vivants'),
+            'singular_name' => __('Mini-site', 'savoirs-vivants'),
+            'menu_name'     => __('Mini-sites', 'savoirs-vivants'),
+            'all_items'     => __('Mini-sites', 'savoirs-vivants'),
+            'add_new'       => __('Ajouter un mini-site', 'savoirs-vivants'),
+            'add_new_item'  => __('Ajouter un mini-site', 'savoirs-vivants'),
+            'edit_item'     => __('Modifier le mini-site', 'savoirs-vivants'),
+            'search_items'  => __('Rechercher un mini-site', 'savoirs-vivants'),
+            'not_found'     => __('Aucun mini-site trouvé', 'savoirs-vivants'),
             ],
             'public'              => false, // pas de page WordPress : le mini-site est servi par /mini-sites/<slug>/
             'show_ui'             => true,
@@ -152,20 +152,20 @@ add_action(
 add_action( 'init', function () {
 	register_taxonomy( 'sv_minisite_cat', [ 'sv_minisite' ], [
 		'labels'            => [
-			'name'              => 'Catégories de mini-sites',
-			'singular_name'     => 'Catégorie',
-			'menu_name'         => 'Catégories de mini-sites',
-			'all_items'         => 'Toutes les catégories',
-			'parent_item'       => 'Catégorie parente',
-			'parent_item_colon' => 'Catégorie parente :',
-			'edit_item'         => 'Modifier la catégorie',
-			'view_item'         => 'Voir la catégorie',
-			'update_item'       => 'Mettre à jour la catégorie',
-			'add_new_item'      => 'Ajouter une catégorie',
-			'new_item_name'     => 'Nom de la nouvelle catégorie',
-			'search_items'      => 'Rechercher une catégorie',
-			'not_found'         => 'Aucune catégorie trouvée',
-			'back_to_items'     => '← Retour aux catégories',
+			'name'              => __( 'Catégories de mini-sites', 'savoirs-vivants' ),
+			'singular_name'     => __( 'Catégorie', 'savoirs-vivants' ),
+			'menu_name'         => __( 'Catégories de mini-sites', 'savoirs-vivants' ),
+			'all_items'         => __( 'Toutes les catégories', 'savoirs-vivants' ),
+			'parent_item'       => __( 'Catégorie parente', 'savoirs-vivants' ),
+			'parent_item_colon' => __( 'Catégorie parente :', 'savoirs-vivants' ),
+			'edit_item'         => __( 'Modifier la catégorie', 'savoirs-vivants' ),
+			'view_item'         => __( 'Voir la catégorie', 'savoirs-vivants' ),
+			'update_item'       => __( 'Mettre à jour la catégorie', 'savoirs-vivants' ),
+			'add_new_item'      => __( 'Ajouter une catégorie', 'savoirs-vivants' ),
+			'new_item_name'     => __( 'Nom de la nouvelle catégorie', 'savoirs-vivants' ),
+			'search_items'      => __( 'Rechercher une catégorie', 'savoirs-vivants' ),
+			'not_found'         => __( 'Aucune catégorie trouvée', 'savoirs-vivants' ),
+			'back_to_items'     => __( '← Retour aux catégories', 'savoirs-vivants' ),
 		],
 		'hierarchical'      => true,  // sous-catégories, case « Catégorie parente »
 		'public'            => false, // pas de page d'archive : les mini-sites sont listés par le code court
@@ -183,8 +183,8 @@ add_action( 'init', function () {
 add_action( 'admin_menu', function () {
 	add_submenu_page(
 		'edit.php?post_type=sv_materiel',
-		'Catégories de mini-sites',
-		'Catégories de mini-sites',
+		__( 'Catégories de mini-sites', 'savoirs-vivants' ),
+		__( 'Catégories de mini-sites', 'savoirs-vivants' ),
 		'manage_options',
 		'edit-tags.php?taxonomy=sv_minisite_cat&post_type=sv_minisite'
 	);
@@ -208,6 +208,7 @@ add_action( 'init', function () {
 	if ( get_option( 'sv_minisites_categories' ) === SV_MINISITES_CATEGORIES ) {
 		return;
 	}
+	// Noms de contenus créés une seule fois en français (traduits ensuite par l'extension multilingue).
 	foreach ( [ 'CréaBot' => 'creabot', 'Schlouk de Sciences' => 'schlouk-de-sciences', 'Sciences participatives' => 'sciences-participatives' ] as $nom => $slug ) {
 		if ( ! term_exists( $slug, 'sv_minisite_cat' ) ) {
 			wp_insert_term( $nom, 'sv_minisite_cat', [ 'slug' => $slug ] );
@@ -224,7 +225,7 @@ add_action( 'init', function () {
 	update_option( 'sv_minisites_categories', SV_MINISITES_CATEGORIES );
 }, 20 );
 
-add_filter('enter_title_here', fn( $texte, $post ) => 'sv_minisite' === $post->post_type ? 'Nom du mini-site' : $texte, 10, 2);
+add_filter('enter_title_here', fn( $texte, $post ) => 'sv_minisite' === $post->post_type ? __('Nom du mini-site', 'savoirs-vivants') : $texte, 10, 2);
 
 /* -------------------------------------------------------------------------
  * Cadre « Fichiers du mini-site »
@@ -232,10 +233,10 @@ add_filter('enter_title_here', fn( $texte, $post ) => 'sv_minisite' === $post->p
 
 add_action(
     'add_meta_boxes_sv_minisite', function () {
-        add_meta_box('sv-minisite-fichiers', 'Fichiers du mini-site', 'sv_minisites_cadre', 'sv_minisite', 'normal', 'high');
+        add_meta_box('sv-minisite-fichiers', __('Fichiers du mini-site', 'savoirs-vivants'), 'sv_minisites_cadre', 'sv_minisite', 'normal', 'high');
         // L'extrait sert de description sur la carte.
         remove_meta_box('postexcerpt', 'sv_minisite', 'normal');
-        add_meta_box('postexcerpt', 'Description courte (affichée sur la carte)', 'post_excerpt_meta_box', 'sv_minisite', 'normal', 'high');
+        add_meta_box('postexcerpt', __('Description courte (affichée sur la carte)', 'savoirs-vivants'), 'post_excerpt_meta_box', 'sv_minisite', 'normal', 'high');
     } 
 );
 
@@ -256,44 +257,62 @@ function sv_minisites_cadre( WP_Post $post ): void
 
     if ($index && 'publish' === $post->post_status ) {
         printf(
-            '<p><strong>Mini-site en ligne</strong> : <a href="%1$s" target="_blank" rel="noopener">%1$s<span class="screen-reader-text"> (nouvel onglet)</span></a></p>',
-            esc_url(sv_minisites_url($post))
+            '<p><strong>%2$s</strong> : <a href="%1$s" target="_blank" rel="noopener">%1$s<span class="screen-reader-text"> %3$s</span></a></p>',
+            esc_url(sv_minisites_url($post)),
+            esc_html__('Mini-site en ligne', 'savoirs-vivants'),
+            esc_html__('(nouvel onglet)', 'savoirs-vivants')
         );
         if (is_array($infos) ) {
             printf(
-                '<p>%d fichiers, %s, importés le %s.</p>',
-                (int) $infos['fichiers'],
-                esc_html(size_format($infos['poids'])),
-                esc_html(wp_date('j F Y à H:i', $infos['date']))
+                '<p>%s</p>',
+                esc_html(
+                    sprintf(
+                        /* translators: 1 : nombre de fichiers, 2 : poids total (ex. 2 Mo), 3 : date et heure de l'import. */
+                        _n('%1$d fichier, %2$s, importé le %3$s.', '%1$d fichiers, %2$s, importés le %3$s.', (int) $infos['fichiers'], 'savoirs-vivants'),
+                        (int) $infos['fichiers'],
+                        size_format($infos['poids']),
+                        /* translators: format de la date d'import d'un mini-site (allemand : « j. F Y, H:i »). */
+                        wp_date(_x('j F Y à H:i', 'date d’import d’un mini-site', 'savoirs-vivants'), $infos['date'])
+                    )
+                )
             );
         }
     } elseif ($index ) {
-        echo '<p>Fichiers importés. Le mini-site sera accessible une fois publié.</p>';
+        echo '<p>' . esc_html__('Fichiers importés. Le mini-site sera accessible une fois publié.', 'savoirs-vivants') . '</p>';
     } else {
-        echo '<p>Aucun fichier importé : le mini-site n’apparaîtra pas sur le site.</p>';
+        echo '<p>' . esc_html__('Aucun fichier importé : le mini-site n’apparaîtra pas sur le site.', 'savoirs-vivants') . '</p>';
     }
 
     if (! class_exists('ZipArchive') ) {
-        echo '<p><strong>L’extension PHP « zip » n’est pas active sur le serveur : import impossible.</strong></p>';
+        echo '<p><strong>' . esc_html__('L’extension PHP « zip » n’est pas active sur le serveur : import impossible.', 'savoirs-vivants') . '</strong></p>';
         return;
     }
     if (! sv_minisites_peut_importer() ) {
-        echo '<p>Votre compte ne permet pas d’importer du code (droit « unfiltered_html » requis).</p>';
+        echo '<p>' . esc_html__('Votre compte ne permet pas d’importer du code (droit « unfiltered_html » requis).', 'savoirs-vivants') . '</p>';
         return;
     }
 
     wp_nonce_field('sv_minisite_import', 'sv_minisite_nonce');
     ?>
     <p>
-        <label for="sv-minisite-zip"><strong><?php echo $index ? 'Remplacer par un nouveau fichier .zip' : 'Fichier .zip du mini-site'; ?></strong></label><br>
+        <label for="sv-minisite-zip"><strong><?php echo $index ? esc_html__('Remplacer par un nouveau fichier .zip', 'savoirs-vivants') : esc_html__('Fichier .zip du mini-site', 'savoirs-vivants'); ?></strong></label><br>
         <input type="file" id="sv-minisite-zip" name="sv_minisite_zip" accept=".zip,application/zip" aria-describedby="sv-minisite-aide">
     </p>
     <div id="sv-minisite-aide">
-        <p>Le fichier est importé à l’enregistrement (« Publier » ou « Mettre à jour »), puis supprimé du serveur. Taille maximale : <?php echo esc_html(size_format($limite)); ?>.</p>
+        <p><?php
+        /* translators: %s : taille maximale du fichier .zip (ex. 50 Mo). */
+        printf(esc_html__('Le fichier est importé à l’enregistrement (« Publier » ou « Mettre à jour »), puis supprimé du serveur. Taille maximale : %s.', 'savoirs-vivants'), esc_html(size_format($limite)));
+        ?></p>
         <ul style="list-style:disc;padding-left:1.5em">
-            <li>Une page <code>index.html</code> est obligatoire, à la racine du .zip ou dans un dossier unique.</li>
-            <li>Fichiers acceptés : <?php echo esc_html(implode(', ', array_keys(sv_minisites_types()))); ?>. Les autres sont ignorés ; un fichier PHP ou exécutable fait refuser le .zip.</li>
-            <li>Aucune ressource externe (CDN, Google Fonts, statistiques…) : incluez les bibliothèques dans le .zip, sinon elles seront bloquées.</li>
+            <li><?php
+            /* translators: %s : nom du fichier index.html. */
+            printf(esc_html__('Une page %s est obligatoire, à la racine du .zip ou dans un dossier unique.', 'savoirs-vivants'), '<code>index.html</code>');
+            ?></li>
+            <li><?php
+            /* translators: %s : liste des extensions de fichier acceptées. */
+            printf(esc_html__('Fichiers acceptés : %s. Les autres sont ignorés ; un fichier PHP ou exécutable fait refuser le .zip.', 'savoirs-vivants'), esc_html(implode(', ', array_keys(sv_minisites_types()))));
+            ?></li>
+            <li><?php esc_html_e('Aucune ressource externe (CDN, Google Fonts, statistiques…) : incluez les bibliothèques dans le .zip, sinon elles seront bloquées.', 'savoirs-vivants'); ?></li>
         </ul>
     </div>
     <?php
@@ -323,11 +342,17 @@ add_action(
         $resultat = sv_minisites_importer($post_id, $fichier);
 
         if (is_wp_error($resultat) ) {
-            $avis = [ 'error', 'Import refusé : ' . $resultat->get_error_message() ];
+            /* translators: %s : raison du refus de l'import du mini-site. */
+            $avis = [ 'error', sprintf(__('Import refusé : %s', 'savoirs-vivants'), $resultat->get_error_message()) ];
         } else {
-            $message = sprintf('Mini-site importé : %d fichiers.', $resultat['fichiers']);
+            /* translators: %d : nombre de fichiers importés. */
+            $message = sprintf(_n('Mini-site importé : %d fichier.', 'Mini-site importé : %d fichiers.', $resultat['fichiers'], 'savoirs-vivants'), $resultat['fichiers']);
             if ($resultat['ignores'] ) {
-                $message .= ' Fichiers ignorés (type non accepté) : ' . implode(', ', array_slice($resultat['ignores'], 0, 10)) . ( count($resultat['ignores']) > 10 ? '…' : '' );
+                $message .= ' ' . sprintf(
+                    /* translators: %s : liste des fichiers ignorés lors de l'import. */
+                    __('Fichiers ignorés (type non accepté) : %s', 'savoirs-vivants'),
+                    implode(', ', array_slice($resultat['ignores'], 0, 10)) . ( count($resultat['ignores']) > 10 ? '…' : '' )
+                );
             }
             $avis = [ $resultat['ignores'] ? 'warning' : 'success', $message ];
         }
@@ -365,7 +390,7 @@ function sv_minisites_importer( int $post_id, array $fichier ): array|WP_Error
 
         $zip = new ZipArchive();
         if (true !== $zip->open($tmp, ZipArchive::CHECKCONS | ( defined('ZipArchive::RDONLY') ? ZipArchive::RDONLY : 0 )) ) {
-            return new WP_Error('zip', 'archive .zip illisible ou corrompue.');
+            return new WP_Error('zip', __('archive .zip illisible ou corrompue.', 'savoirs-vivants'));
         }
 
         $inventaire = sv_minisites_inventaire($zip);
@@ -392,7 +417,7 @@ function sv_minisites_importer( int $post_id, array $fichier ): array|WP_Error
         }
         if (! rename($temporaire, $base . '/' . $nom_dossier) ) {
             sv_minisites_supprimer_dossier($temporaire);
-            return new WP_Error('ecriture', 'impossible de finaliser l’import (droits d’écriture du dossier uploads).');
+            return new WP_Error('ecriture', __('impossible de finaliser l’import (droits d’écriture du dossier uploads).', 'savoirs-vivants'));
         }
 
         $ancien = get_post_meta($post_id, '_sv_minisite_dossier', true);
@@ -424,44 +449,44 @@ function sv_minisites_importer( int $post_id, array $fichier ): array|WP_Error
 function sv_minisites_verifier_envoi( array $fichier ): bool|WP_Error
 {
     $erreurs = [
-    UPLOAD_ERR_INI_SIZE   => 'fichier trop lourd pour le serveur (upload_max_filesize).',
-    UPLOAD_ERR_FORM_SIZE  => 'fichier trop lourd.',
-    UPLOAD_ERR_PARTIAL    => 'envoi interrompu, réessayez.',
-    UPLOAD_ERR_NO_TMP_DIR => 'dossier temporaire du serveur manquant.',
-    UPLOAD_ERR_CANT_WRITE => 'écriture impossible sur le serveur.',
-    UPLOAD_ERR_EXTENSION  => 'envoi bloqué par une extension PHP.',
+    UPLOAD_ERR_INI_SIZE   => __('fichier trop lourd pour le serveur (upload_max_filesize).', 'savoirs-vivants'),
+    UPLOAD_ERR_FORM_SIZE  => __('fichier trop lourd.', 'savoirs-vivants'),
+    UPLOAD_ERR_PARTIAL    => __('envoi interrompu, réessayez.', 'savoirs-vivants'),
+    UPLOAD_ERR_NO_TMP_DIR => __('dossier temporaire du serveur manquant.', 'savoirs-vivants'),
+    UPLOAD_ERR_CANT_WRITE => __('écriture impossible sur le serveur.', 'savoirs-vivants'),
+    UPLOAD_ERR_EXTENSION  => __('envoi bloqué par une extension PHP.', 'savoirs-vivants'),
     ];
     $code = (int) ( $fichier['error'] ?? UPLOAD_ERR_NO_FILE );
     if (UPLOAD_ERR_OK !== $code ) {
-        return new WP_Error('envoi', $erreurs[ $code ] ?? 'échec de l’envoi.');
+        return new WP_Error('envoi', $erreurs[ $code ] ?? __('échec de l’envoi.', 'savoirs-vivants'));
     }
 
     $tmp = (string) $fichier['tmp_name'];
     if (! is_uploaded_file($tmp) ) {
-        return new WP_Error('envoi', 'fichier non reçu par le formulaire.');
+        return new WP_Error('envoi', __('fichier non reçu par le formulaire.', 'savoirs-vivants'));
     }
 
     $limite = min(wp_max_upload_size(), sv_minisites_limites()['taille_zip']);
     $poids  = (int) filesize($tmp);
     if ($poids <= 0 || $poids > $limite ) {
-        return new WP_Error('poids', sprintf('le fichier doit peser au plus %s.', size_format($limite)));
+        return new WP_Error('poids', sprintf(__('le fichier doit peser au plus %s.', 'savoirs-vivants'), size_format($limite)));
     }
 
     if ('zip' !== strtolower(pathinfo((string) $fichier['name'], PATHINFO_EXTENSION)) ) {
-        return new WP_Error('type', 'le fichier doit porter l’extension .zip.');
+        return new WP_Error('type', __('le fichier doit porter l’extension .zip.', 'savoirs-vivants'));
     }
 
     // Type réel lu dans le contenu (le type annoncé par le navigateur n'est pas fiable).
     // Objet finfo libéré automatiquement (finfo_close() est dépréciée depuis PHP 8.5).
     $mime = ( new finfo(FILEINFO_MIME_TYPE) )->file($tmp) ?: '';
     if (! in_array($mime, [ 'application/zip', 'application/x-zip-compressed', 'application/x-zip' ], true) ) {
-        return new WP_Error('type', 'le contenu du fichier n’est pas une archive .zip.');
+        return new WP_Error('type', __('le contenu du fichier n’est pas une archive .zip.', 'savoirs-vivants'));
     }
 
     // Signature d'une archive zip non vide : « PK\x03\x04 ».
     $debut = (string) file_get_contents($tmp, false, null, 0, 4);
     if ("PK\x03\x04" !== $debut ) {
-        return new WP_Error('type', 'archive .zip vide ou non valide.');
+        return new WP_Error('type', __('archive .zip vide ou non valide.', 'savoirs-vivants'));
     }
 
     return true;
@@ -474,10 +499,10 @@ function sv_minisites_chemin( string $nom ): string|WP_Error
 {
     $nom = str_replace('\\', '/', $nom); // archives créées sous Windows
     if ('' === $nom || str_contains($nom, "\0") || ! mb_check_encoding($nom, 'UTF-8') ) {
-        return new WP_Error('nom', 'nom de fichier illisible (encodage). Recréez le .zip avec des noms sans accents.');
+        return new WP_Error('nom', __('nom de fichier illisible (encodage). Recréez le .zip avec des noms sans accents.', 'savoirs-vivants'));
     }
     if (preg_match('/[\x00-\x1F\x7F<>:"|?*%]/u', $nom) || str_starts_with($nom, '/') || preg_match('/^[a-z]:/i', $nom) ) {
-        return new WP_Error('nom', sprintf('nom de fichier interdit : %s', $nom));
+        return new WP_Error('nom', sprintf(__('nom de fichier interdit : %s', 'savoirs-vivants'), $nom));
     }
 
     $segments = explode('/', preg_replace('#^(\./)+#', '', $nom));
@@ -486,11 +511,11 @@ function sv_minisites_chemin( string $nom ): string|WP_Error
     }
     foreach ( $segments as $segment ) {
         if ('' === $segment || '.' === $segment || '..' === $segment || strlen($segment) > 255 ) {
-            return new WP_Error('nom', sprintf('chemin interdit : %s', $nom));
+            return new WP_Error('nom', sprintf(__('chemin interdit : %s', 'savoirs-vivants'), $nom));
         }
     }
     if (count($segments) > sv_minisites_limites()['profondeur'] ) {
-        return new WP_Error('nom', sprintf('trop de sous-dossiers : %s', $nom));
+        return new WP_Error('nom', sprintf(__('trop de sous-dossiers : %s', 'savoirs-vivants'), $nom));
     }
 
     return implode('/', $segments);
@@ -507,7 +532,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
     $types   = sv_minisites_types();
 
     if ($zip->numFiles > $limites['nombre_fichiers'] ) {
-        return new WP_Error('volume', sprintf('plus de %d fichiers dans l’archive.', $limites['nombre_fichiers']));
+        return new WP_Error('volume', sprintf(__('plus de %d fichiers dans l’archive.', 'savoirs-vivants'), $limites['nombre_fichiers']));
     }
 
     $fichiers = [];
@@ -518,7 +543,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
     for ( $i = 0; $i < $zip->numFiles; $i++ ) {
         $stat = $zip->statIndex($i);
         if (false === $stat ) {
-            return new WP_Error('zip', 'archive corrompue.');
+            return new WP_Error('zip', __('archive corrompue.', 'savoirs-vivants'));
         }
 
         $chemin = sv_minisites_chemin($stat['name']);
@@ -528,11 +553,11 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
 
         // Lien symbolique : pourrait pointer hors du dossier.
         if ($zip->getExternalAttributesIndex($i, $systeme, $attributs) && ZipArchive::OPSYS_UNIX === $systeme && 0120000 === ( ( $attributs >> 16 ) & 0170000 ) ) {
-            return new WP_Error('lien', sprintf('lien symbolique interdit : %s', $chemin));
+            return new WP_Error('lien', sprintf(__('lien symbolique interdit : %s', 'savoirs-vivants'), $chemin));
         }
 
         if (preg_match(SV_MINISITES_INTERDITS, $chemin) ) {
-            return new WP_Error('executable', sprintf('fichier exécutable côté serveur interdit : %s', $chemin));
+            return new WP_Error('executable', sprintf(__('fichier exécutable côté serveur interdit : %s', 'savoirs-vivants'), $chemin));
         }
 
         if (str_ends_with(str_replace('\\', '/', $stat['name']), '/') ) {
@@ -553,17 +578,17 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
         // Doublons (y compris à la casse près, pour les serveurs insensibles à la casse).
         $cle = mb_strtolower($chemin);
         if (isset($vus[ $cle ]) ) {
-            return new WP_Error('doublon', sprintf('fichier présent deux fois : %s', $chemin));
+            return new WP_Error('doublon', sprintf(__('fichier présent deux fois : %s', 'savoirs-vivants'), $chemin));
         }
         $vus[ $cle ] = true;
 
         // Volumes annoncés : contrôlés à nouveau pendant l'extraction (ils peuvent mentir).
         $total += $stat['size'];
         if ($total > $limites['taille_totale'] ) {
-            return new WP_Error('volume', sprintf('plus de %s une fois décompressé.', size_format($limites['taille_totale'])));
+            return new WP_Error('volume', sprintf(__('plus de %s une fois décompressé.', 'savoirs-vivants'), size_format($limites['taille_totale'])));
         }
         if ($stat['size'] > MB_IN_BYTES && $stat['size'] > $limites['ratio'] * max(1, $stat['comp_size']) ) {
-            return new WP_Error('volume', sprintf('taux de compression anormal (archive piégée ?) : %s', $chemin));
+            return new WP_Error('volume', sprintf(__('taux de compression anormal (archive piégée ?) : %s', 'savoirs-vivants'), $chemin));
         }
 
         $fichiers[ $i ] = $chemin;
@@ -578,7 +603,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
 
     $index = array_values(array_intersect([ 'index.html', 'index.htm' ], array_map('strtolower', $fichiers)));
     if (! $index ) {
-        return new WP_Error('index', 'aucune page index.html à la racine du mini-site.');
+        return new WP_Error('index', __('aucune page index.html à la racine du mini-site.', 'savoirs-vivants'));
     }
     // Casse réelle du fichier trouvé (Index.html…).
     $index = current(array_filter($fichiers, fn( $c ) => strtolower($c) === $index[0]));
@@ -597,25 +622,25 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
     $total   = 0;
 
     if (! wp_mkdir_p($dossier) ) {
-        return new WP_Error('ecriture', 'impossible de créer le dossier d’extraction.');
+        return new WP_Error('ecriture', __('impossible de créer le dossier d’extraction.', 'savoirs-vivants'));
     }
     $racine = realpath($dossier);
 
     foreach ( $fichiers as $i => $chemin ) {
         $cible = $dossier . '/' . $chemin . SV_MINISITES_SUFFIXE;
         if (! wp_mkdir_p(dirname($cible)) ) {
-            return new WP_Error('ecriture', sprintf('impossible de créer le dossier de %s.', $chemin));
+            return new WP_Error('ecriture', sprintf(__('impossible de créer le dossier de %s.', 'savoirs-vivants'), $chemin));
         }
         // Défense en profondeur : la cible doit rester dans le dossier d'extraction.
         $parent = realpath(dirname($cible));
         if (false === $parent || ( $parent !== $racine && ! str_starts_with($parent, $racine . DIRECTORY_SEPARATOR) ) ) {
-            return new WP_Error('nom', sprintf('chemin interdit : %s', $chemin));
+            return new WP_Error('nom', sprintf(__('chemin interdit : %s', 'savoirs-vivants'), $chemin));
         }
 
         $source = method_exists($zip, 'getStreamIndex') ? $zip->getStreamIndex($i) : $zip->getStream($zip->getNameIndex($i));
         $sortie = fopen($cible, 'xb'); // « x » : échoue si le fichier existe déjà
         if (! $source || ! $sortie ) {
-            return new WP_Error('ecriture', sprintf('extraction impossible : %s', $chemin));
+            return new WP_Error('ecriture', sprintf(__('extraction impossible : %s', 'savoirs-vivants'), $chemin));
         }
 
         $annonce = (int) $zip->statIndex($i)['size'];
@@ -625,11 +650,11 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 
         // Contenu plus long que la taille annoncée : archive falsifiée.
         if (false === $copie || $copie !== $annonce ) {
-            return new WP_Error('zip', sprintf('contenu incohérent : %s', $chemin));
+            return new WP_Error('zip', sprintf(__('contenu incohérent : %s', 'savoirs-vivants'), $chemin));
         }
         $total += $copie;
         if ($total > $limites['taille_totale'] ) {
-            return new WP_Error('volume', sprintf('plus de %s une fois décompressé.', size_format($limites['taille_totale'])));
+            return new WP_Error('volume', sprintf(__('plus de %s une fois décompressé.', 'savoirs-vivants'), size_format($limites['taille_totale'])));
         }
         chmod($cible, defined('FS_CHMOD_FILE') ? FS_CHMOD_FILE : 0644);
     }
@@ -644,7 +669,7 @@ function sv_minisites_preparer_base(): string|WP_Error
 {
     $base = sv_minisites_base();
     if (! wp_mkdir_p($base) ) {
-        return new WP_Error('ecriture', 'impossible de créer wp-content/uploads/mini-sites/.');
+        return new WP_Error('ecriture', __('impossible de créer wp-content/uploads/mini-sites/.', 'savoirs-vivants'));
     }
     $protections = [
     'index.php' => "<?php\n// Silence.\n",
@@ -853,7 +878,7 @@ add_shortcode( 'sv_mini_sites', function ( $atts ) {
 	}
 
         if (! $minisites ) {
-            return '<p class="sv-minisites__vide">Aucun mini-site n’est publié pour le moment.</p>';
+            return '<p class="sv-minisites__vide">' . esc_html__('Aucun mini-site n’est publié pour le moment.', 'savoirs-vivants') . '</p>';
         }
 
         $html = '<ul class="sv-minisites">';
@@ -863,10 +888,11 @@ add_shortcode( 'sv_mini_sites', function ( $atts ) {
                 $html .= '<figure class="wp-block-post-featured-image">' . get_the_post_thumbnail($minisite, 'medium_large', [ 'alt' => '', 'loading' => 'lazy' ]) . '</figure>';
             }
             $html .= sprintf(
-                '<h%1$d class="is-style-titre-carte"><a href="%2$s" target="_blank" rel="noopener">%3$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> (nouvel onglet)</span></a></h%1$d>',
+                '<h%1$d class="is-style-titre-carte"><a href="%2$s" target="_blank" rel="noopener">%3$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> %4$s</span></a></h%1$d>',
                 $niveau,
                 esc_url(sv_minisites_url($minisite)),
-                esc_html(get_the_title($minisite))
+                esc_html(get_the_title($minisite)),
+                esc_html__('(nouvel onglet)', 'savoirs-vivants')
             );
             if (has_excerpt($minisite) ) {
                 $html .= '<p>' . esc_html(get_the_excerpt($minisite)) . '</p>';
@@ -895,7 +921,11 @@ function sv_minisites_liste( array $minisites, string $titre, int $niveau ): str
 
     if ('' !== $titre ) {
         // Compteur masqué à zéro : le message « Aucun mini-site » le dit déjà.
-        $compteur = $nombre ? sprintf(1 === $nombre ? '%d mini-site' : '%d mini-sites', $nombre) : '';
+        $compteur = $nombre ? sprintf(
+            /* translators: %d : nombre de mini-sites dans la colonne. */
+            _n('%d mini-site', '%d mini-sites', $nombre, 'savoirs-vivants'),
+            $nombre
+        ) : '';
         $html    .= sprintf(
             '<h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d>',
             $niveau,
@@ -905,7 +935,7 @@ function sv_minisites_liste( array $minisites, string $titre, int $niveau ): str
     }
 
     if (! $minisites ) {
-        return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div>';
+        return $html . '<p class="sv-minisites-colonne__vide">' . esc_html__('Aucun mini-site pour le moment.', 'savoirs-vivants') . '</p></div>';
     }
 
 	return $html . sv_minisites_liens( $minisites ) . '</div>';
@@ -919,9 +949,10 @@ function sv_minisites_liens( array $minisites ): string {
 	foreach ( $minisites as $minisite ) {
 		$nom   = get_the_title( $minisite );
 		$html .= sprintf(
-			'<li><a href="%1$s" target="_blank" rel="noopener">%2$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> (nouvel onglet)</span></a>',
+			'<li><a href="%1$s" target="_blank" rel="noopener">%2$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> %3$s</span></a>',
 			esc_url( sv_minisites_url( $minisite ) ),
-			esc_html( '' !== $nom ? $nom : 'Mini-site sans titre' )
+			esc_html( '' !== $nom ? $nom : __( 'Mini-site sans titre', 'savoirs-vivants' ) ),
+			esc_html__( '(nouvel onglet)', 'savoirs-vivants' )
 		);
 		if ( has_excerpt( $minisite ) ) {
 			$html .= '<p>' . esc_html( get_the_excerpt( $minisite ) ) . '</p>';
@@ -944,7 +975,7 @@ function sv_minisites_colonnes( int $niveau ): string {
 		'orderby'    => 'name',
 	] );
 	if ( is_wp_error( $principales ) || ! $principales ) {
-		return '<p class="sv-minisites__vide">Aucun mini-site n’est publié pour le moment.</p>';
+		return '<p class="sv-minisites__vide">' . esc_html__('Aucun mini-site n’est publié pour le moment.', 'savoirs-vivants') . '</p>';
 	}
 
 	$html = '<div class="sv-minisites-colonnes">';
@@ -973,7 +1004,11 @@ function sv_minisites_colonnes( int $niveau ): string {
  */
 function sv_minisites_colonne( WP_Term $principale, array $minisites, string $titre, int $niveau ): string {
 	$nombre   = count( $minisites );
-	$compteur = $nombre ? sprintf( 1 === $nombre ? '%d mini-site' : '%d mini-sites', $nombre ) : '';
+	$compteur = $nombre ? sprintf(
+		/* translators: %d : nombre de mini-sites dans la catégorie. */
+		_n( '%d mini-site', '%d mini-sites', $nombre, 'savoirs-vivants' ),
+		$nombre
+	) : '';
 	$html     = sprintf(
 		'<div class="sv-minisites-colonne"><h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d><div class="sv-minisites-colonne__contenu">',
 		$niveau,
@@ -982,7 +1017,7 @@ function sv_minisites_colonne( WP_Term $principale, array $minisites, string $ti
 	);
 
 	if ( ! $minisites ) {
-		return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div></div>';
+		return $html . '<p class="sv-minisites-colonne__vide">' . esc_html__( 'Aucun mini-site pour le moment.', 'savoirs-vivants' ) . '</p></div></div>';
 	}
 
 	$sous = get_terms( [ 'taxonomy' => 'sv_minisite_cat', 'parent' => $principale->term_id, 'hide_empty' => false, 'orderby' => 'name' ] );

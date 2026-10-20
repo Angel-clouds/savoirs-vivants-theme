@@ -29,7 +29,12 @@ add_action(
         if (file_exists(SV_DIR . $tac) ) {
             // Pied de page : ne bloque pas l'affichage (aucun service tiers à intercepter dans <head>).
             wp_enqueue_script('tarteaucitron', SV_URI . $tac, [], '1.34.0', true);
-            wp_add_inline_script('tarteaucitron', 'var tarteaucitronForceLanguage = "fr";', 'before');
+            // Langue de la bannière = langue de la page (fr, de…), si tarteaucitron la fournit ; sinon français.
+            $langue = strtolower(substr(determine_locale(), 0, 2));
+            if (! preg_match('/^[a-z]{2}$/', $langue) || ! file_exists(SV_DIR . '/assets/vendor/tarteaucitron/lang/tarteaucitron.' . $langue . '.js') ) {
+                $langue = 'fr';
+            }
+            wp_add_inline_script('tarteaucitron', 'var tarteaucitronForceLanguage = ' . wp_json_encode($langue) . ';', 'before');
 
             $config = [
             'privacyUrl'               => home_url('/politique-de-confidentialite/'),

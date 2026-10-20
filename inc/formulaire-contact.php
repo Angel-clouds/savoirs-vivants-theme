@@ -18,13 +18,13 @@ defined('ABSPATH') || exit;
 function sv_contact_objets(): array
 {
     return [
-    'renseignement' => 'Demande de renseignement',
-    'adhesion'      => 'Adhésion à l’association',
-    'ressourcerie'  => 'Emprunt de matériel (Ressourcerie)',
-    'creabot'       => 'Clubs, stages ou interventions CréaBot',
-    'schlouk'       => 'Schlouk de Sciences (conférence, bénévolat)',
-    'recherche'     => 'Recherche participative',
-    'autre'         => 'Autre demande',
+    'renseignement' => __('Demande de renseignement', 'savoirs-vivants'),
+    'adhesion'      => __('Adhésion à l’association', 'savoirs-vivants'),
+    'ressourcerie'  => __('Emprunt de matériel (Ressourcerie)', 'savoirs-vivants'),
+    'creabot'       => __('Clubs, stages ou interventions CréaBot', 'savoirs-vivants'),
+    'schlouk'       => __('Schlouk de Sciences (conférence, bénévolat)', 'savoirs-vivants'),
+    'recherche'     => __('Recherche participative', 'savoirs-vivants'),
+    'autre'         => __('Autre demande', 'savoirs-vivants'),
     ];
 }
 
@@ -55,22 +55,22 @@ add_action(
 
         $erreurs = [];
         if (! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['sv_contact_nonce'] ?? '')), 'sv_contact') ) {
-            $erreurs['general'] = 'La session a expiré. Rechargez la page puis envoyez de nouveau votre message.';
+            $erreurs['general'] = __('La session a expiré. Rechargez la page puis envoyez de nouveau votre message.', 'savoirs-vivants');
         }
         if ('' === $valeurs['prenom'] ) {
-            $erreurs['prenom'] = 'Indiquez votre prénom.';
+            $erreurs['prenom'] = __('Indiquez votre prénom.', 'savoirs-vivants');
         }
         if ('' === $valeurs['nom'] ) {
-            $erreurs['nom'] = 'Indiquez votre nom.';
+            $erreurs['nom'] = __('Indiquez votre nom.', 'savoirs-vivants');
         }
         if (! is_email($valeurs['email']) ) {
-            $erreurs['email'] = 'Indiquez une adresse e-mail valide, au format nom@exemple.fr.';
+            $erreurs['email'] = __('Indiquez une adresse e-mail valide, au format nom@exemple.fr.', 'savoirs-vivants');
         }
         if (! array_key_exists($valeurs['objet'], sv_contact_objets()) ) {
-            $erreurs['objet'] = 'Choisissez l’objet de votre demande.';
+            $erreurs['objet'] = __('Choisissez l’objet de votre demande.', 'savoirs-vivants');
         }
         if ('' === $valeurs['message'] ) {
-            $erreurs['message'] = 'Rédigez votre message.';
+            $erreurs['message'] = __('Rédigez votre message.', 'savoirs-vivants');
         }
 
         if ($erreurs ) {
@@ -84,13 +84,14 @@ add_action(
         $envois = (int) get_transient($limite);
         if ($envois >= 5 ) {
             $GLOBALS['sv_contact'] = [
-            'erreurs' => [ 'general' => 'Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr.' ],
+            'erreurs' => [ 'general' => __('Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr.', 'savoirs-vivants') ],
             'valeurs' => $valeurs,
             ];
             return;
         }
         set_transient($limite, $envois + 1, HOUR_IN_SECONDS);
 
+        // E-mail destiné à l'équipe : gabarit volontairement en français (pas de gettext).
         $objet_libelle = sv_contact_objets()[ $valeurs['objet'] ];
         $envoye        = wp_mail(
             apply_filters('sv_contact_destinataire', get_option('admin_email')),
@@ -118,7 +119,8 @@ add_action(
 add_filter(
     'document_title_parts', function ( $parties ) {
         if (! empty($GLOBALS['sv_contact']['erreurs']) ) {
-            $parties['title'] = 'Erreur : ' . $parties['title'];
+            /* translators: %s : titre de la page contenant le formulaire de contact en erreur. */
+            $parties['title'] = sprintf(__('Erreur : %s', 'savoirs-vivants'), $parties['title']);
         }
         return $parties;
     } 
@@ -135,11 +137,11 @@ add_shortcode(
         $envoi   = sanitize_key(wp_unslash($_GET['envoi'] ?? ''));
 
         $libelles = [
-        'prenom'  => 'Prénom',
-        'nom'     => 'Nom',
-        'email'   => 'Adresse e-mail',
-        'objet'   => 'Objet de la demande',
-        'message' => 'Votre message',
+        'prenom'  => __('Prénom', 'savoirs-vivants'),
+        'nom'     => _x('Nom', 'nom de famille', 'savoirs-vivants'),
+        'email'   => __('Adresse e-mail', 'savoirs-vivants'),
+        'objet'   => __('Objet de la demande', 'savoirs-vivants'),
+        'message' => __('Votre message', 'savoirs-vivants'),
         ];
 
         // Attributs d'accessibilité d'un champ selon son état.
@@ -150,7 +152,10 @@ add_shortcode(
         };
             $message_erreur = function ( string $champ ) use ( $erreurs ): string {
                 return isset($erreurs[ $champ ])
-                ? '<span class="sv-champ__erreur" id="sv-' . esc_attr($champ) . '-erreur">Erreur : ' . esc_html($erreurs[ $champ ]) . '</span>'
+                ? '<span class="sv-champ__erreur" id="sv-' . esc_attr($champ) . '-erreur">' . esc_html(
+                    /* translators: %s : message d'erreur d'un champ du formulaire de contact. */
+                    sprintf(__('Erreur : %s', 'savoirs-vivants'), $erreurs[ $champ ])
+                ) . '</span>'
                 : '';
             };
             $valeur = fn( string $champ ): string => esc_attr($v[ $champ ] ?? '');
@@ -158,15 +163,25 @@ add_shortcode(
             ob_start();
 
         if ('ok' === $envoi ) {
-            echo '<div class="sv-message sv-message--succes" id="sv-contact-retour" role="status" tabindex="-1"><p>Merci, votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais.</p></div>';
+            echo '<div class="sv-message sv-message--succes" id="sv-contact-retour" role="status" tabindex="-1"><p>' . esc_html__('Merci, votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais.', 'savoirs-vivants') . '</p></div>';
         } elseif ('erreur' === $envoi ) {
-            echo '<div class="sv-message sv-message--erreur" id="sv-contact-retour" role="alert" tabindex="-1"><p>L’envoi du message a échoué. Écrivez-nous directement à <a href="mailto:contact@savoirsvivants.fr">contact@savoirsvivants.fr</a>.</p></div>';
+            echo '<div class="sv-message sv-message--erreur" id="sv-contact-retour" role="alert" tabindex="-1"><p>' . sprintf(
+                /* translators: %s : lien vers l'adresse e-mail de l'association. */
+                esc_html__('L’envoi du message a échoué. Écrivez-nous directement à %s.', 'savoirs-vivants'),
+                '<a href="mailto:contact@savoirsvivants.fr">contact@savoirsvivants.fr</a>'
+            ) . '</p></div>';
         }
 
         if ($erreurs ) {
             $nombre = count($erreurs);
             echo '<div class="sv-message sv-message--erreur" id="sv-contact-retour" role="alert" tabindex="-1">';
-            echo '<p class="sv-message__titre">' . esc_html(sprintf('Le formulaire contient %d erreur%s :', $nombre, $nombre > 1 ? 's' : '')) . '</p><ul>';
+            echo '<p class="sv-message__titre">' . esc_html(
+                sprintf(
+                    /* translators: %d : nombre d'erreurs dans le formulaire de contact. */
+                    _n('Le formulaire contient %d erreur :', 'Le formulaire contient %d erreurs :', $nombre, 'savoirs-vivants'),
+                    $nombre
+                )
+            ) . '</p><ul>';
             foreach ( $erreurs as $champ => $texte ) {
                 $cible = 'general' === $champ ? '' : ' href="#sv-' . esc_attr($champ) . '"';
                 echo '<li>' . ( $cible ? '<a' . $cible . '>' . esc_html($texte) . '</a>' : esc_html($texte) ) . '</li>';
@@ -175,7 +190,7 @@ add_shortcode(
         }
         ?>
     <form id="formulaire-contact" class="sv-formulaire" method="post" action="#formulaire-contact" novalidate>
-        <p class="sv-formulaire__obligatoire">Tous les champs sont obligatoires.</p>
+        <p class="sv-formulaire__obligatoire"><?php esc_html_e('Tous les champs sont obligatoires.', 'savoirs-vivants'); ?></p>
 
         <div class="sv-formulaire__ligne">
             <p class="sv-champ">
@@ -192,7 +207,7 @@ add_shortcode(
 
         <p class="sv-champ">
             <label for="sv-email"><?php echo esc_html($libelles['email']); ?></label>
-            <span class="sv-champ__aide" id="sv-email-aide">Format attendu : nom@exemple.fr</span>
+            <span class="sv-champ__aide" id="sv-email-aide"><?php esc_html_e('Format attendu : nom@exemple.fr', 'savoirs-vivants'); ?></span>
 			<?php echo $message_erreur( 'email' ); // phpcs:ignore ?>
 			<input type="email" id="sv-email" name="sv_email" value="<?php echo $valeur( 'email' ); // phpcs:ignore ?>" autocomplete="email" required<?php echo $aria( 'email', 'sv-email-aide' ); // phpcs:ignore ?>>
         </p>
@@ -201,7 +216,7 @@ add_shortcode(
             <label for="sv-objet"><?php echo esc_html($libelles['objet']); ?></label>
 			<?php echo $message_erreur( 'objet' ); // phpcs:ignore ?>
 			<select id="sv-objet" name="sv_objet" required<?php echo $aria( 'objet' ); // phpcs:ignore ?>>
-                <option value="">Choisir un objet</option>
+                <option value=""><?php esc_html_e('Choisir un objet', 'savoirs-vivants'); ?></option>
                 <?php foreach ( sv_contact_objets() as $cle => $libelle ) : ?>
                     <option value="<?php echo esc_attr($cle); ?>"<?php selected($v['objet'] ?? '', $cle); ?>><?php echo esc_html($libelle); ?></option>
                 <?php endforeach; ?>
@@ -215,20 +230,21 @@ add_shortcode(
         </p>
 
         <p class="sv-piege" aria-hidden="true">
-            <label for="sv-site-web">Ne pas remplir ce champ</label>
+            <label for="sv-site-web"><?php esc_html_e('Ne pas remplir ce champ', 'savoirs-vivants'); ?></label>
             <input type="text" id="sv-site-web" name="sv_site_web" value="" tabindex="-1" autocomplete="off">
         </p>
 
         <p class="sv-formulaire__rgpd">
-            Vos données servent uniquement à répondre à votre demande et ne sont jamais transmises à des tiers.
-            <a href="<?php echo esc_url(home_url('/politique-de-confidentialite/')); ?>">En savoir plus sur la gestion de vos données</a>
+            <?php esc_html_e('Vos données servent uniquement à répondre à votre demande et ne sont jamais transmises à des tiers.', 'savoirs-vivants'); ?>
+
+            <a href="<?php echo esc_url(home_url('/politique-de-confidentialite/')); ?>"><?php esc_html_e('En savoir plus sur la gestion de vos données', 'savoirs-vivants'); ?></a>
         </p>
 
         <input type="hidden" name="sv_contact" value="1">
         <?php wp_nonce_field('sv_contact', 'sv_contact_nonce'); ?>
 
         <p class="sv-formulaire__envoi">
-            <button type="submit" class="wp-element-button">Envoyer le message</button>
+            <button type="submit" class="wp-element-button"><?php esc_html_e('Envoyer le message', 'savoirs-vivants'); ?></button>
         </p>
     </form>
         <?php

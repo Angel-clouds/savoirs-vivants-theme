@@ -16,21 +16,21 @@ function sv_champs_editeur(): array
 {
     return [
     'sv_evenement' => [
-    'titre'  => 'Informations de l’événement',
+    'titre'  => __('Informations de l’événement', 'savoirs-vivants'),
     'champs' => [
-                [ 'cle' => 'sv_date', 'label' => 'Date', 'type' => 'date', 'aide' => 'Obligatoire pour apparaître dans l’agenda.' ],
-                [ 'cle' => 'sv_heure_debut', 'label' => 'Heure de début', 'type' => 'time' ],
-                [ 'cle' => 'sv_heure_fin', 'label' => 'Heure de fin', 'type' => 'time' ],
-                [ 'cle' => 'sv_lieu', 'label' => 'Lieu', 'type' => 'text', 'aide' => 'Ex. : IUT de Haguenau, 30 rue du Maire André Traband' ],
-                [ 'cle' => 'sv_lien_inscription', 'label' => 'Lien d’inscription (facultatif)', 'type' => 'url' ],
+                [ 'cle' => 'sv_date', 'label' => _x('Date', 'champ d’un événement', 'savoirs-vivants'), 'type' => 'date', 'aide' => __('Obligatoire pour apparaître dans l’agenda.', 'savoirs-vivants') ],
+                [ 'cle' => 'sv_heure_debut', 'label' => __('Heure de début', 'savoirs-vivants'), 'type' => 'time' ],
+                [ 'cle' => 'sv_heure_fin', 'label' => __('Heure de fin', 'savoirs-vivants'), 'type' => 'time' ],
+                [ 'cle' => 'sv_lieu', 'label' => _x('Lieu', 'champ d’un événement', 'savoirs-vivants'), 'type' => 'text', 'aide' => __('Ex. : IUT de Haguenau, 30 rue du Maire André Traband', 'savoirs-vivants') ],
+                [ 'cle' => 'sv_lien_inscription', 'label' => __('Lien d’inscription (facultatif)', 'savoirs-vivants'), 'type' => 'url' ],
     ],
     ],
     'sv_materiel'  => [
-    'titre'  => 'Informations du matériel',
+    'titre'  => __('Informations du matériel', 'savoirs-vivants'),
     'champs' => [
-                [ 'cle' => 'sv_age', 'label' => 'Âge conseillé', 'type' => 'text', 'aide' => 'Ex. : Dès 6 ans' ],
-                [ 'cle' => 'sv_tarif', 'label' => 'Tarif de location', 'type' => 'text', 'aide' => 'Ex. : 15 € la semaine' ],
-                [ 'cle' => 'sv_prerequis', 'label' => 'Équipement nécessaire à la maison', 'type' => 'text', 'aide' => 'Ex. : ordinateur ou tablette' ],
+                [ 'cle' => 'sv_age', 'label' => __('Âge conseillé', 'savoirs-vivants'), 'type' => 'text', 'aide' => __('Ex. : Dès 6 ans', 'savoirs-vivants') ],
+                [ 'cle' => 'sv_tarif', 'label' => __('Tarif de location', 'savoirs-vivants'), 'type' => 'text', 'aide' => __('Ex. : 15 € la semaine', 'savoirs-vivants') ],
+                [ 'cle' => 'sv_prerequis', 'label' => __('Équipement nécessaire à la maison', 'savoirs-vivants'), 'type' => 'text', 'aide' => __('Ex. : ordinateur ou tablette', 'savoirs-vivants') ],
     ],
     ],
     ];
@@ -47,9 +47,9 @@ add_action(
         register_taxonomy(
             'sv_pole', [ 'sv_evenement' ], [
             'labels'            => [
-            'name'          => 'Pôles',
-            'singular_name' => 'Pôle',
-            'add_new_item'  => 'Ajouter un pôle',
+            'name'          => __('Pôles', 'savoirs-vivants'),
+            'singular_name' => __('Pôle', 'savoirs-vivants'),
+            'add_new_item'  => __('Ajouter un pôle', 'savoirs-vivants'),
             ],
             'hierarchical'      => true,
             'public'            => true,
@@ -63,17 +63,17 @@ add_action(
         register_post_type(
             'sv_evenement', [
             'labels'        => [
-            'name'               => 'Événements',
-            'singular_name'      => 'Événement',
-            'menu_name'          => 'Agenda',
-            'add_new'            => 'Ajouter un événement',
-            'add_new_item'       => 'Ajouter un événement',
-            'edit_item'          => 'Modifier l’événement',
-            'new_item'           => 'Nouvel événement',
-            'view_item'          => 'Voir l’événement',
-            'search_items'       => 'Rechercher un événement',
-            'not_found'          => 'Aucun événement trouvé',
-            'all_items'          => 'Tous les événements',
+            'name'               => __('Événements', 'savoirs-vivants'),
+            'singular_name'      => __('Événement', 'savoirs-vivants'),
+            'menu_name'          => _x('Agenda', 'menu d’administration', 'savoirs-vivants'),
+            'add_new'            => __('Ajouter un événement', 'savoirs-vivants'),
+            'add_new_item'       => __('Ajouter un événement', 'savoirs-vivants'),
+            'edit_item'          => __('Modifier l’événement', 'savoirs-vivants'),
+            'new_item'           => __('Nouvel événement', 'savoirs-vivants'),
+            'view_item'          => __('Voir l’événement', 'savoirs-vivants'),
+            'search_items'       => __('Rechercher un événement', 'savoirs-vivants'),
+            'not_found'          => __('Aucun événement trouvé', 'savoirs-vivants'),
+            'all_items'          => __('Tous les événements', 'savoirs-vivants'),
             ],
             'public'        => true,
             'show_in_rest'  => true,
@@ -83,7 +83,7 @@ add_action(
             'rewrite'       => [ 'slug' => 'agenda', 'with_front' => false ],
             'supports'      => [ 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ],
             'template'      => [
-            [ 'core/paragraph', [ 'placeholder' => 'Décrivez l’événement : programme, public concerné, intervenant·es…' ] ],
+            [ 'core/paragraph', [ 'placeholder' => __('Décrivez l’événement : programme, public concerné, intervenant·es…', 'savoirs-vivants') ] ],
             ],
             ] 
         );
@@ -92,16 +92,16 @@ add_action(
         register_post_type(
             'sv_materiel', [
             'labels'        => [
-            'name'               => 'Matériel',
-            'singular_name'      => 'Matériel',
-            'menu_name'          => 'Ressourcerie',
-            'add_new'            => 'Ajouter du matériel',
-            'add_new_item'       => 'Ajouter du matériel',
-            'edit_item'          => 'Modifier le matériel',
-            'view_item'          => 'Voir la fiche',
-            'search_items'       => 'Rechercher du matériel',
-            'not_found'          => 'Aucun matériel trouvé',
-            'all_items'          => 'Tout le matériel',
+            'name'               => _x('Matériel', 'type de contenu (pluriel)', 'savoirs-vivants'),
+            'singular_name'      => _x('Matériel', 'type de contenu (singulier)', 'savoirs-vivants'),
+            'menu_name'          => _x('Ressourcerie', 'menu d’administration', 'savoirs-vivants'),
+            'add_new'            => __('Ajouter du matériel', 'savoirs-vivants'),
+            'add_new_item'       => __('Ajouter du matériel', 'savoirs-vivants'),
+            'edit_item'          => __('Modifier le matériel', 'savoirs-vivants'),
+            'view_item'          => __('Voir la fiche', 'savoirs-vivants'),
+            'search_items'       => __('Rechercher du matériel', 'savoirs-vivants'),
+            'not_found'          => __('Aucun matériel trouvé', 'savoirs-vivants'),
+            'all_items'          => __('Tout le matériel', 'savoirs-vivants'),
             ],
             'public'        => true,
             'show_in_rest'  => true,
@@ -111,7 +111,7 @@ add_action(
             'rewrite'       => [ 'slug' => 'ressourcerie', 'with_front' => false ],
             'supports'      => [ 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ],
             'template'      => [
-            [ 'core/paragraph', [ 'placeholder' => 'Présentez le matériel : ce qu’il permet de faire, comment l’utiliser…' ] ],
+            [ 'core/paragraph', [ 'placeholder' => __('Présentez le matériel : ce qu’il permet de faire, comment l’utiliser…', 'savoirs-vivants') ] ],
             ],
             ] 
         );
@@ -119,9 +119,9 @@ add_action(
         register_taxonomy(
             'sv_type_materiel', [ 'sv_materiel' ], [
             'labels'            => [
-            'name'          => 'Types de matériel',
-            'singular_name' => 'Type de matériel',
-            'add_new_item'  => 'Ajouter un type',
+            'name'          => __('Types de matériel', 'savoirs-vivants'),
+            'singular_name' => __('Type de matériel', 'savoirs-vivants'),
+            'add_new_item'  => __('Ajouter un type', 'savoirs-vivants'),
             ],
             'hierarchical'      => true,
             'public'            => false,
@@ -155,6 +155,8 @@ add_action(
  */
 add_action(
     'init', function () {
+        // Noms des termes créés une seule fois en français : ce sont des contenus, traduits ensuite
+        // par l'extension multilingue (pas par gettext).
         $defauts = [
         'sv_pole'          => [ 'CréaBot' => 'creabot', 'Schlouk de Sciences' => 'schlouk-de-sciences', 'Sciences participatives' => 'sciences-participatives', 'Savoirs Vivants' => 'savoirs-vivants' ],
         'sv_type_materiel' => [ 'Robotique' => 'robotique', 'Électronique' => 'electronique', 'Créativité' => 'creativite', 'Mécanique' => 'mecanique' ],
@@ -200,7 +202,7 @@ add_action(
         }
         register_block_bindings_source(
             'savoirs-vivants/evenement', [
-            'label'              => 'Événement (Savoirs Vivants)',
+            'label'              => __('Événement (Savoirs Vivants)', 'savoirs-vivants'),
             'get_value_callback' => 'sv_valeur_evenement',
             'uses_context'       => [ 'postId' ],
             ] 
@@ -210,7 +212,15 @@ add_action(
 
 function sv_heure( string $heure ): string
 {
-    return $heure ? str_replace(':', ' h ', $heure) : '';
+    if ('' === $heure ) {
+        return '';
+    }
+    $parties = explode(':', $heure);
+    if (count($parties) < 2 ) {
+        return $heure;
+    }
+    /* translators: heure d'un événement. 1 : heures, 2 : minutes (français « 10 h 50 », allemand « %1$s:%2$s Uhr »). */
+    return sprintf(_x('%1$s h %2$s', 'heure d’un événement', 'savoirs-vivants'), $parties[0], $parties[1]);
 }
 
 function sv_valeur_evenement( array $args, $bloc ): string
@@ -225,9 +235,18 @@ function sv_valeur_evenement( array $args, $bloc ): string
 
     $horaires = '';
     if ($debut && $fin ) {
-        $horaires = sprintf('De %s à %s', $debut, $fin);
+        $horaires = sprintf(
+            /* translators: horaires d'un événement. 1 : heure de début, 2 : heure de fin. */
+            __('De %1$s à %2$s', 'savoirs-vivants'),
+            $debut,
+            $fin
+        );
     } elseif ($debut ) {
-        $horaires = sprintf('À partir de %s', $debut);
+        $horaires = sprintf(
+            /* translators: %s : heure de début d'un événement sans heure de fin. */
+            __('À partir de %s', 'savoirs-vivants'),
+            $debut
+        );
     }
 
     switch ( $args['key'] ?? '' ) {
@@ -238,7 +257,11 @@ function sv_valeur_evenement( array $args, $bloc ): string
         $valeur = $ts ? wp_date('F', $ts) : '';
         break;
     case 'date':
-        $valeur = $ts ? wp_date('l j F Y', $ts) : 'Date à venir';
+        $valeur = $ts ? wp_date(
+            /* translators: format de la date complète d'un événement (voir https://www.php.net/manual/fr/datetime.format.php ; allemand : « l, j. F Y »). */
+            _x('l j F Y', 'format de date d’un événement', 'savoirs-vivants'),
+            $ts
+        ) : __('Date à venir', 'savoirs-vivants');
         break;
     case 'horaires':
         $valeur = $horaires;

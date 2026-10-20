@@ -42,7 +42,7 @@ add_action(
 function sv_anonymize_author_in_feed( $author )
 {
     if (is_feed() ) {
-        return 'L’équipe Savoirs Vivants';
+        return _x('L’équipe Savoirs Vivants', 'auteur affiché dans les flux RSS', 'savoirs-vivants');
     }
     return $author;
 }
@@ -135,7 +135,7 @@ add_action(
         if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
             status_header(403);
             header('Content-Type: text/plain; charset=utf-8');
-            exit('XML-RPC est désactivé sur ce site.');
+            exit(esc_html__('XML-RPC est désactivé sur ce site.', 'savoirs-vivants'));
         }
     }, 0 
 );
