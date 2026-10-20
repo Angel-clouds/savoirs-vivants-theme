@@ -44,8 +44,11 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
 - inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip
   vérifié et extrait dans uploads/mini-sites/<id>-<jeton>/, servi par /mini-sites/<slug>/ avec CSP « sandbox »
-  (aucune ressource tierce), code court [sv_mini_sites pole="…"] (format="liste" titre="…" : colonne compacte par pôle),
-  composition ressourcerie-minisites (3 colonnes, une par pôle).
+  (aucune ressource tierce), taxonomie hiérarchique « sv_minisite_cat » (Ressourcerie → Catégories de mini-sites,
+  distincte des pôles de l'agenda sv_pole ; catégories principales creabot, schlouk-de-sciences, sciences-participatives),
+  code court [sv_mini_sites format="colonnes" niveau="3"] (une carte par catégorie principale, générée depuis
+  l'arborescence, mini-sites groupés par sous-catégorie sous un h4 ; utilisé par la composition ressourcerie-minisites),
+  ou [sv_mini_sites categorie="…" format="liste"] pour une seule colonne (alias pole="…", sous-catégories incluses).
   Prod nginx : `location ^~ /wp-content/uploads/mini-sites/ { deny all; }` (Apache : .htaccess auto).
 - inc/redirections.php : 301 depuis les anciennes adresses.
 - inc/securite.php : comptes masqués (REST, archives d'auteur, sitemap, oEmbed), commentaires fermés.

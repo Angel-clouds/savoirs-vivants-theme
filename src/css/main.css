@@ -523,6 +523,39 @@ img[data-sv-substitution] {
     align-content: flex-end; /* titre posé sur la barre */
   }
 }
+/* Format « colonnes » (une carte par catégorie principale, générée par le code court) :
+   1 colonne sur mobile, puis autant que la largeur permet, 3 au maximum. */
+div.sv-minisites-colonnes:not(.wp-block-group) {
+  --sv-ecart: var(--wp--preset--spacing--30);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(max(16rem, calc((100% - 2 * var(--sv-ecart)) / 3)), 1fr));
+  gap: var(--sv-ecart);
+  margin-top: var(--wp--preset--spacing--40);
+}
+@media (max-width: 40rem) {
+  div.sv-minisites-colonnes:not(.wp-block-group) {
+    grid-template-columns: 1fr;
+  }
+}
+/* Sous-catégorie : sous-titre discret (Space Grotesk, petites capitales vert foncé, 5,3:1) */
+.sv-minisites-groupe {
+  margin-top: var(--wp--preset--spacing--40);
+}
+.sv-minisites-colonne__contenu > .sv-minisites-groupe:first-child {
+  margin-top: 0.75rem;
+}
+.sv-minisites-groupe__titre {
+  margin: 0;
+  padding-bottom: 0.35rem;
+  font-family: var(--font-texte);
+  font-size: var(--text-sm);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-sauge-texte);
+  border-bottom: 1px solid var(--color-bordure);
+}
 .sv-minisites-colonne__vide {
   margin: 0.75rem 0 0; /* même écart sous la barre que le premier lien de liste */
   font-size: var(--text-sm);

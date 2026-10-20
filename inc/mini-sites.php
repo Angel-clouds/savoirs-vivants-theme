@@ -143,8 +143,86 @@ add_action(
     }, 5 
 );
 
-// Pôles (taxonomie sv_pole de inc/contenus.php) : déclarée à la priorité 5, reliée ici.
-add_action('init', fn() => register_taxonomy_for_object_type('sv_pole', 'sv_minisite'), 7);
+/* -------------------------------------------------------------------------
+ * Catégories de mini-sites : arborescence propre (CréaBot → Arduino…), gérée dans
+ * Ressourcerie → Catégories de mini-sites. Distincte des pôles de l'agenda (sv_pole) :
+ * une sous-catégorie créée ici n'apparaît ni dans les événements ni dans /agenda/pole/.
+ * ---------------------------------------------------------------------- */
+
+add_action( 'init', function () {
+	register_taxonomy( 'sv_minisite_cat', [ 'sv_minisite' ], [
+		'labels'            => [
+			'name'              => 'Catégories de mini-sites',
+			'singular_name'     => 'Catégorie',
+			'menu_name'         => 'Catégories de mini-sites',
+			'all_items'         => 'Toutes les catégories',
+			'parent_item'       => 'Catégorie parente',
+			'parent_item_colon' => 'Catégorie parente :',
+			'edit_item'         => 'Modifier la catégorie',
+			'view_item'         => 'Voir la catégorie',
+			'update_item'       => 'Mettre à jour la catégorie',
+			'add_new_item'      => 'Ajouter une catégorie',
+			'new_item_name'     => 'Nom de la nouvelle catégorie',
+			'search_items'      => 'Rechercher une catégorie',
+			'not_found'         => 'Aucune catégorie trouvée',
+			'back_to_items'     => '← Retour aux catégories',
+		],
+		'hierarchical'      => true,  // sous-catégories, case « Catégorie parente »
+		'public'            => false, // pas de page d'archive : les mini-sites sont listés par le code court
+		'show_ui'           => true,
+		'show_in_menu'      => false, // lien ajouté sous « Ressourcerie » (le type de contenu y est rangé)
+		'show_admin_column' => true,  // colonne dans la liste des mini-sites
+		'show_in_rest'      => true,
+		'show_tagcloud'     => false,
+		'query_var'         => false,
+		'rewrite'           => false,
+		'capabilities'      => array_fill_keys( [ 'manage_terms', 'edit_terms', 'delete_terms', 'assign_terms' ], 'manage_options' ), // administrateurs, comme les mini-sites
+	] );
+}, 5 );
+
+add_action( 'admin_menu', function () {
+	add_submenu_page(
+		'edit.php?post_type=sv_materiel',
+		'Catégories de mini-sites',
+		'Catégories de mini-sites',
+		'manage_options',
+		'edit-tags.php?taxonomy=sv_minisite_cat&post_type=sv_minisite'
+	);
+} );
+
+// Menu « Ressourcerie » déplié et sous-menu surligné sur l'écran des catégories.
+add_filter( 'parent_file', function ( $parent ) {
+	return 'sv_minisite_cat' === ( get_current_screen()->taxonomy ?? '' ) ? 'edit.php?post_type=sv_materiel' : $parent;
+} );
+add_filter( 'submenu_file', function ( $sous_menu ) {
+	return 'sv_minisite_cat' === ( get_current_screen()->taxonomy ?? '' ) ? 'edit-tags.php?taxonomy=sv_minisite_cat&post_type=sv_minisite' : $sous_menu;
+} );
+
+/**
+ * Migration unique depuis les pôles (sv_pole) : catégories principales créées avec les mêmes
+ * identifiants (creabot…), pour que [sv_mini_sites pole="creabot"] reste valable, puis
+ * rattachement de chaque mini-site existant. Une catégorie supprimée ensuite n'est pas recréée.
+ */
+const SV_MINISITES_CATEGORIES = '1';
+add_action( 'init', function () {
+	if ( get_option( 'sv_minisites_categories' ) === SV_MINISITES_CATEGORIES ) {
+		return;
+	}
+	foreach ( [ 'CréaBot' => 'creabot', 'Schlouk de Sciences' => 'schlouk-de-sciences', 'Sciences participatives' => 'sciences-participatives' ] as $nom => $slug ) {
+		if ( ! term_exists( $slug, 'sv_minisite_cat' ) ) {
+			wp_insert_term( $nom, 'sv_minisite_cat', [ 'slug' => $slug ] );
+		}
+	}
+	$minisites = get_posts( [ 'post_type' => 'sv_minisite', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids' ] );
+	foreach ( $minisites as $id ) {
+		$poles = wp_get_object_terms( $id, 'sv_pole', [ 'fields' => 'slugs' ] );
+		$cats  = is_array( $poles ) ? array_filter( $poles, fn( $slug ) => term_exists( $slug, 'sv_minisite_cat' ) ) : [];
+		if ( $cats ) {
+			wp_set_object_terms( $id, array_values( $cats ), 'sv_minisite_cat', true );
+		}
+	}
+	update_option( 'sv_minisites_categories', SV_MINISITES_CATEGORIES );
+}, 20 );
 
 add_filter('enter_title_here', fn( $texte, $post ) => 'sv_minisite' === $post->post_type ? 'Nom du mini-site' : $texte, 10, 2);
 
@@ -741,28 +819,38 @@ function sv_minisites_csp( WP_Post $post ): string
  * - ouverture dans un nouvel onglet signalée par une icône et un texte pour les lecteurs d'écran (RGAA 13.2) ;
  * - image d'illustration décorative (alt vide) : le titre suffit à identifier le mini-site (RGAA 1.2).
  */
-add_shortcode(
-    'sv_mini_sites', function ( $atts ) {
-        $atts   = shortcode_atts([ 'pole' => '', 'niveau' => '4', 'format' => 'cartes', 'titre' => '' ], $atts, 'sv_mini_sites');
-        $niveau = min(6, max(2, (int) $atts['niveau']));
+add_shortcode( 'sv_mini_sites', function ( $atts ) {
+	$atts   = shortcode_atts( [ 'pole' => '', 'categorie' => '', 'niveau' => '4', 'format' => 'cartes', 'titre' => '' ], $atts, 'sv_mini_sites' );
+	// « categorie » ou, pour les pages existantes, « pole » : slug d'une catégorie de mini-sites.
+	$categorie = sanitize_title( $atts['categorie'] ?: $atts['pole'] );
+	$niveau = min( 6, max( 2, (int) $atts['niveau'] ) );
 
-        $requete = [
-        'post_type'      => 'sv_minisite',
-        'post_status'    => 'publish',
-        'posts_per_page' => 100,
-        'orderby'        => 'title',
-        'order'          => 'ASC',
-        'no_found_rows'  => true,
-        'meta_query'     => [ [ 'key' => '_sv_minisite_index', 'compare' => 'EXISTS' ] ],
-        ];
-        if ($atts['pole'] ) {
-            $requete['tax_query'] = [ [ 'taxonomy' => 'sv_pole', 'field' => 'slug', 'terms' => sanitize_title($atts['pole']) ] ];
-        }
-        $minisites = get_posts($requete);
+	$requete = [
+		'post_type'      => 'sv_minisite',
+		'post_status'    => 'publish',
+		'posts_per_page' => 100,
+		'orderby'        => 'title',
+		'order'          => 'ASC',
+		'no_found_rows'  => true,
+		'meta_query'     => [ [ 'key' => '_sv_minisite_index', 'compare' => 'EXISTS' ] ],
+	];
+	if ( $categorie ) {
+		// Sous-catégories incluses : les mini-sites de « CréaBot → Arduino » s'affichent avec CréaBot.
+		$requete['tax_query'] = [ [ 'taxonomy' => 'sv_minisite_cat', 'field' => 'slug', 'terms' => $categorie, 'include_children' => true ] ];
+	}
+	// Une colonne par catégorie principale, générée depuis l'arborescence (aucun slug à écrire).
+	if ( 'colonnes' === $atts['format'] ) {
+		return sv_minisites_colonnes( $niveau );
+	}
 
-        if ('liste' === $atts['format'] ) {
-            return sv_minisites_liste($minisites, $atts['titre'], $niveau);
-        }
+	$minisites = get_posts( $requete );
+
+	if ( 'liste' === $atts['format'] ) {
+		$terme = $categorie ? get_term_by( 'slug', $categorie, 'sv_minisite_cat' ) : null;
+		return $terme
+			? sv_minisites_colonne( $terme, $minisites, '' !== $atts['titre'] ? $atts['titre'] : $terme->name, $niveau )
+			: sv_minisites_liste( $minisites, $atts['titre'], $niveau );
+	}
 
         if (! $minisites ) {
             return '<p class="sv-minisites__vide">Aucun mini-site n’est publié pour le moment.</p>';
@@ -820,18 +908,121 @@ function sv_minisites_liste( array $minisites, string $titre, int $niveau ): str
         return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div>';
     }
 
-    $html .= '<ul class="sv-minisites-liste">';
-    foreach ( $minisites as $minisite ) {
-        $nom   = get_the_title($minisite);
-        $html .= sprintf(
-            '<li><a href="%1$s" target="_blank" rel="noopener">%2$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> (nouvel onglet)</span></a>',
-            esc_url(sv_minisites_url($minisite)),
-            esc_html('' !== $nom ? $nom : 'Mini-site sans titre')
-        );
-        if (has_excerpt($minisite) ) {
-            $html .= '<p>' . esc_html(get_the_excerpt($minisite)) . '</p>';
-        }
-        $html .= '</li>';
-    }
-    return $html . '</ul></div>';
+	return $html . sv_minisites_liens( $minisites ) . '</div>';
+}
+
+/**
+ * Liste <ul> de liens vers des mini-sites (format « liste » et colonnes groupées).
+ */
+function sv_minisites_liens( array $minisites ): string {
+	$html = '<ul class="sv-minisites-liste">';
+	foreach ( $minisites as $minisite ) {
+		$nom   = get_the_title( $minisite );
+		$html .= sprintf(
+			'<li><a href="%1$s" target="_blank" rel="noopener">%2$s<span class="sv-minisite__icone" aria-hidden="true">↗</span><span class="sv-sr-only"> (nouvel onglet)</span></a>',
+			esc_url( sv_minisites_url( $minisite ) ),
+			esc_html( '' !== $nom ? $nom : 'Mini-site sans titre' )
+		);
+		if ( has_excerpt( $minisite ) ) {
+			$html .= '<p>' . esc_html( get_the_excerpt( $minisite ) ) . '</p>';
+		}
+		$html .= '</li>';
+	}
+	return $html . '</ul>';
+}
+
+/**
+ * Format « colonnes » ([sv_mini_sites format="colonnes" niveau="3"]) : une carte par catégorie
+ * principale, dans l'ordre alphabétique. Ajouter, renommer ou supprimer une catégorie dans
+ * Ressourcerie → Catégories de mini-sites met la page à jour sans la modifier.
+ */
+function sv_minisites_colonnes( int $niveau ): string {
+	$principales = get_terms( [
+		'taxonomy'   => 'sv_minisite_cat',
+		'parent'     => 0,
+		'hide_empty' => false, // une catégorie sans mini-site garde sa colonne (« Aucun mini-site »)
+		'orderby'    => 'name',
+	] );
+	if ( is_wp_error( $principales ) || ! $principales ) {
+		return '<p class="sv-minisites__vide">Aucun mini-site n’est publié pour le moment.</p>';
+	}
+
+	$html = '<div class="sv-minisites-colonnes">';
+	foreach ( $principales as $terme ) {
+		$minisites = get_posts( [
+			'post_type'      => 'sv_minisite',
+			'post_status'    => 'publish',
+			'posts_per_page' => 100,
+			'orderby'        => 'title',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+			'meta_query'     => [ [ 'key' => '_sv_minisite_index', 'compare' => 'EXISTS' ] ],
+			'tax_query'      => [ [ 'taxonomy' => 'sv_minisite_cat', 'field' => 'term_id', 'terms' => $terme->term_id, 'include_children' => true ] ],
+		] );
+		$html .= '<div class="wp-block-group is-style-carte">' . sv_minisites_colonne( $terme, $minisites, $terme->name, $niveau ) . '</div>';
+	}
+	return $html . '</div>';
+}
+
+/**
+ * Colonne d'une catégorie principale : titre + compteur, mini-sites rattachés directement
+ * à la catégorie, puis un groupe par sous-catégorie (titre de niveau inférieur, RGAA 9.1).
+ * Un mini-site rangé dans une sous-catégorie n'est listé que dans son groupe ; les
+ * sous-sous-catégories sont réunies dans le groupe de leur sous-catégorie.
+ * Structure titre + un seul conteneur : nécessaire à l'alignement des barres (subgrid, main.css).
+ */
+function sv_minisites_colonne( WP_Term $principale, array $minisites, string $titre, int $niveau ): string {
+	$nombre   = count( $minisites );
+	$compteur = $nombre ? sprintf( 1 === $nombre ? '%d mini-site' : '%d mini-sites', $nombre ) : '';
+	$html     = sprintf(
+		'<div class="sv-minisites-colonne"><h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d><div class="sv-minisites-colonne__contenu">',
+		$niveau,
+		esc_html( $titre ),
+		$compteur ? ' <span class="sv-minisites-colonne__nombre">' . esc_html( $compteur ) . '</span>' : ''
+	);
+
+	if ( ! $minisites ) {
+		return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div></div>';
+	}
+
+	$sous = get_terms( [ 'taxonomy' => 'sv_minisite_cat', 'parent' => $principale->term_id, 'hide_empty' => false, 'orderby' => 'name' ] );
+	$sous = is_wp_error( $sous ) ? [] : $sous;
+
+	// Sous-catégorie (enfant direct) de chaque terme de l'arborescence.
+	$groupe_de = [];
+	foreach ( $sous as $enfant ) {
+		$groupe_de[ $enfant->term_id ] = $enfant->term_id;
+		foreach ( get_term_children( $enfant->term_id, 'sv_minisite_cat' ) as $descendant ) {
+			$groupe_de[ $descendant ] = $enfant->term_id;
+		}
+	}
+
+	$directs = [];
+	$groupes = array_fill_keys( wp_list_pluck( $sous, 'term_id' ), [] );
+	foreach ( $minisites as $minisite ) {
+		$termes = wp_list_pluck( get_the_terms( $minisite, 'sv_minisite_cat' ) ?: [], 'term_id' );
+		$cibles = array_unique( array_intersect_key( $groupe_de, array_flip( $termes ) ) );
+		if ( ! $cibles ) {
+			$directs[] = $minisite;
+		}
+		foreach ( $cibles as $groupe ) {
+			$groupes[ $groupe ][] = $minisite;
+		}
+	}
+
+	if ( $directs ) {
+		$html .= sv_minisites_liens( $directs );
+	}
+	foreach ( $sous as $enfant ) {
+		if ( ! $groupes[ $enfant->term_id ] ) {
+			continue; // sous-catégorie vide : pas de titre orphelin
+		}
+		$html .= sprintf(
+			'<div class="sv-minisites-groupe"><h%1$d class="sv-minisites-groupe__titre">%2$s</h%1$d>%3$s</div>',
+			min( 6, $niveau + 1 ),
+			esc_html( $enfant->name ),
+			sv_minisites_liens( $groupes[ $enfant->term_id ] )
+		);
+	}
+	return $html . '</div></div>';
 }
