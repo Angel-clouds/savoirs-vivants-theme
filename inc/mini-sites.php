@@ -349,11 +349,8 @@ function sv_minisites_verifier_envoi( array $fichier ) {
 	}
 
 	// Type réel lu dans le contenu (le type annoncé par le navigateur n'est pas fiable).
-	$finfo = finfo_open( FILEINFO_MIME_TYPE );
-	$mime  = $finfo ? finfo_file( $finfo, $tmp ) : '';
-	if ( $finfo ) {
-		finfo_close( $finfo );
-	}
+	// Objet finfo libéré automatiquement (finfo_close() est dépréciée depuis PHP 8.5).
+	$mime = ( new finfo( FILEINFO_MIME_TYPE ) )->file( $tmp ) ?: '';
 	if ( ! in_array( $mime, [ 'application/zip', 'application/x-zip-compressed', 'application/x-zip' ], true ) ) {
 		return new WP_Error( 'type', 'le contenu du fichier n’est pas une archive .zip.' );
 	}
