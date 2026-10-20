@@ -121,6 +121,10 @@ main .wp-block-group.alignfull > *,
 main .wp-block-group.alignfull.has-bleu-nuit-background-color > * {
   max-width: 48rem;
 }
+/* Sauf « Ambitions 2026 » (generique-ambitions) : deux colonnes, largeur standard */
+main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-ambitions > * {
+  max-width: 75rem;
+}
 /* Pages simples (mentions légales…) : texte limité à 48rem */
 .sv-page-simple > .wp-block-post-content > :not(.alignfull):not(.alignwide) {
   max-width: 48rem;
