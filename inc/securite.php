@@ -31,6 +31,19 @@ add_action( 'template_redirect', function () {
 	}
 }, 1 );
 
+/**
+ * Flux RSS / Atom (actualités, agenda) : nom d'auteur remplacé par celui de l'équipe,
+ * pour ne pas révéler les noms des comptes. Les flux restent actifs pour la syndication.
+ */
+function sv_anonymize_author_in_feed( $author ) {
+	if ( is_feed() ) {
+		return 'L’équipe Savoirs Vivants';
+	}
+	return $author;
+}
+add_filter( 'the_author', 'sv_anonymize_author_in_feed' );
+add_filter( 'get_the_author_display_name', 'sv_anonymize_author_in_feed' );
+
 // Pas de comptes dans le plan du site XML (/wp-sitemap-users-1.xml).
 add_filter( 'wp_sitemaps_add_provider', function ( $provider, $nom ) {
 	return 'users' === $nom ? false : $provider;
