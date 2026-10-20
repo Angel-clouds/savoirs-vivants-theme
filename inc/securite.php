@@ -74,3 +74,37 @@ add_action( 'send_headers', function () {
 // Version de WordPress retirée du code des pages et des flux.
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
+
+/**
+ * Version de WordPress masquée dans les adresses des CSS et JS (?ver=7.1.3) : remplacée par
+ * une empreinte. Le paramètre est gardé, sinon les navigateurs conserveraient l'ancien fichier
+ * en cache après une mise à jour ; les fichiers du thème (?ver=date du fichier) sont inchangés.
+ */
+function sv_masquer_version_wp( string $src ): string {
+	$version = get_bloginfo( 'version' );
+	if ( str_contains( $src, 'ver=' . $version ) ) {
+		$src = add_query_arg( 'ver', substr( wp_hash( 'ver-' . $version ), 0, 10 ), $src );
+	}
+	return $src;
+}
+add_filter( 'style_loader_src', 'sv_masquer_version_wp', 20 );
+add_filter( 'script_loader_src', 'sv_masquer_version_wp', 20 ); // y compris l'adresse du script des émojis
+
+/**
+ * XML-RPC désactivé : ni authentification, ni pingback, ni méthode publiée,
+ * et toute requête vers xmlrpc.php reçoit un refus (403) avant d'être traitée.
+ */
+add_filter( 'xmlrpc_enabled', '__return_false' );
+add_filter( 'xmlrpc_methods', '__return_empty_array' );
+remove_action( 'wp_head', 'rsd_link' );
+add_filter( 'wp_headers', function ( array $entetes ): array {
+	unset( $entetes['X-Pingback'] );
+	return $entetes;
+} );
+add_action( 'init', function () {
+	if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+		status_header( 403 );
+		header( 'Content-Type: text/plain; charset=utf-8' );
+		exit( 'XML-RPC est désactivé sur ce site.' );
+	}
+}, 0 );
