@@ -42,6 +42,10 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   taxonomies sv_pole et sv_type_materiel, champs + panneau éditeur, source de liaison
   « savoirs-vivants/evenement », filtre « événements à venir ».
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
+- inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip
+  vérifié et extrait dans uploads/mini-sites/<id>-<jeton>/, servi par /mini-sites/<slug>/ avec CSP « sandbox »
+  (aucune ressource tierce), code court [sv_mini_sites pole="…"], composition ressourcerie-minisites.
+  Prod nginx : `location ^~ /wp-content/uploads/mini-sites/ { deny all; }` (Apache : .htaccess auto).
 - inc/redirections.php : 301 depuis les anciennes adresses.
 - inc/securite.php : comptes masqués (REST, archives d'auteur, sitemap, oEmbed), commentaires fermés.
 - inc/smtp.php : envoi SMTP via phpmailer_init, identifiants SV_SMTP_* dans wp-config.php (jamais dans le thème).

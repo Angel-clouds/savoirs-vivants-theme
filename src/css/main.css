@@ -451,6 +451,36 @@ img[data-sv-substitution] {
   text-decoration: underline;
 }
 
+/* Mini-sites de la Ressourcerie (code court [sv_mini_sites], inc/mini-sites.php) :
+   une colonne sur mobile, puis 2 et 3. Liste <ul> sans puces, cartes « Carte avec image ». */
+.sv-minisites {
+  display: grid;
+  gap: var(--wp--preset--spacing--30);
+  margin-top: var(--wp--preset--spacing--30);
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 40rem) {
+  .sv-minisites {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) {
+  .sv-minisites {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.sv-minisite > :is(h2, h3, h4, h5, h6) {
+  margin-block: var(--wp--preset--spacing--20) var(--wp--preset--spacing--10);
+}
+.sv-minisite > p {
+  margin-block: 0;
+}
+.sv-minisite__icone {
+  margin-left: 0.3em;
+  text-decoration: none;
+}
+
 /* =========================================================
    8. FORMULAIRE DE CONTACT
    ========================================================= */

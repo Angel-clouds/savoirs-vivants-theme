@@ -13,3 +13,4 @@
 <!-- wp:pattern {"slug":"savoirs-vivants/ressourcerie-catalogue"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/ressourcerie-modalites"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/ressourcerie-faq"} /-->
+<!-- wp:pattern {"slug":"savoirs-vivants/ressourcerie-minisites"} /-->
