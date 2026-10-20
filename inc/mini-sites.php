@@ -797,10 +797,18 @@ add_shortcode( 'sv_mini_sites', function ( $atts ) {
 		// Sous-catégories incluses : les mini-sites de « CréaBot → Arduino » s'affichent avec CréaBot.
 		$requete['tax_query'] = [ [ 'taxonomy' => 'sv_minisite_cat', 'field' => 'slug', 'terms' => $categorie, 'include_children' => true ] ];
 	}
+	// Une colonne par catégorie principale, générée depuis l'arborescence (aucun slug à écrire).
+	if ( 'colonnes' === $atts['format'] ) {
+		return sv_minisites_colonnes( $niveau );
+	}
+
 	$minisites = get_posts( $requete );
 
 	if ( 'liste' === $atts['format'] ) {
-		return sv_minisites_liste( $minisites, $atts['titre'], $niveau );
+		$terme = $categorie ? get_term_by( 'slug', $categorie, 'sv_minisite_cat' ) : null;
+		return $terme
+			? sv_minisites_colonne( $terme, $minisites, '' !== $atts['titre'] ? $atts['titre'] : $terme->name, $niveau )
+			: sv_minisites_liste( $minisites, $atts['titre'], $niveau );
 	}
 
 	if ( ! $minisites ) {
@@ -857,7 +865,14 @@ function sv_minisites_liste( array $minisites, string $titre, int $niveau ): str
 		return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div>';
 	}
 
-	$html .= '<ul class="sv-minisites-liste">';
+	return $html . sv_minisites_liens( $minisites ) . '</div>';
+}
+
+/**
+ * Liste <ul> de liens vers des mini-sites (format « liste » et colonnes groupées).
+ */
+function sv_minisites_liens( array $minisites ): string {
+	$html = '<ul class="sv-minisites-liste">';
 	foreach ( $minisites as $minisite ) {
 		$nom   = get_the_title( $minisite );
 		$html .= sprintf(
@@ -870,5 +885,101 @@ function sv_minisites_liste( array $minisites, string $titre, int $niveau ): str
 		}
 		$html .= '</li>';
 	}
-	return $html . '</ul></div>';
+	return $html . '</ul>';
+}
+
+/**
+ * Format « colonnes » ([sv_mini_sites format="colonnes" niveau="3"]) : une carte par catégorie
+ * principale, dans l'ordre alphabétique. Ajouter, renommer ou supprimer une catégorie dans
+ * Ressourcerie → Catégories de mini-sites met la page à jour sans la modifier.
+ */
+function sv_minisites_colonnes( int $niveau ): string {
+	$principales = get_terms( [
+		'taxonomy'   => 'sv_minisite_cat',
+		'parent'     => 0,
+		'hide_empty' => false, // une catégorie sans mini-site garde sa colonne (« Aucun mini-site »)
+		'orderby'    => 'name',
+	] );
+	if ( is_wp_error( $principales ) || ! $principales ) {
+		return '<p class="sv-minisites__vide">Aucun mini-site n’est publié pour le moment.</p>';
+	}
+
+	$html = '<div class="sv-minisites-colonnes">';
+	foreach ( $principales as $terme ) {
+		$minisites = get_posts( [
+			'post_type'      => 'sv_minisite',
+			'post_status'    => 'publish',
+			'posts_per_page' => 100,
+			'orderby'        => 'title',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+			'meta_query'     => [ [ 'key' => '_sv_minisite_index', 'compare' => 'EXISTS' ] ],
+			'tax_query'      => [ [ 'taxonomy' => 'sv_minisite_cat', 'field' => 'term_id', 'terms' => $terme->term_id, 'include_children' => true ] ],
+		] );
+		$html .= '<div class="wp-block-group is-style-carte">' . sv_minisites_colonne( $terme, $minisites, $terme->name, $niveau ) . '</div>';
+	}
+	return $html . '</div>';
+}
+
+/**
+ * Colonne d'une catégorie principale : titre + compteur, mini-sites rattachés directement
+ * à la catégorie, puis un groupe par sous-catégorie (titre de niveau inférieur, RGAA 9.1).
+ * Un mini-site rangé dans une sous-catégorie n'est listé que dans son groupe ; les
+ * sous-sous-catégories sont réunies dans le groupe de leur sous-catégorie.
+ * Structure titre + un seul conteneur : nécessaire à l'alignement des barres (subgrid, main.css).
+ */
+function sv_minisites_colonne( WP_Term $principale, array $minisites, string $titre, int $niveau ): string {
+	$nombre   = count( $minisites );
+	$compteur = $nombre ? sprintf( 1 === $nombre ? '%d mini-site' : '%d mini-sites', $nombre ) : '';
+	$html     = sprintf(
+		'<div class="sv-minisites-colonne"><h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d><div class="sv-minisites-colonne__contenu">',
+		$niveau,
+		esc_html( $titre ),
+		$compteur ? ' <span class="sv-minisites-colonne__nombre">' . esc_html( $compteur ) . '</span>' : ''
+	);
+
+	if ( ! $minisites ) {
+		return $html . '<p class="sv-minisites-colonne__vide">Aucun mini-site pour le moment.</p></div></div>';
+	}
+
+	$sous = get_terms( [ 'taxonomy' => 'sv_minisite_cat', 'parent' => $principale->term_id, 'hide_empty' => false, 'orderby' => 'name' ] );
+	$sous = is_wp_error( $sous ) ? [] : $sous;
+
+	// Sous-catégorie (enfant direct) de chaque terme de l'arborescence.
+	$groupe_de = [];
+	foreach ( $sous as $enfant ) {
+		$groupe_de[ $enfant->term_id ] = $enfant->term_id;
+		foreach ( get_term_children( $enfant->term_id, 'sv_minisite_cat' ) as $descendant ) {
+			$groupe_de[ $descendant ] = $enfant->term_id;
+		}
+	}
+
+	$directs = [];
+	$groupes = array_fill_keys( wp_list_pluck( $sous, 'term_id' ), [] );
+	foreach ( $minisites as $minisite ) {
+		$termes = wp_list_pluck( get_the_terms( $minisite, 'sv_minisite_cat' ) ?: [], 'term_id' );
+		$cibles = array_unique( array_intersect_key( $groupe_de, array_flip( $termes ) ) );
+		if ( ! $cibles ) {
+			$directs[] = $minisite;
+		}
+		foreach ( $cibles as $groupe ) {
+			$groupes[ $groupe ][] = $minisite;
+		}
+	}
+
+	if ( $directs ) {
+		$html .= sv_minisites_liens( $directs );
+	}
+	foreach ( $sous as $enfant ) {
+		if ( ! $groupes[ $enfant->term_id ] ) {
+			continue; // sous-catégorie vide : pas de titre orphelin
+		}
+		$html .= sprintf(
+			'<div class="sv-minisites-groupe"><h%1$d class="sv-minisites-groupe__titre">%2$s</h%1$d>%3$s</div>',
+			min( 6, $niveau + 1 ),
+			esc_html( $enfant->name ),
+			sv_minisites_liens( $groupes[ $enfant->term_id ] )
+		);
+	}
+	return $html . '</div></div>';
 }

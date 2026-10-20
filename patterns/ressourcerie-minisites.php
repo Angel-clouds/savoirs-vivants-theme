@@ -3,7 +3,7 @@
  * Title: Ressourcerie – Mini-sites
  * Slug: savoirs-vivants/ressourcerie-minisites
  * Categories: sv-ressourcerie
- * Description: Mini-sites pédagogiques en trois colonnes, une par pôle (menu Ressourcerie → Mini-sites). Liste compacte, lisible même avec de nombreux mini-sites.
+ * Description: Mini-sites pédagogiques : une colonne par catégorie principale, regroupés par sous-catégorie, générée automatiquement depuis Ressourcerie → Catégories de mini-sites.
  * Keywords: mini-sites, ressources, en ligne, html
  */
 ?>
@@ -19,30 +19,8 @@
 <p>Des ressources à explorer directement en ligne, classées par pôle. Chaque mini-site s’ouvre dans un nouvel onglet.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"className":"sv-minisites-colonnes","style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
-<div class="wp-block-group sv-minisites-colonnes" style="margin-top:var(--wp--preset--spacing--40)">
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
 <!-- wp:shortcode -->
-[sv_mini_sites pole="creabot" format="liste" titre="CréaBot" niveau="3"]
+[sv_mini_sites format="colonnes" niveau="3"]
 <!-- /wp:shortcode -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:shortcode -->
-[sv_mini_sites pole="schlouk-de-sciences" format="liste" titre="Schlouk de Sciences" niveau="3"]
-<!-- /wp:shortcode -->
-</div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:shortcode -->
-[sv_mini_sites pole="sciences-participatives" format="liste" titre="Sciences participatives" niveau="3"]
-<!-- /wp:shortcode -->
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
 </div>
 <!-- /wp:group -->
