@@ -131,8 +131,86 @@ add_action( 'init', function () {
 	] );
 }, 5 );
 
-// Pôles (taxonomie sv_pole de inc/contenus.php) : déclarée à la priorité 5, reliée ici.
-add_action( 'init', fn() => register_taxonomy_for_object_type( 'sv_pole', 'sv_minisite' ), 7 );
+/* -------------------------------------------------------------------------
+ * Catégories de mini-sites : arborescence propre (CréaBot → Arduino…), gérée dans
+ * Ressourcerie → Catégories de mini-sites. Distincte des pôles de l'agenda (sv_pole) :
+ * une sous-catégorie créée ici n'apparaît ni dans les événements ni dans /agenda/pole/.
+ * ---------------------------------------------------------------------- */
+
+add_action( 'init', function () {
+	register_taxonomy( 'sv_minisite_cat', [ 'sv_minisite' ], [
+		'labels'            => [
+			'name'              => 'Catégories de mini-sites',
+			'singular_name'     => 'Catégorie',
+			'menu_name'         => 'Catégories de mini-sites',
+			'all_items'         => 'Toutes les catégories',
+			'parent_item'       => 'Catégorie parente',
+			'parent_item_colon' => 'Catégorie parente :',
+			'edit_item'         => 'Modifier la catégorie',
+			'view_item'         => 'Voir la catégorie',
+			'update_item'       => 'Mettre à jour la catégorie',
+			'add_new_item'      => 'Ajouter une catégorie',
+			'new_item_name'     => 'Nom de la nouvelle catégorie',
+			'search_items'      => 'Rechercher une catégorie',
+			'not_found'         => 'Aucune catégorie trouvée',
+			'back_to_items'     => '← Retour aux catégories',
+		],
+		'hierarchical'      => true,  // sous-catégories, case « Catégorie parente »
+		'public'            => false, // pas de page d'archive : les mini-sites sont listés par le code court
+		'show_ui'           => true,
+		'show_in_menu'      => false, // lien ajouté sous « Ressourcerie » (le type de contenu y est rangé)
+		'show_admin_column' => true,  // colonne dans la liste des mini-sites
+		'show_in_rest'      => true,
+		'show_tagcloud'     => false,
+		'query_var'         => false,
+		'rewrite'           => false,
+		'capabilities'      => array_fill_keys( [ 'manage_terms', 'edit_terms', 'delete_terms', 'assign_terms' ], 'manage_options' ), // administrateurs, comme les mini-sites
+	] );
+}, 5 );
+
+add_action( 'admin_menu', function () {
+	add_submenu_page(
+		'edit.php?post_type=sv_materiel',
+		'Catégories de mini-sites',
+		'Catégories de mini-sites',
+		'manage_options',
+		'edit-tags.php?taxonomy=sv_minisite_cat&post_type=sv_minisite'
+	);
+} );
+
+// Menu « Ressourcerie » déplié et sous-menu surligné sur l'écran des catégories.
+add_filter( 'parent_file', function ( $parent ) {
+	return 'sv_minisite_cat' === ( get_current_screen()->taxonomy ?? '' ) ? 'edit.php?post_type=sv_materiel' : $parent;
+} );
+add_filter( 'submenu_file', function ( $sous_menu ) {
+	return 'sv_minisite_cat' === ( get_current_screen()->taxonomy ?? '' ) ? 'edit-tags.php?taxonomy=sv_minisite_cat&post_type=sv_minisite' : $sous_menu;
+} );
+
+/**
+ * Migration unique depuis les pôles (sv_pole) : catégories principales créées avec les mêmes
+ * identifiants (creabot…), pour que [sv_mini_sites pole="creabot"] reste valable, puis
+ * rattachement de chaque mini-site existant. Une catégorie supprimée ensuite n'est pas recréée.
+ */
+const SV_MINISITES_CATEGORIES = '1';
+add_action( 'init', function () {
+	if ( get_option( 'sv_minisites_categories' ) === SV_MINISITES_CATEGORIES ) {
+		return;
+	}
+	foreach ( [ 'CréaBot' => 'creabot', 'Schlouk de Sciences' => 'schlouk-de-sciences', 'Sciences participatives' => 'sciences-participatives' ] as $nom => $slug ) {
+		if ( ! term_exists( $slug, 'sv_minisite_cat' ) ) {
+			wp_insert_term( $nom, 'sv_minisite_cat', [ 'slug' => $slug ] );
+		}
+	}
+	$minisites = get_posts( [ 'post_type' => 'sv_minisite', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids' ] );
+	foreach ( $minisites as $id ) {
+		$poles = wp_get_object_terms( $id, 'sv_pole', [ 'fields' => 'slugs' ] );
+		$cats  = is_array( $poles ) ? array_filter( $poles, fn( $slug ) => term_exists( $slug, 'sv_minisite_cat' ) ) : [];
+		if ( $cats ) {
+			wp_set_object_terms( $id, array_values( $cats ), 'sv_minisite_cat', true );
+		}
+	}
+	update_option( 'sv_minisites_categories', SV_MINISITES_CATEGORIES );
+}, 20 );
 
 add_filter( 'enter_title_here', fn( $texte, $post ) => 'sv_minisite' === $post->post_type ? 'Nom du mini-site' : $texte, 10, 2 );
 
@@ -701,7 +779,9 @@ function sv_minisites_csp( WP_Post $post ): string {
  * - image d'illustration décorative (alt vide) : le titre suffit à identifier le mini-site (RGAA 1.2).
  */
 add_shortcode( 'sv_mini_sites', function ( $atts ) {
-	$atts   = shortcode_atts( [ 'pole' => '', 'niveau' => '4', 'format' => 'cartes', 'titre' => '' ], $atts, 'sv_mini_sites' );
+	$atts   = shortcode_atts( [ 'pole' => '', 'categorie' => '', 'niveau' => '4', 'format' => 'cartes', 'titre' => '' ], $atts, 'sv_mini_sites' );
+	// « categorie » ou, pour les pages existantes, « pole » : slug d'une catégorie de mini-sites.
+	$categorie = sanitize_title( $atts['categorie'] ?: $atts['pole'] );
 	$niveau = min( 6, max( 2, (int) $atts['niveau'] ) );
 
 	$requete = [
@@ -713,8 +793,9 @@ add_shortcode( 'sv_mini_sites', function ( $atts ) {
 		'no_found_rows'  => true,
 		'meta_query'     => [ [ 'key' => '_sv_minisite_index', 'compare' => 'EXISTS' ] ],
 	];
-	if ( $atts['pole'] ) {
-		$requete['tax_query'] = [ [ 'taxonomy' => 'sv_pole', 'field' => 'slug', 'terms' => sanitize_title( $atts['pole'] ) ] ];
+	if ( $categorie ) {
+		// Sous-catégories incluses : les mini-sites de « CréaBot → Arduino » s'affichent avec CréaBot.
+		$requete['tax_query'] = [ [ 'taxonomy' => 'sv_minisite_cat', 'field' => 'slug', 'terms' => $categorie, 'include_children' => true ] ];
 	}
 	$minisites = get_posts( $requete );
 
