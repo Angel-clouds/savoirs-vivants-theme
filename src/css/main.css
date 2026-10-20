@@ -491,24 +491,40 @@ img[data-sv-substitution] {
    grille de la composition). Lignes compactes séparées par un filet : la colonne reste
    lisible avec des dizaines de mini-sites. */
 .sv-minisites-colonne__titre {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  display: flex;               /* flex justify-between */
+  align-items: flex-end;       /* repli si « last baseline » n'est pas pris en charge */
+  align-items: last baseline;  /* compteur sur la dernière ligne du titre */
   justify-content: space-between;
-  gap: 0.25rem 0.75rem;
+  gap: 0.75rem;
   margin: 0;
   padding-bottom: var(--wp--preset--spacing--10);
   font-size: var(--text-lg);
   border-bottom: 3px solid var(--color-sauge);
 }
 .sv-minisites-colonne__nombre {
+  flex: none;                  /* reste à droite, jamais renvoyé sous le titre */
+  white-space: nowrap;
   font-family: var(--font-texte);
   font-size: var(--text-sm);
   font-weight: 400;
   color: var(--color-nuit); /* le titre est vert sauge : 3,6:1 en 14px, insuffisant (RGAA 3.2) */
 }
+/* Barres vertes alignées d'une colonne à l'autre, même si un titre passe sur deux lignes :
+   chaque carte occupe deux rangées de la grille (titre, liste), partagées avec ses voisines. */
+@supports (grid-template-rows: subgrid) {
+  .sv-minisites-colonnes > .is-style-carte,
+  .sv-minisites-colonnes > .is-style-carte > .sv-minisites-colonne {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+  .sv-minisites-colonne__titre {
+    align-content: flex-end; /* titre posé sur la barre */
+  }
+}
 .sv-minisites-colonne__vide {
-  margin: var(--wp--preset--spacing--20) 0 0;
+  margin: 0.75rem 0 0; /* même écart sous la barre que le premier lien de liste */
   font-size: var(--text-sm);
 }
 .sv-minisites-liste {

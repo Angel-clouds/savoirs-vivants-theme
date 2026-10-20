@@ -26,7 +26,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	 */
 	$tac = '/assets/vendor/tarteaucitron/tarteaucitron.min.js';
 	if ( file_exists( SV_DIR . $tac ) ) {
-		wp_enqueue_script( 'tarteaucitron', SV_URI . $tac, [], '1.34.0', false );
+		// Pied de page : ne bloque pas l'affichage (aucun service tiers à intercepter dans <head>).
+		wp_enqueue_script( 'tarteaucitron', SV_URI . $tac, [], '1.34.0', true );
 		wp_add_inline_script( 'tarteaucitron', 'var tarteaucitronForceLanguage = "fr";', 'before' );
 
 		$config = [
@@ -65,6 +66,46 @@ add_filter( 'render_block_core/query', function ( $html, $bloc ) {
 	}
 	return $html;
 }, 10, 2 );
+
+/**
+ * Images SVG du thème (icônes, images de substitution) : dimensions lues dans le viewBox.
+ * Sans width/height, WordPress n'ajoute pas loading="lazy" et le navigateur ne peut pas
+ * réserver la place de l'image (décalage de mise en page, CLS). Les images de la médiathèque
+ * reçoivent déjà ces attributs de WordPress.
+ */
+function sv_dimensions_svg( string $fichier ): ?array {
+	static $cache = [];
+	if ( ! array_key_exists( $fichier, $cache ) ) {
+		$debut = is_file( $fichier ) ? (string) file_get_contents( $fichier, false, null, 0, 1024 ) : '';
+		$cache[ $fichier ] = preg_match( '/viewBox="[\d.\s-]*?\s([\d.]+)\s+([\d.]+)"/', $debut, $m )
+			? [ (int) round( (float) $m[1] ), (int) round( (float) $m[2] ) ]
+			: null;
+	}
+	return $cache[ $fichier ];
+}
+
+add_filter( 'render_block_core/image', function ( string $html ): string {
+	$img = new WP_HTML_Tag_Processor( $html );
+	if ( ! $img->next_tag( 'img' ) || null !== $img->get_attribute( 'width' ) ) {
+		return $html;
+	}
+	$src    = strtok( (string) $img->get_attribute( 'src' ), '?' );
+	$racine = SV_URI . '/assets/svg/';
+	if ( ! str_starts_with( $src, $racine ) ) {
+		return $html;
+	}
+	$dimensions = sv_dimensions_svg( SV_DIR . '/assets/svg/' . basename( $src ) );
+	if ( ! $dimensions ) {
+		return $html;
+	}
+	$img->set_attribute( 'width', (string) $dimensions[0] );
+	$img->set_attribute( 'height', (string) $dimensions[1] );
+	// Décor léger : chargement différé, pour que fetchpriority="high" reste aux vraies photos.
+	if ( null === $img->get_attribute( 'loading' ) ) {
+		$img->set_attribute( 'loading', 'lazy' );
+	}
+	return $img->get_updated_html();
+} );
 
 /**
  * Éditeur : même feuille que le site, pour un rendu identique.

@@ -2,18 +2,18 @@
 
 <!-- wp:group {"tagName":"main","anchor":"contenu","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained","contentSize":"75rem"}} -->
 <main class="wp-block-group" id="contenu" style="margin-top:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
-	<!-- wp:query-title {"type":"archive","level":1} /-->
+	<!-- wp:query-title {"type":"archive","level":1,"showPrefix":false} /-->
 	<!-- wp:term-description /-->
 	<!-- wp:query {"queryId":10,"query":{"inherit":true,"perPage":9,"postType":"post"}} -->
 	<div class="wp-block-query">
 		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
-			<!-- wp:group {"className":"is-style-carte-image"} -->
-			<div class="wp-block-group is-style-carte-image">
+			<!-- wp:group {"tagName":"article","className":"is-style-carte-image"} -->
+			<article class="wp-block-group is-style-carte-image">
 				<!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
 				<!-- wp:post-date {"fontSize":"small"} /-->
 				<!-- wp:post-title {"level":2,"isLink":true,"className":"is-style-titre-carte"} /-->
 				<!-- wp:post-excerpt {"excerptLength":25} /-->
-			</div>
+			</article>
 			<!-- /wp:group -->
 		<!-- /wp:post-template -->
 

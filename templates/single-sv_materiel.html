@@ -1,7 +1,9 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","anchor":"contenu","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained","contentSize":"60rem"}} -->
-<main class="wp-block-group" id="contenu" style="margin-top:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<!-- wp:group {"tagName":"main","anchor":"contenu","style":{"spacing":{"margin":{"top":"0"}}},"layout":{"type":"default"}} -->
+<main class="wp-block-group" id="contenu" style="margin-top:0">
+<!-- wp:group {"tagName":"article","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained","contentSize":"60rem"}} -->
+<article class="wp-block-group" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 	<!-- wp:paragraph -->
 	<p><a href="/ressourcerie/">Tout le matériel de la Ressourcerie</a></p>
 	<!-- /wp:paragraph -->
@@ -67,6 +69,8 @@
 	<!-- /wp:columns -->
 
 	<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+</article>
+<!-- /wp:group -->
 </main>
 <!-- /wp:group -->
 

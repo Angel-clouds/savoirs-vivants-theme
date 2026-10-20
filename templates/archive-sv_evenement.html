@@ -14,8 +14,8 @@
 	<!-- wp:query {"queryId":20,"query":{"inherit":true,"perPage":20,"postType":"sv_evenement"}} -->
 	<div class="wp-block-query">
 		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}}} -->
-			<!-- wp:group {"className":"is-style-carte","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
-			<div class="wp-block-group is-style-carte">
+			<!-- wp:group {"tagName":"article","className":"is-style-carte","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
+			<article class="wp-block-group is-style-carte">
 				<!-- wp:group {"className":"sv-date","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 				<div class="wp-block-group sv-date">
 					<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"savoirs-vivants/evenement","args":{"key":"jour"}}}},"className":"sv-date__jour"} -->
@@ -36,7 +36,7 @@
 				</div>
 				<!-- /wp:group -->
 				<!-- wp:read-more {"content":"Voir le détail"} /-->
-			</div>
+			</article>
 			<!-- /wp:group -->
 		<!-- /wp:post-template -->
 		<!-- wp:query-pagination {"paginationArrow":"none"} -->
