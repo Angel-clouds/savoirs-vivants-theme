@@ -17,7 +17,7 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">
 <!-- wp:image {"sizeSlug":"full","className":"sv-icone"} -->
-<figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url( $svg . 'reseau.svg' ); ?>" alt=""/></figure>
+<figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url($svg . 'reseau.svg'); ?>" alt=""/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">Pour les personnes accompagnées</h3>
@@ -30,7 +30,7 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">
 <!-- wp:image {"sizeSlug":"full","className":"sv-icone"} -->
-<figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url( $svg . 'document.svg' ); ?>" alt=""/></figure>
+<figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url($svg . 'document.svg'); ?>" alt=""/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">Pour les médiateurs numériques</h3>
@@ -43,7 +43,7 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">
 <!-- wp:image {"sizeSlug":"full","className":"sv-icone"} -->
-<figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url( $svg . 'fiole.svg' ); ?>" alt=""/></figure>
+<figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url($svg . 'fiole.svg'); ?>" alt=""/></figure>
 <!-- /wp:image -->
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">Pour la recherche</h3>
