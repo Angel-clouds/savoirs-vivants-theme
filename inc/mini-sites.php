@@ -205,8 +205,8 @@ add_action(
 // Menu « Ressourcerie » déplié et sous-menu surligné sur l'écran des catégories.
 add_filter(
 	'parent_file',
-	function ( $parent ) {
-		return 'sv_minisite_cat' === ( get_current_screen()->taxonomy ?? '' ) ? 'edit.php?post_type=sv_materiel' : $parent;
+	function ( $menu_parent ) {
+		return 'sv_minisite_cat' === ( get_current_screen()->taxonomy ?? '' ) ? 'edit.php?post_type=sv_materiel' : $menu_parent;
 	}
 );
 add_filter(
@@ -456,6 +456,7 @@ function sv_minisites_importer( int $post_id, array $fichier ): array|WP_Error {
 			sv_minisites_supprimer_dossier( $temporaire );
 			return $extraction;
 		}
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename -- renommage atomique dans uploads/ : WP_Filesystem::move() copierait puis supprimerait.
 		if ( ! rename( $temporaire, $base . '/' . $nom_dossier ) ) {
 			sv_minisites_supprimer_dossier( $temporaire );
 			return new WP_Error( 'ecriture', __( 'impossible de finaliser l’import (droits d’écriture du dossier uploads).', 'savoirs-vivants' ) );
@@ -524,12 +525,14 @@ function sv_minisites_verifier_envoi( array $fichier ): bool|WP_Error {
 
 	// Type réel lu dans le contenu (le type annoncé par le navigateur n'est pas fiable).
 	// Objet finfo libéré automatiquement (finfo_close() est dépréciée depuis PHP 8.5).
-	$mime = ( new finfo( FILEINFO_MIME_TYPE ) )->file( $tmp ) ?: '';
+	$mime = ( new finfo( FILEINFO_MIME_TYPE ) )->file( $tmp );
+	$mime = $mime ? $mime : '';
 	if ( ! in_array( $mime, [ 'application/zip', 'application/x-zip-compressed', 'application/x-zip' ], true ) ) {
 		return new WP_Error( 'type', __( 'le contenu du fichier n’est pas une archive .zip.', 'savoirs-vivants' ) );
 	}
 
 	// Signature d'une archive zip non vide : « PK\x03\x04 ».
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- lecture des 4 premiers octets d'un fichier local envoyé, pas d'une adresse distante.
 	$debut = (string) file_get_contents( $tmp, false, null, 0, 4 );
 	if ( "PK\x03\x04" !== $debut ) {
 		return new WP_Error( 'type', __( 'archive .zip vide ou non valide.', 'savoirs-vivants' ) );
@@ -578,6 +581,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error {
 	$limites = sv_minisites_limites();
 	$types   = sv_minisites_types();
 
+	// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- propriété native de ZipArchive.
 	if ( $zip->numFiles > $limites['nombre_fichiers'] ) {
 		/* translators: %d : nombre maximal de fichiers accepté dans l'archive .zip. */
 		return new WP_Error( 'volume', sprintf( __( 'plus de %d fichiers dans l’archive.', 'savoirs-vivants' ), $limites['nombre_fichiers'] ) );
@@ -588,6 +592,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error {
 	$vus      = [];
 	$total    = 0;
 
+	// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- propriété native de ZipArchive.
 	for ( $i = 0; $i < $zip->numFiles; $i++ ) {
 		$stat = $zip->statIndex( $i );
 		if ( false === $stat ) {
@@ -696,7 +701,9 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 		}
 
 		$source = method_exists( $zip, 'getStreamIndex' ) ? $zip->getStreamIndex( $i ) : $zip->getStream( $zip->getNameIndex( $i ) );
-		$sortie = fopen( $cible, 'xb' ); // « x » : échoue si le fichier existe déjà
+		// Écriture en flux, volume limité (stream_copy_to_stream) : WP_Filesystem n'offre pas d'équivalent.
+		// « x » : échoue si le fichier existe déjà.
+		$sortie = fopen( $cible, 'xb' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 		if ( ! $source || ! $sortie ) {
 			/* translators: %s : chemin du fichier qui n'a pas pu être extrait de l'archive. */
 			return new WP_Error( 'ecriture', sprintf( __( 'extraction impossible : %s', 'savoirs-vivants' ), $chemin ) );
@@ -704,8 +711,8 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 
 		$annonce = (int) $zip->statIndex( $i )['size'];
 		$copie   = stream_copy_to_stream( $source, $sortie, $annonce + 1 );
-		fclose( $source );
-		fclose( $sortie );
+		fclose( $source ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- flux ouvert ci-dessus.
+		fclose( $sortie ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- flux ouvert ci-dessus.
 
 		// Contenu plus long que la taille annoncée : archive falsifiée.
 		if ( false === $copie || $copie !== $annonce ) {
@@ -717,7 +724,7 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 			/* translators: %s : volume maximal du mini-site une fois décompressé (ex. « 50 Mo »). */
 			return new WP_Error( 'volume', sprintf( __( 'plus de %s une fois décompressé.', 'savoirs-vivants' ), size_format( $limites['taille_totale'] ) ) );
 		}
-		chmod( $cible, defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : 0644 );
+		chmod( $cible, defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : 0644 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_chmod -- droits standard de WordPress.
 	}
 
 	return $total;
@@ -737,7 +744,7 @@ function sv_minisites_preparer_base(): string|WP_Error {
 	];
 	foreach ( $protections as $nom => $contenu ) {
 		if ( ! is_file( "$base/$nom" ) ) {
-			file_put_contents( "$base/$nom", $contenu );
+			file_put_contents( "$base/$nom", $contenu ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- fichier de protection, contenu fixe.
 		}
 	}
 	return $base;
@@ -757,9 +764,11 @@ function sv_minisites_supprimer_dossier( string $dossier ): void {
 		RecursiveIteratorIterator::CHILD_FIRST
 	);
 	foreach ( $elements as $element ) {
+		// Suppression limitée à uploads/mini-sites/ (realpath contrôlé ci-dessus).
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir, WordPress.WP.AlternativeFunctions.unlink_unlink
 		$element->isDir() && ! $element->isLink() ? rmdir( $element->getPathname() ) : unlink( $element->getPathname() );
 	}
-	rmdir( $chemin );
+	rmdir( $chemin ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- dossier contrôlé ci-dessus.
 }
 
 // Mini-site supprimé définitivement (corbeille vidée) : ses fichiers aussi.
@@ -842,7 +851,8 @@ function sv_minisites_servir( string $slug, ?string $fichier ): void {
 
 	$racine = realpath( sv_minisites_base() . '/' . $dossier );
 	// Fichier suffixé ; à défaut, mini-site importé avant l'ajout du suffixe (à réimporter).
-	$chemin = realpath( $racine . '/' . $relatif . SV_MINISITES_SUFFIXE ) ?: realpath( $racine . '/' . $relatif );
+	$suffixe = realpath( $racine . '/' . $relatif . SV_MINISITES_SUFFIXE );
+	$chemin  = $suffixe ? $suffixe : realpath( $racine . '/' . $relatif );
 	if ( ! $racine || ! $chemin || ! str_starts_with( $chemin, $racine . DIRECTORY_SEPARATOR ) || ! is_file( $chemin ) ) {
 		return;
 	}
@@ -931,8 +941,13 @@ add_shortcode(
 			'sv_mini_sites'
 		);
 		// « categorie » ou, pour les pages existantes, « pole » : slug d'une catégorie de mini-sites.
-		$categorie = sanitize_title( $atts['categorie'] ?: $atts['pole'] );
+		$categorie = sanitize_title( $atts['categorie'] ? $atts['categorie'] : $atts['pole'] );
 		$niveau    = min( 6, max( 2, (int) $atts['niveau'] ) );
+
+		// Une colonne par catégorie principale, générée depuis l'arborescence (aucun slug à écrire).
+		if ( 'colonnes' === $atts['format'] ) {
+			return sv_minisites_colonnes( $niveau );
+		}
 
 		$requete = [
 			'post_type'      => 'sv_minisite',
@@ -958,10 +973,6 @@ add_shortcode(
 					'include_children' => true,
 				],
 			];
-		}
-		// Une colonne par catégorie principale, générée depuis l'arborescence (aucun slug à écrire).
-		if ( 'colonnes' === $atts['format'] ) {
-			return sv_minisites_colonnes( $niveau );
 		}
 
 		$minisites = get_posts( $requete );
@@ -1007,6 +1018,25 @@ add_shortcode(
 );
 
 /**
+ * Compteur affiché dans le titre d'une colonne : « 3 mini-sites », précédé d'une espace.
+ * Masqué à zéro : le message « Aucun mini-site » le dit déjà.
+ *
+ * @param int $nombre Nombre de mini-sites de la colonne.
+ * @return string HTML échappé, ou chaîne vide.
+ */
+function sv_minisites_compteur( int $nombre ): string {
+	if ( ! $nombre ) {
+		return '';
+	}
+	$texte = sprintf(
+		/* translators: %d : nombre de mini-sites dans la colonne ou la catégorie. */
+		_n( '%d mini-site', '%d mini-sites', $nombre, 'savoirs-vivants' ),
+		$nombre
+	);
+	return ' <span class="sv-minisites-colonne__nombre">' . esc_html( $texte ) . '</span>';
+}
+
+/**
  * Format « liste » : une colonne par pôle, lisible même avec de nombreux mini-sites
  * ([sv_mini_sites pole="creabot" format="liste" titre="CréaBot" niveau="3"]).
  *
@@ -1022,17 +1052,11 @@ function sv_minisites_liste( array $minisites, string $titre, int $niveau ): str
 	$html   = '<div class="sv-minisites-colonne">';
 
 	if ( '' !== $titre ) {
-		// Compteur masqué à zéro : le message « Aucun mini-site » le dit déjà.
-		$compteur = $nombre ? sprintf(
-			/* translators: %d : nombre de mini-sites dans la colonne. */
-			_n( '%d mini-site', '%d mini-sites', $nombre, 'savoirs-vivants' ),
-			$nombre
-		) : '';
 		$html .= sprintf(
 			'<h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d>',
 			$niveau,
 			esc_html( $titre ),
-			$compteur ? ' <span class="sv-minisites-colonne__nombre">' . esc_html( $compteur ) . '</span>' : ''
+			sv_minisites_compteur( $nombre )
 		);
 	}
 
@@ -1121,17 +1145,11 @@ function sv_minisites_colonnes( int $niveau ): string {
  * Structure titre + un seul conteneur : nécessaire à l'alignement des barres (subgrid, main.css).
  */
 function sv_minisites_colonne( WP_Term $principale, array $minisites, string $titre, int $niveau ): string {
-	$nombre   = count( $minisites );
-	$compteur = $nombre ? sprintf(
-		/* translators: %d : nombre de mini-sites dans la catégorie. */
-		_n( '%d mini-site', '%d mini-sites', $nombre, 'savoirs-vivants' ),
-		$nombre
-	) : '';
 	$html = sprintf(
 		'<div class="sv-minisites-colonne"><h%1$d class="sv-minisites-colonne__titre">%2$s%3$s</h%1$d><div class="sv-minisites-colonne__contenu">',
 		$niveau,
 		esc_html( $titre ),
-		$compteur ? ' <span class="sv-minisites-colonne__nombre">' . esc_html( $compteur ) . '</span>' : ''
+		sv_minisites_compteur( count( $minisites ) )
 	);
 
 	if ( ! $minisites ) {
@@ -1160,8 +1178,10 @@ function sv_minisites_colonne( WP_Term $principale, array $minisites, string $ti
 	$directs = [];
 	$groupes = array_fill_keys( wp_list_pluck( $sous, 'term_id' ), [] );
 	foreach ( $minisites as $minisite ) {
-		$termes = wp_list_pluck( get_the_terms( $minisite, 'sv_minisite_cat' ) ?: [], 'term_id' );
-		$cibles = array_unique( array_intersect_key( $groupe_de, array_flip( $termes ) ) );
+		// get_the_terms() renvoie un tableau, false ou une WP_Error : seul un tableau est exploitable.
+		$termes_minisite = get_the_terms( $minisite, 'sv_minisite_cat' );
+		$termes          = wp_list_pluck( is_array( $termes_minisite ) ? $termes_minisite : [], 'term_id' );
+		$cibles          = array_unique( array_intersect_key( $groupe_de, array_flip( $termes ) ) );
 		if ( ! $cibles ) {
 			$directs[] = $minisite;
 		}

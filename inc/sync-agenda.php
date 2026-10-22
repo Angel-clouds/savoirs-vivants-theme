@@ -101,6 +101,7 @@ function sv_gcal_synchroniser(): ?array {
 		}
 
 		if ( $bilan['crees'] || $bilan['mis_a_jour'] ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 			error_log( sprintf( '[Savoirs Vivants] Agenda Google : %d créé(s) en brouillon, %d mis à jour.', $bilan['crees'], $bilan['mis_a_jour'] ) );
 		}
 		return $bilan;
@@ -122,18 +123,21 @@ function sv_gcal_recuperer( string $url ): ?string {
 	);
 
 	if ( is_wp_error( $reponse ) ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : échec de la requête (' . $reponse->get_error_message() . ').' );
 		return null;
 	}
 
 	$code = (int) wp_remote_retrieve_response_code( $reponse );
 	if ( 200 !== $code ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : réponse HTTP ' . $code . ' au lieu de 200.' );
 		return null;
 	}
 
 	$corps = (string) wp_remote_retrieve_body( $reponse );
 	if ( ! str_contains( $corps, 'BEGIN:VCALENDAR' ) ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : la réponse n\'est pas un fichier iCalendar.' );
 		return null;
 	}
@@ -421,6 +425,7 @@ function sv_gcal_enregistrer( array $evenement ): string {
 	}
 
 	if ( is_wp_error( $resultat ) ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : événement « ' . $evenement['uid'] . ' » non enregistré (' . $resultat->get_error_message() . ').' );
 		return 'ignores';
 	}

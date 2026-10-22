@@ -4,7 +4,7 @@
   "private": true,
   "description": "Thème WordPress FSE sur-mesure de l'association Savoirs Vivants",
   "scripts": {
-    "vendor": "rm -rf assets/vendor/tarteaucitron && mkdir -p assets/vendor && cp -r node_modules/tarteaucitronjs assets/vendor/tarteaucitron",
+    "vendor": "rm -rf assets/vendor/tarteaucitron && mkdir -p assets/vendor/tarteaucitron/lang assets/vendor/tarteaucitron/css && cd node_modules/tarteaucitronjs && cp tarteaucitron.min.js tarteaucitron.services.min.js advertising.min.js LICENSE ../../assets/vendor/tarteaucitron/ && cp lang/*.min.js ../../assets/vendor/tarteaucitron/lang/ && cp css/tarteaucitron.min.css ../../assets/vendor/tarteaucitron/css/",
     "dev": "tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --watch",
     "build": "npm run vendor && tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --minify"
   },

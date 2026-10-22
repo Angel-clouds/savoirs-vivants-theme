@@ -41,7 +41,7 @@ add_action(
 			wp_enqueue_script( 'tarteaucitron', SV_URI . $tac, [], '1.34.0', true );
 			// Langue de la bannière = langue de la page (fr, de…), si tarteaucitron la fournit ; sinon français.
 			$langue = strtolower( substr( determine_locale(), 0, 2 ) );
-			if ( ! preg_match( '/^[a-z]{2}$/', $langue ) || ! file_exists( SV_DIR . '/assets/vendor/tarteaucitron/lang/tarteaucitron.' . $langue . '.js' ) ) {
+			if ( ! preg_match( '/^[a-z]{2}$/', $langue ) || ! file_exists( SV_DIR . '/assets/vendor/tarteaucitron/lang/tarteaucitron.' . $langue . '.min.js' ) ) {
 				$langue = 'fr';
 			}
 			wp_add_inline_script( 'tarteaucitron', 'var tarteaucitronForceLanguage = ' . wp_json_encode( $langue ) . ';', 'before' );
@@ -107,6 +107,7 @@ add_filter(
 function sv_dimensions_svg( string $fichier ): ?array {
 	static $cache = [];
 	if ( ! array_key_exists( $fichier, $cache ) ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- lecture locale des 1 024 premiers octets d'un SVG du thème.
 		$debut             = is_file( $fichier ) ? (string) file_get_contents( $fichier, false, null, 0, 1024 ) : '';
 		$cache[ $fichier ] = preg_match( '/viewBox="[\d.\s-]*?\s([\d.]+)\s+([\d.]+)"/', $debut, $m )
 		? [ (int) round( (float) $m[1] ), (int) round( (float) $m[2] ) ]

@@ -9,8 +9,9 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - Tailwind CSS v4 (CLI) : source src/css/main.css → assets/css/main.css
   - `npm run build` avant chaque commit (copie aussi tarteaucitron dans assets/vendor)
   - Ne jamais lancer `npm run dev` depuis un agent (commande sans fin)
-  - Tailwind scanne patterns/ et templates/ : les classes WordPress (size-full…) peuvent générer
-    des utilitaires parasites → les exclure avec `@source not inline("…")`
+  - Seules les couches theme + preflight de Tailwind sont importées (aucune classe utilitaire générée) :
+    les styles passent par les styles de blocs et src/css/main.css, jamais par des classes dans les compositions
+  - assets/vendor/tarteaucitron : fichiers .min uniquement (script « vendor » de package.json)
 - JS vanilla uniquement (assets/js), PHP aux standards WordPress (inc/)
 - Git : travailler sur la branche `start`, fusionner dans `master` après validation
 

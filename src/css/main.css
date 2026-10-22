@@ -1,9 +1,12 @@
-@import "tailwindcss";
-
-/* Tailwind ne doit pas analyser les bibliothèques tierces,
-   ni transformer les classes WordPress en utilitaires parasites. */
-@source not "../../assets/vendor";
-@source not inline("size-full");
+/* Tailwind sans sa couche « utilities » : le thème n'utilise aucune classe utilitaire
+   (les styles passent par les styles de blocs et les sections ci-dessous). Plus aucune classe
+   parasite (.block, .flex, .grid, .hidden…) n'est donc générée à partir des mots des compositions,
+   et les fichiers n'ont plus à être analysés (@source inutile). Les jetons @theme restent
+   disponibles en variables CSS. Pour réutiliser des utilitaires un jour :
+   @import "tailwindcss/utilities.css" layer(utilities); */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
 
 /* =========================================================
    1. TOKENS — verrouillés sur la charte (source : theme.json)

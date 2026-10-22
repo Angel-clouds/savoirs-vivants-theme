@@ -34,19 +34,24 @@ add_action(
 		}
 
 		$utilisateur = sv_smtp_reglage( 'USER' );
-		$securite    = strtolower( sv_smtp_reglage( 'SECURE' ) ?: 'tls' );
+		$securite    = sv_smtp_reglage( 'SECURE' );
+		$securite    = strtolower( $securite ? $securite : 'tls' );
+		$port        = sv_smtp_reglage( 'PORT' );
 
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- propriétés de la classe PHPMailer (noms imposés).
 		$mailer->isSMTP();
 		$mailer->Host       = $hote;
-		$mailer->Port       = (int) ( sv_smtp_reglage( 'PORT' ) ?: ( 'ssl' === $securite ? 465 : 587 ) );
+		$mailer->Port       = (int) ( $port ? $port : ( 'ssl' === $securite ? 465 : 587 ) );
 		$mailer->SMTPSecure = 'ssl' === $securite ? 'ssl' : 'tls';
 		$mailer->SMTPAuth   = '' !== $utilisateur;
 		$mailer->Username   = $utilisateur;
 		$mailer->Password   = sv_smtp_reglage( 'PASSWORD' );
 		$mailer->Timeout    = 15;
+		// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		// Expéditeur = l'adresse du compte SMTP (sinon les serveurs refusent ou classent en spam).
-		$expediteur = sv_smtp_reglage( 'FROM' ) ?: $utilisateur;
+		$expediteur = sv_smtp_reglage( 'FROM' );
+		$expediteur = $expediteur ? $expediteur : $utilisateur;
 		if ( is_email( $expediteur ) ) {
 			$mailer->setFrom( $expediteur, 'Savoirs Vivants', false );
 		}

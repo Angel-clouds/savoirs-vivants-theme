@@ -28,6 +28,21 @@ function sv_contact_objets(): array {
 }
 
 /**
+ * État du formulaire pendant l'affichage de la page : erreurs et valeurs saisies.
+ * Remplace une variable globale : seul ce fichier peut lire ou écrire cet état.
+ *
+ * @param array|null $etat Nouvel état ([ 'erreurs' => [], 'valeurs' => [] ]) ou null pour le lire.
+ * @return array État courant (tableau vide si le formulaire n'a pas été envoyé).
+ */
+function sv_contact_etat( ?array $etat = null ): array {
+	static $memoire = [];
+	if ( null !== $etat ) {
+		$memoire = $etat;
+	}
+	return $memoire;
+}
+
+/**
  * Traitement de l'envoi (avant tout affichage).
  */
 add_action(
@@ -38,7 +53,8 @@ add_action(
 			return;
 		}
 
-		$retour = remove_query_arg( 'envoi', wp_get_referer() ?: home_url( '/contact/' ) );
+		$referent = wp_get_referer();
+		$retour   = remove_query_arg( 'envoi', $referent ? $referent : home_url( '/contact/' ) );
 
 		// Robot détecté (champ piège rempli) : on simule un succès sans rien envoyer.
 		if ( ! empty( $_POST['sv_site_web'] ) ) {
@@ -75,10 +91,12 @@ add_action(
 		}
 
 		if ( $erreurs ) {
-			$GLOBALS['sv_contact'] = [
-				'erreurs' => $erreurs,
-				'valeurs' => $valeurs,
-			];
+			sv_contact_etat(
+				[
+					'erreurs' => $erreurs,
+					'valeurs' => $valeurs,
+				]
+			);
 			return; // la page s'affiche avec les erreurs et les valeurs saisies
 		}
 
@@ -87,10 +105,12 @@ add_action(
 		$limite = 'sv_contact_' . wp_hash( $ip );
 		$envois = (int) get_transient( $limite );
 		if ( $envois >= 5 ) {
-			$GLOBALS['sv_contact'] = [
-				'erreurs' => [ 'general' => __( 'Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr.', 'savoirs-vivants' ) ],
-				'valeurs' => $valeurs,
-			];
+			sv_contact_etat(
+				[
+					'erreurs' => [ 'general' => __( 'Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr.', 'savoirs-vivants' ) ],
+					'valeurs' => $valeurs,
+				]
+			);
 			return;
 		}
 		set_transient( $limite, $envois + 1, HOUR_IN_SECONDS );
@@ -123,7 +143,7 @@ add_action(
 add_filter(
 	'document_title_parts',
 	function ( $parties ) {
-		if ( ! empty( $GLOBALS['sv_contact']['erreurs'] ) ) {
+		if ( ! empty( sv_contact_etat()['erreurs'] ) ) {
 			/* translators: %s : titre de la page contenant le formulaire de contact en erreur. */
 			$parties['title'] = sprintf( __( 'Erreur : %s', 'savoirs-vivants' ), $parties['title'] );
 		}
@@ -137,10 +157,11 @@ add_filter(
 add_shortcode(
 	'sv_formulaire_contact',
 	function () {
-		$etat    = $GLOBALS['sv_contact'] ?? [];
+		$etat    = sv_contact_etat();
 		$erreurs = $etat['erreurs'] ?? [];
 		$v       = $etat['valeurs'] ?? [];
-		$envoi   = sanitize_key( wp_unslash( $_GET['envoi'] ?? '' ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- simple message de retour (« ok » / « erreur »), aucune action.
+		$envoi = sanitize_key( wp_unslash( $_GET['envoi'] ?? '' ) );
 
 		$libelles = [
 			'prenom'  => __( 'Prénom', 'savoirs-vivants' ),
@@ -190,9 +211,10 @@ add_shortcode(
 			) . '</p><ul>';
 			foreach ( $erreurs as $champ => $texte ) {
 				$cible = 'general' === $champ ? '' : ' href="#sv-' . esc_attr( $champ ) . '"';
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $cible et $texte sont échappés ci-dessus et dans l'expression.
 				echo '<li>' . ( $cible ? '<a' . $cible . '>' . esc_html( $texte ) . '</a>' : esc_html( $texte ) ) . '</li>';
 			}
-				echo '</ul></div>';
+			echo '</ul></div>';
 		}
 		?>
 	<form id="formulaire-contact" class="sv-formulaire" method="post" action="#formulaire-contact" novalidate>
