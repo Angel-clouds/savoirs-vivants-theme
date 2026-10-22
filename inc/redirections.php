@@ -26,7 +26,8 @@ add_action(
             ] 
         );
 
-        $chemin = trim((string) wp_parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+        $adresse = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'] ?? ''));
+        $chemin  = trim((string) wp_parse_url($adresse, PHP_URL_PATH), '/');
 
         if (isset($anciennes[ $chemin ]) ) {
             wp_safe_redirect(home_url($anciennes[ $chemin ]), 301);

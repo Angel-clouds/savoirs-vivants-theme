@@ -33,7 +33,8 @@ function sv_contact_objets(): array
  */
 add_action(
     'template_redirect', function () {
-        if ('POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) || empty($_POST['sv_contact']) ) {
+        $methode = sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'] ?? ''));
+        if ('POST' !== $methode || empty($_POST['sv_contact']) ) {
             return;
         }
 

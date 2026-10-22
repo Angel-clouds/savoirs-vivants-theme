@@ -1047,7 +1047,8 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 .sv-univers-schlouk main h3 {
   font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
 }
-.sv-univers-schlouk main h3.is-style-titre-carte {
+/* Titres de carte, h3 ou h2 (cartes de l'agenda par pôle : templates/taxonomy-sv_pole.html) */
+.sv-univers-schlouk main :is(h2, h3).is-style-titre-carte {
   font-size: 1.625rem;
 }
 .sv-univers-schlouk main h4 {
@@ -1055,8 +1056,10 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   font-weight: 700;
 }
 
-/* Titres de section en bandeau bleu arrondi, comme « Pourquoi rejoindre le collectif » */
-.sv-univers-schlouk main h2:not(.sv-sr-only) {
+/* Titres de section en bandeau bleu arrondi, comme « Pourquoi rejoindre le collectif ».
+   Les titres de carte en sont exclus : leur lien encre sur ce bleu n'atteignait que 2,48:1
+   (RGAA 3.2 et 10.7). Ils restent en encre sur blanc : 12,6:1. */
+.sv-univers-schlouk main h2:not(.sv-sr-only):not(.is-style-titre-carte) {
   width: fit-content;
   max-width: 100%;
   padding: 0.3em 1.1em 0.2em 0.8em;
@@ -1064,10 +1067,14 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   color: #fff;
   border-radius: 0.4rem 999px 999px 0.4rem;
 }
-.sv-univers-schlouk main h2.has-text-align-center:not(.sv-sr-only) {
+.sv-univers-schlouk main h2.has-text-align-center:not(.sv-sr-only):not(.is-style-titre-carte) {
   margin-inline: auto;
   padding-inline: 1.1em;
   border-radius: 999px;
+}
+/* Lien dans un titre en bandeau : blanc comme le titre (blanc sur #1B7A9C : 4,9:1) */
+.sv-univers-schlouk main h2:not(.sv-sr-only):not(.is-style-titre-carte) a {
+  color: inherit;
 }
 
 /* Liens : encre, soulignés (le bleu foncé serait trop pâle sur les fonds clairs) */

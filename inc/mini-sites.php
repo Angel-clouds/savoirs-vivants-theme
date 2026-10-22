@@ -469,6 +469,7 @@ function sv_minisites_verifier_envoi( array $fichier ): bool|WP_Error
     $limite = min(wp_max_upload_size(), sv_minisites_limites()['taille_zip']);
     $poids  = (int) filesize($tmp);
     if ($poids <= 0 || $poids > $limite ) {
+        /* translators: %s : poids maximal accepté pour le fichier .zip (ex. « 20 Mo »). */
         return new WP_Error('poids', sprintf(__('le fichier doit peser au plus %s.', 'savoirs-vivants'), size_format($limite)));
     }
 
@@ -502,6 +503,7 @@ function sv_minisites_chemin( string $nom ): string|WP_Error
         return new WP_Error('nom', __('nom de fichier illisible (encodage). Recréez le .zip avec des noms sans accents.', 'savoirs-vivants'));
     }
     if (preg_match('/[\x00-\x1F\x7F<>:"|?*%]/u', $nom) || str_starts_with($nom, '/') || preg_match('/^[a-z]:/i', $nom) ) {
+        /* translators: %s : nom de fichier refusé, tel qu'il figure dans l'archive .zip. */
         return new WP_Error('nom', sprintf(__('nom de fichier interdit : %s', 'savoirs-vivants'), $nom));
     }
 
@@ -511,10 +513,12 @@ function sv_minisites_chemin( string $nom ): string|WP_Error
     }
     foreach ( $segments as $segment ) {
         if ('' === $segment || '.' === $segment || '..' === $segment || strlen($segment) > 255 ) {
+            /* translators: %s : chemin refusé dans l'archive .zip (segment vide, « . » ou « .. »). */
             return new WP_Error('nom', sprintf(__('chemin interdit : %s', 'savoirs-vivants'), $nom));
         }
     }
     if (count($segments) > sv_minisites_limites()['profondeur'] ) {
+        /* translators: %s : chemin du fichier dont les sous-dossiers dépassent la profondeur autorisée. */
         return new WP_Error('nom', sprintf(__('trop de sous-dossiers : %s', 'savoirs-vivants'), $nom));
     }
 
@@ -532,6 +536,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
     $types   = sv_minisites_types();
 
     if ($zip->numFiles > $limites['nombre_fichiers'] ) {
+        /* translators: %d : nombre maximal de fichiers accepté dans l'archive .zip. */
         return new WP_Error('volume', sprintf(__('plus de %d fichiers dans l’archive.', 'savoirs-vivants'), $limites['nombre_fichiers']));
     }
 
@@ -553,10 +558,12 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
 
         // Lien symbolique : pourrait pointer hors du dossier.
         if ($zip->getExternalAttributesIndex($i, $systeme, $attributs) && ZipArchive::OPSYS_UNIX === $systeme && 0120000 === ( ( $attributs >> 16 ) & 0170000 ) ) {
+            /* translators: %s : chemin du lien symbolique refusé dans l'archive .zip. */
             return new WP_Error('lien', sprintf(__('lien symbolique interdit : %s', 'savoirs-vivants'), $chemin));
         }
 
         if (preg_match(SV_MINISITES_INTERDITS, $chemin) ) {
+            /* translators: %s : chemin du fichier exécutable (PHP, CGI…) refusé dans l'archive .zip. */
             return new WP_Error('executable', sprintf(__('fichier exécutable côté serveur interdit : %s', 'savoirs-vivants'), $chemin));
         }
 
@@ -578,6 +585,7 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
         // Doublons (y compris à la casse près, pour les serveurs insensibles à la casse).
         $cle = mb_strtolower($chemin);
         if (isset($vus[ $cle ]) ) {
+            /* translators: %s : chemin du fichier présent en double dans l'archive .zip. */
             return new WP_Error('doublon', sprintf(__('fichier présent deux fois : %s', 'savoirs-vivants'), $chemin));
         }
         $vus[ $cle ] = true;
@@ -585,9 +593,11 @@ function sv_minisites_inventaire( ZipArchive $zip ): array|WP_Error
         // Volumes annoncés : contrôlés à nouveau pendant l'extraction (ils peuvent mentir).
         $total += $stat['size'];
         if ($total > $limites['taille_totale'] ) {
+            /* translators: %s : volume maximal du mini-site une fois décompressé (ex. « 50 Mo »). */
             return new WP_Error('volume', sprintf(__('plus de %s une fois décompressé.', 'savoirs-vivants'), size_format($limites['taille_totale'])));
         }
         if ($stat['size'] > MB_IN_BYTES && $stat['size'] > $limites['ratio'] * max(1, $stat['comp_size']) ) {
+            /* translators: %s : chemin du fichier dont le taux de compression est suspect (bombe zip). */
             return new WP_Error('volume', sprintf(__('taux de compression anormal (archive piégée ?) : %s', 'savoirs-vivants'), $chemin));
         }
 
@@ -629,17 +639,20 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
     foreach ( $fichiers as $i => $chemin ) {
         $cible = $dossier . '/' . $chemin . SV_MINISITES_SUFFIXE;
         if (! wp_mkdir_p(dirname($cible)) ) {
+            /* translators: %s : chemin du fichier dont le dossier n'a pas pu être créé. */
             return new WP_Error('ecriture', sprintf(__('impossible de créer le dossier de %s.', 'savoirs-vivants'), $chemin));
         }
         // Défense en profondeur : la cible doit rester dans le dossier d'extraction.
         $parent = realpath(dirname($cible));
         if (false === $parent || ( $parent !== $racine && ! str_starts_with($parent, $racine . DIRECTORY_SEPARATOR) ) ) {
+            /* translators: %s : chemin refusé car il sortirait du dossier d'extraction. */
             return new WP_Error('nom', sprintf(__('chemin interdit : %s', 'savoirs-vivants'), $chemin));
         }
 
         $source = method_exists($zip, 'getStreamIndex') ? $zip->getStreamIndex($i) : $zip->getStream($zip->getNameIndex($i));
         $sortie = fopen($cible, 'xb'); // « x » : échoue si le fichier existe déjà
         if (! $source || ! $sortie ) {
+            /* translators: %s : chemin du fichier qui n'a pas pu être extrait de l'archive. */
             return new WP_Error('ecriture', sprintf(__('extraction impossible : %s', 'savoirs-vivants'), $chemin));
         }
 
@@ -650,10 +663,12 @@ function sv_minisites_extraire( ZipArchive $zip, array $fichiers, string $dossie
 
         // Contenu plus long que la taille annoncée : archive falsifiée.
         if (false === $copie || $copie !== $annonce ) {
+            /* translators: %s : chemin du fichier dont la taille réelle diffère de celle annoncée par l'archive. */
             return new WP_Error('zip', sprintf(__('contenu incohérent : %s', 'savoirs-vivants'), $chemin));
         }
         $total += $copie;
         if ($total > $limites['taille_totale'] ) {
+            /* translators: %s : volume maximal du mini-site une fois décompressé (ex. « 50 Mo »). */
             return new WP_Error('volume', sprintf(__('plus de %s une fois décompressé.', 'savoirs-vivants'), size_format($limites['taille_totale'])));
         }
         chmod($cible, defined('FS_CHMOD_FILE') ? FS_CHMOD_FILE : 0644);
@@ -730,7 +745,9 @@ function sv_minisites_url( WP_Post $post ): string
  */
 add_filter(
     'do_parse_request', function ( $continuer ) {
-        $chemin  = (string) wp_parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+        // Pas de sanitize_text_field() ici : il supprimerait les « %20 », « %C3%A9 »… des noms de fichiers.
+        // Le chemin est validé ensuite : sanitize_title() pour le slug, sv_minisites_chemin() pour le fichier.
+        $chemin  = (string) wp_parse_url(wp_unslash($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $prefixe = trailingslashit((string) wp_parse_url(home_url('/'), PHP_URL_PATH)) . 'mini-sites/';
         if (! str_starts_with($chemin, $prefixe) ) {
             return $continuer;
@@ -791,12 +808,13 @@ function sv_minisites_servir( string $slug, ?string $fichier ): void
     header('Cache-Control: public, max-age=300');
     header('ETag: ' . $etag);
 
-    if (trim(wp_unslash($_SERVER['HTTP_IF_NONE_MATCH'] ?? '')) === $etag ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+    if (sanitize_text_field(wp_unslash($_SERVER['HTTP_IF_NONE_MATCH'] ?? '')) === $etag ) {
         status_header(304);
         exit;
     }
     header('Content-Length: ' . filesize($chemin));
-    if ('HEAD' !== ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) ) {
+    $methode = sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    if ('HEAD' !== $methode ) {
         readfile($chemin); // phpcs:ignore WordPress.WP.AlternativeFunctions
     }
     exit;

@@ -142,7 +142,8 @@ add_action(
                     'default'           => '',
                     'show_in_rest'      => true,
                     'sanitize_callback' => 'url' === $champ['type'] ? 'esc_url_raw' : 'sanitize_text_field',
-                    'auth_callback'     => fn() => current_user_can('edit_posts'),
+                    // Droit vérifié sur le contenu modifié, pas en général (défense en profondeur).
+                    'auth_callback'     => fn( $autorise, $cle, $post_id ) => current_user_can('edit_post', (int) $post_id),
                     ] 
                 );
             }
