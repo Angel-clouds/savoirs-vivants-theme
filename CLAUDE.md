@@ -103,7 +103,9 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - `?ver=` des CSS/JS : version de WordPress **masquée** (empreinte, inc/securite.php), jamais supprimée
   (sinon cache navigateur périmé après mise à jour). Ne pas reposer la question.
 - Code de sécurité dans inc/securite.php ; functions.php ne fait que charger les fichiers de inc/.
-- Le formateur VS Code de l'équipe reformate certains fichiers au style PEAR : garder le style du fichier modifié.
+- Formatage PHP : standard WordPress (tabulations), défini par `.phpcs.xml.dist` (WordPress-Extra, I18n,
+  PHPCompatibilityWP 8.2+, syntaxe courte `[]` autorisée). Vérifier avec `phpcs`, corriger avec `phpcbf`.
+  Ne plus formater au style PEAR (ancien réglage du formateur VS Code).
 - Modifier une composition déjà utilisée : les pages en gardent une copie en base (mettre à jour via
   parse_blocks/serialize_blocks en ciblant metadata.patternName).
 - Skill `frontend-design` (.claude/skills, installé via `npx skills add anthropics/skills --skill frontend-design`,

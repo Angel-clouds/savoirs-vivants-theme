@@ -43,19 +43,25 @@ const SV_GCAL_CRON = 'sv_sync_agenda';
  * Un thème n'a pas de crochet d'activation fiable : la vérification sur « init » est peu
  * coûteuse (l'option « cron » est déjà en mémoire) et reprogramme la tâche si elle a disparu.
  */
-add_action( 'init', function (): void {
-	if ( ! wp_next_scheduled( SV_GCAL_CRON ) ) {
-		wp_schedule_event( time(), 'hourly', SV_GCAL_CRON );
+add_action(
+	'init',
+	function (): void {
+		if ( ! wp_next_scheduled( SV_GCAL_CRON ) ) {
+			wp_schedule_event( time(), 'hourly', SV_GCAL_CRON );
+		}
 	}
-} );
+);
 
 /**
  * Désactivation : un thème n'a pas de register_deactivation_hook(). « switch_theme » est
  * déclenché quand on change de thème, pendant que le code de l'ancien thème est encore chargé.
  */
-add_action( 'switch_theme', function (): void {
-	wp_clear_scheduled_hook( SV_GCAL_CRON );
-} );
+add_action(
+	'switch_theme',
+	function (): void {
+		wp_clear_scheduled_hook( SV_GCAL_CRON );
+	}
+);
 
 add_action( SV_GCAL_CRON, 'sv_gcal_synchroniser' );
 
@@ -83,7 +89,12 @@ function sv_gcal_synchroniser(): ?array {
 			return null;
 		}
 
-		$bilan = [ 'crees' => 0, 'mis_a_jour' => 0, 'inchanges' => 0, 'ignores' => 0 ];
+		$bilan = [
+			'crees'      => 0,
+			'mis_a_jour' => 0,
+			'inchanges'  => 0,
+			'ignores'    => 0,
+		];
 		foreach ( sv_gcal_parser( $ics ) as $evenement ) {
 			$resultat = sv_gcal_enregistrer( $evenement );
 			++$bilan[ $resultat ];
@@ -214,7 +225,18 @@ function sv_gcal_lire_ligne( string $ligne ): ?array {
  * Texte iCalendar → texte brut : \n, \, \; et \\ sont des séquences d'échappement.
  */
 function sv_gcal_texte( string $valeur ): string {
-	return trim( strtr( $valeur, [ '\\n' => "\n", '\\N' => "\n", '\\,' => ',', '\\;' => ';', '\\\\' => '\\' ] ) );
+	return trim(
+		strtr(
+			$valeur,
+			[
+				'\\n'  => "\n",
+				'\\N'  => "\n",
+				'\\,'  => ',',
+				'\\;'  => ';',
+				'\\\\' => '\\',
+			]
+		)
+	);
 }
 
 /**
