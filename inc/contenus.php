@@ -152,9 +152,16 @@ add_action(
 
 /**
  * Termes par défaut (créés une seule fois).
+ * L'option « sv_termes_defaut » (chargée d'office avec les réglages, donc sans requête) évite
+ * 16 requêtes SQL à chaque page : incrémenter SV_TERMES_DEFAUT si la liste ci-dessous change.
+ * Un terme supprimé ensuite par l'équipe n'est pas recréé.
  */
+const SV_TERMES_DEFAUT = '1';
 add_action(
     'init', function () {
+        if (get_option('sv_termes_defaut') === SV_TERMES_DEFAUT ) {
+            return;
+        }
         // Noms des termes créés une seule fois en français : ce sont des contenus, traduits ensuite
         // par l'extension multilingue (pas par gettext).
         $defauts = [
@@ -168,7 +175,8 @@ add_action(
                 }
             }
         }
-    }, 6 
+        update_option('sv_termes_defaut', SV_TERMES_DEFAUT);
+    }, 6
 );
 
 /**

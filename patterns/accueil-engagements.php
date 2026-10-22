@@ -7,8 +7,8 @@
  */
 $svg = get_template_directory_uri() . '/assets/svg/';
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 <!-- wp:paragraph {"className":"is-style-surtitre"} -->
 <p class="is-style-surtitre">Nos engagements</p>
 <!-- /wp:paragraph -->
@@ -18,7 +18,7 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- wp:paragraph -->
 <p>Faire de la connaissance un levier d'émancipation pour chacun, de capacité collective d'agir face au dérèglement climatique, et de transformation démocratique de nos territoires.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"16rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">

@@ -356,6 +356,25 @@ img[data-sv-substitution] {
 .sv-chiffre {
   min-height: 2.75rem; /* réserve la même hauteur pour tous les chiffres */
 }
+/* Bandeau de chiffres de l'accueil (accueil-chiffres), sous la présentation : largeur standard,
+   chiffres alignés à gauche sur le texte du hero, séparés par un filet vert sauge (décor).
+   Blanc sur bleu nuit : contraste 14,6:1 (RGAA 3.2). */
+main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandeau > * {
+  max-width: 75rem;
+}
+.sv-chiffres-bandeau .wp-block-group:has(> .sv-chiffre) {
+  padding: 0.25rem 0 0.25rem var(--wp--preset--spacing--20);
+  border-left: 3px solid var(--color-sauge);
+}
+.sv-chiffres-bandeau .sv-chiffre {
+  min-height: 0;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+}
+.sv-chiffres-bandeau .sv-chiffre-label {
+  margin-top: 0.25rem;
+  max-width: 15rem;
+  font-size: var(--text-base);
+}
 /* Cartes de tarif (titre, prix, « par an », texte, bouton — ex. adhésion) :
    prix détaché du titre, « par an » collé au prix, bouton toujours en bas de carte
    pour que les boutons de cartes voisines soient alignés */

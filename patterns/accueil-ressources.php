@@ -7,8 +7,8 @@
  */
 $svg = get_template_directory_uri() . '/assets/svg/';
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 <!-- wp:paragraph {"className":"is-style-surtitre"} -->
 <p class="is-style-surtitre">Ressources</p>
 <!-- /wp:paragraph -->
@@ -18,7 +18,7 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- wp:paragraph -->
 <p>Rapports, publications de recherche et matériel pédagogique : des ressources pour prolonger nos actions.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"16rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">
@@ -32,7 +32,7 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <p class="has-small-font-size">Histoire, équipe, finances et bilan des trois pôles.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
-<p><a href="#">Télécharger le rapport d'activités 2025 (PDF, 6,6 Mo)</a></p>
+<p><a href="<?php echo esc_url( wp_get_upload_dir()['baseurl'] . '/rapport-activites-2025.pdf' ); ?>">Télécharger le rapport d'activités 2025 (PDF, 6,6 Mo)</a></p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->

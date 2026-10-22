@@ -13,7 +13,7 @@
 <!-- wp:column {"verticalAlignment":"center","width":"55%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:55%">
 <!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Laboratoire citoyen · Nord Alsace</p>
+<p class="is-style-surtitre">Laboratoire citoyen en Nord Alsace</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":1} -->
 <h1 class="wp-block-heading">Cultiver nos savoirs, écrire nos avenirs.</h1>

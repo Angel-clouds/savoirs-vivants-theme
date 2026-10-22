@@ -6,8 +6,8 @@
  * Description: Grille des pôles et de la Ressourcerie.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 <!-- wp:paragraph {"className":"is-style-surtitre"} -->
 <p class="is-style-surtitre">Nos pôles</p>
 <!-- /wp:paragraph -->
@@ -17,7 +17,7 @@
 <!-- wp:paragraph -->
 <p>Savoirs Vivants s'appuie sur plusieurs chantiers thématiques, qui structurent son action et permettent de co-construire, avec la population nord-alsacienne, des réponses innovantes et inclusives.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"22rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":2,"minimumColumnWidth":"22rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte-image"} -->
 <div class="wp-block-group is-style-carte-image">

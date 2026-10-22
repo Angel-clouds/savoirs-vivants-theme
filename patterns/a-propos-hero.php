@@ -27,7 +27,7 @@
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#adherer">Adhérer à l'association</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"textColor":"bleu-nuit","className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-bleu-nuit-color has-text-color wp-element-button" href="#">Consulter le rapport 2025</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-bleu-nuit-color has-text-color wp-element-button" href="<?php echo esc_url( wp_get_upload_dir()['baseurl'] . '/rapport-activites-2025.pdf' ); ?>">Consulter le rapport 2025</a></div>
 <!-- /wp:button -->
 </div>
 <!-- /wp:buttons -->

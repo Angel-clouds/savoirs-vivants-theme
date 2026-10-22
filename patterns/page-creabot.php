@@ -13,6 +13,7 @@
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-chiffres"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-pourquoi"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-actions"} /-->
+<!-- wp:pattern {"slug":"savoirs-vivants/creabot-agenda"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-temps-forts"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-public-lieux"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/creabot-2026"} /-->

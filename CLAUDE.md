@@ -84,5 +84,29 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   ressourcerie, formulaire, cookies, redirections, plan du site, déclaration d'accessibilité (non conforme),
   mentions légales, politique de confidentialité, faire un don, carrousel d'actualités.
 - Marqueurs à remplacer avant mise en ligne : `<mark class="sv-a-completer">` (chercher « sv-a-completer »).
+- Fait aussi : audits W3C/RGAA/SEO/PHP 8.5 (types de retour stricts), durcissement sécurité (inc/securite.php),
+  taxonomie et colonnes des mini-sites, i18n étapes 1-2 (voir « Traduction »), synchronisation Google Agenda.
 - À faire : audit RGAA complet,
   outil de newsletter, plateforme de dons, mise en ligne.
+- En attente côté équipe :
+  - fuseau du site local réglé sur « UTC+2 » fixe → mettre « Paris » (Réglages → Général), sinon
+    les heures importées de Google et le filtre « à venir » sont décalés d'une heure en hiver ;
+  - SV_GCAL_ICS_URL (vraie adresse du flux) et identifiants SV_SMTP_* à définir dans wp-config.php ;
+  - branche `claude/focused-faraday-8kfwuv` (= start + 2 commits d'explication) à pousser : l'agent n'a pas
+    d'identifiants GitHub (pas de `gh`), c'est l'utilisatrice ou l'utilisateur qui pousse.
+  - i18n étape 3 : Polylang, fichiers de traduction de.po/.mo, JS et liens internes (voir « Traduction »).
+
+## Méthode de travail (décisions de l'équipe)
+- Ne jamais commiter ni pousser sans demande explicite ; l'équipe gère l'historique git et la configuration serveur.
+  Travail de Claude : sur une branche `claude/…`, messages de commit détaillés (quoi, pourquoi, tests, limites).
+- Dépôt public : aucun secret dans le thème (identifiants et adresses privées dans wp-config.php).
+- `?ver=` des CSS/JS : version de WordPress **masquée** (empreinte, inc/securite.php), jamais supprimée
+  (sinon cache navigateur périmé après mise à jour). Ne pas reposer la question.
+- Code de sécurité dans inc/securite.php ; functions.php ne fait que charger les fichiers de inc/.
+- Le formateur VS Code de l'équipe reformate certains fichiers au style PEAR : garder le style du fichier modifié.
+- Modifier une composition déjà utilisée : les pages en gardent une copie en base (mettre à jour via
+  parse_blocks/serialize_blocks en ciblant metadata.patternName).
+- Skill `frontend-design` (.claude/skills, installé via `npx skills add anthropics/skills --skill frontend-design`,
+  verrou skills-lock.json) : utile pour la mise en page et la hiérarchie visuelle, mais **subordonné à la charte
+  et au RGAA** : jamais de nouvelles couleurs ni polices hors theme.json et univers validés.
+- Vérifier après chaque changement PHP : `php -l` (8.5 et 8.2), debug.log, rendu des pages (aucune régression visuelle).
