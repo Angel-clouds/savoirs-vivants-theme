@@ -10,7 +10,6 @@
  */
 ?>
 <!-- wp:pattern {"slug":"savoirs-vivants/nos-projets-hero"} /-->
-<!-- wp:pattern {"slug":"savoirs-vivants/nos-projets-impact"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/nos-projets-poles"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/nos-projets-methode"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/nos-projets-appel"} /-->

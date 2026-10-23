@@ -12,8 +12,8 @@
 <div class="wp-block-columns are-vertically-aligned-center">
 <!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">En préparation</p>
+<!-- wp:paragraph {"className":"is-style-etiquette"} -->
+<p class="is-style-etiquette">En préparation</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Une application web pour les travailleurs sociaux</h2>

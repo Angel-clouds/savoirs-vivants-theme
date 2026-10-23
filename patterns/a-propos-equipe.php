@@ -11,10 +11,10 @@
 <!-- wp:heading -->
 <h2 class="wp-block-heading">L'équipe salariée</h2>
 <!-- /wp:heading -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"grid","minimumColumnWidth":"9rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40)">
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group -->
+<div class="wp-block-group">
 <!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
 <figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
 <!-- /wp:image -->
@@ -26,8 +26,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group -->
+<div class="wp-block-group">
 <!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
 <figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
 <!-- /wp:image -->
@@ -39,8 +39,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group -->
+<div class="wp-block-group">
 <!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
 <figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
 <!-- /wp:image -->
@@ -52,8 +52,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group -->
+<div class="wp-block-group">
 <!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
 <figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
 <!-- /wp:image -->

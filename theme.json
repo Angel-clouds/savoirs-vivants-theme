@@ -98,11 +98,14 @@
         "typography": { "fontFamily": "var:preset|font-family|space-mono", "fontWeight": "700", "lineHeight": "1.2" },
         "color": { "text": "var:preset|color|bleu-nuit" }
       },
-      "h1": { "typography": { "fontSize": "var:preset|font-size|xx-large" } },
-      "h2": { "typography": { "fontSize": "var:preset|font-size|x-large" } },
-      "h3": {
-        "typography": { "fontSize": "var:preset|font-size|large", "fontStyle": "italic" },
+      "h1": { "typography": { "fontSize": "clamp(2.1rem, 1.2rem + 4.5vw, 4.5rem)", "lineHeight": "1.05" } },
+      "h2": {
+        "typography": { "fontSize": "clamp(1.75rem, 1.35rem + 2vw, 2.75rem)", "fontStyle": "italic", "lineHeight": "1.15" },
         "color": { "text": "var:preset|color|vert-sauge" }
+      },
+      "h3": {
+        "typography": { "fontSize": "clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem)", "fontStyle": "normal", "textTransform": "uppercase", "letterSpacing": "0.02em" },
+        "color": { "text": "var:preset|color|bleu-nuit" }
       },
       "h4": {
         "typography": { "fontSize": "var:preset|font-size|medium", "textTransform": "uppercase" }

@@ -9,9 +9,6 @@
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
 <div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Agenda</p>
-<!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Les prochains rendez-vous</h2>
 <!-- /wp:heading -->
@@ -35,7 +32,7 @@
                 <!-- /wp:group -->
                 <!-- wp:group {"className":"sv-evenement__infos","style":{"spacing":{"blockGap":"0.4rem"}},"layout":{"type":"flex","orientation":"vertical"}} -->
                 <div class="wp-block-group sv-evenement__infos">
-                    <!-- wp:post-terms {"term":"sv_pole","fontSize":"small"} /-->
+                    <!-- wp:post-terms {"term":"sv_pole","className":"is-style-etiquette","fontSize":"small"} /-->
                     <!-- wp:post-title {"level":3,"isLink":true,"className":"is-style-titre-carte"} /-->
                     <!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"savoirs-vivants/evenement","args":{"key":"horaires_lieu"}}}},"fontSize":"small"} -->
                     <p class="has-small-font-size"></p>

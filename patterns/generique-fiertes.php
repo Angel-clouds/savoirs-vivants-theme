@@ -9,9 +9,6 @@
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
 <div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Reconnaissances 2025</p>
-<!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Nos fiertés</h2>
 <!-- /wp:heading -->
@@ -27,8 +24,8 @@
 <!-- /wp:column -->
 <!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Mars 2025 · CréaBot</p>
+<!-- wp:paragraph {"className":"is-style-etiquette"} -->
+<p class="is-style-etiquette">Mars 2025 · CréaBot</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Les filles de CréaBot devant l’objectif de Yann Arthus-Bertrand</h3>
@@ -58,8 +55,8 @@
 <!-- /wp:column -->
 <!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Octobre 2025 · Sciences participatives</p>
+<!-- wp:paragraph {"className":"is-style-etiquette"} -->
+<p class="is-style-etiquette">Octobre 2025 · Sciences participatives</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Le projet SURe présenté au Sénat</h3>

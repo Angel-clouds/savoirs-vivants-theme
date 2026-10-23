@@ -331,6 +331,204 @@ img[data-sv-substitution] {
 }
 
 /* =========================================================
+   6 bis. CHARTE GRAPHIQUE 2023 — hiérarchie, styles de blocs, motif
+   Source : chartes graph/1_-_Charte_graphique_SV (couleurs, typographies, motifs).
+   Couleurs : vert sauge et bleu nuit uniquement. Contrastes RGAA 3.2 :
+   sauge/blanc 3,61:1 et sauge/bleu nuit 3,71:1 → grands textes (≥ 24 px, ou ≥ 18,66 px gras) et décor seulement.
+   ========================================================= */
+
+/* Titres (theme.json) : H2 = « Sous-titre 1 » (gras italique vert sauge, ≥ 28 px),
+   H3 = « Sous-titre 2 » (gras, majuscules, bleu nuit). Exceptions : */
+/* - petits H2 (pied de page, « Ils soutiennent nos actions ») : trop petits pour le vert sauge */
+h2.has-small-font-size {
+  font-style: normal;
+  color: var(--color-nuit);
+}
+/* - titres de carte : courts et nombreux, ils restent en minuscules */
+.is-style-titre-carte {
+  text-transform: none;
+  letter-spacing: normal;
+}
+/* - univers CréaBot et Schlouk (chartes propres) : titres inchangés. Ces règles précèdent la section 10,
+     dont les règles de même poids l'emportent toujours. */
+:is(.sv-univers-creabot, .sv-univers-schlouk) main h2 {
+  font-style: normal;
+  color: var(--wp--preset--color--bleu-nuit);
+}
+:is(.sv-univers-creabot, .sv-univers-schlouk) main h3 {
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--wp--preset--color--vert-sauge);
+}
+
+/* Introduction de section : Space Grotesk Light, ≈ 65 caractères par ligne (confort de lecture),
+   alignée à gauche sur le titre. La marge gauche reproduit le bord de la colonne de 75rem
+   (la section 3 centre chaque enfant avec « margin-inline: auto !important »). */
+main .wp-block-group.alignfull:not(.has-bleu-nuit-background-color) > p:not([class*="is-style-"], .has-text-align-center) {
+  max-width: 42rem;
+  margin-inline: max(0px, (100% - 75rem) / 2) auto !important;
+}
+main .wp-block-group.alignfull:not(.has-bleu-nuit-background-color) > :is(h1, h2) + p:not([class*="is-style-"], .has-text-align-center) {
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  font-weight: 300;
+}
+
+/* Légendes : Space Mono gras italique (charte, exemples de mise en page) ; noms des partenaires exclus */
+.wp-element-caption {
+  font-family: var(--font-titre);
+  font-size: var(--text-sm);
+  font-style: italic;
+  font-weight: 700;
+}
+.sv-logos .wp-element-caption {
+  font-family: var(--font-texte);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Style « Sous-titre » (paragraphe) : « Sous-titre 1 » de la charte, placé SOUS le titre.
+   Gras et ≥ 20 px : grand texte au sens du RGAA, vert sauge conforme (3,61:1). */
+.is-style-sous-titre {
+  font-family: var(--font-titre);
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-sauge);
+}
+:is(h1, h2) + .is-style-sous-titre {
+  margin-top: var(--wp--preset--spacing--10);
+}
+/* Univers CréaBot et Schlouk : leur « sauge » est une couleur de décor (turquoise 1,99:1, orange) ;
+   le sous-titre prend leur couleur de texte validée (violet CréaBot, bleu foncé Schlouk). */
+:is(.sv-univers-creabot, .sv-univers-schlouk) .is-style-sous-titre {
+  color: var(--color-sauge-texte);
+}
+
+/* Style « Étiquette » (paragraphe, termes d'un contenu) : donnée courte encadrée (date, pôle, statut),
+   comme les encadrés « Titrage » de la charte. Les liens restent soulignés (RGAA 10.6). */
+.is-style-etiquette {
+  width: fit-content;
+  padding: 0.15em 0.6em;
+  border: 2px solid currentColor;
+  font-family: var(--font-texte);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--color-nuit);
+}
+.is-style-etiquette a {
+  color: inherit;
+}
+
+/* Style « Filet » (groupe) : filet vertical bleu nuit (charte, page « Règles ») à la place d'une carte encadrée */
+.is-style-filet {
+  padding: 0.25rem 0 0.25rem var(--wp--preset--spacing--20);
+  border-left: 2px solid var(--color-nuit);
+}
+.has-bleu-nuit-background-color .is-style-filet {
+  border-left-color: var(--color-blanc);
+}
+
+/* Style « Mise en avant » (groupe en grille) : mobile, une colonne ; dès 48rem, le premier élément
+   occupe la colonne large (7/12) sur toute la hauteur, les suivants s'empilent à côté.
+   Trois classes : l'emporte sur la classe de grille générée par WordPress, sans !important. */
+@media (min-width: 48rem) {
+  .wp-block-group.is-style-mise-en-avant.is-layout-grid {
+    grid-template-columns: 7fr 5fr;
+  }
+  .wp-block-group.is-style-mise-en-avant.is-layout-grid > :first-child {
+    grid-row: span 2;
+  }
+  .wp-block-group.is-style-mise-en-avant.is-layout-grid > :first-child:nth-last-child(4) {
+    grid-row: span 3;
+  }
+  /* La photo de la carte mise en avant remplit la hauteur gagnée (pas de vide sous le texte) */
+  .wp-block-group.is-style-mise-en-avant.is-layout-grid > .is-style-carte-image:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+  .wp-block-group.is-style-mise-en-avant.is-layout-grid > .is-style-carte-image:first-child > .wp-block-image {
+    position: relative;
+    flex: 1;
+    min-height: 14rem;
+  }
+  .wp-block-group.is-style-mise-en-avant.is-layout-grid > .is-style-carte-image:first-child > .wp-block-image img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto !important; /* l'emporte sur le format 16/9 réglé dans le bloc */
+  }
+}
+
+/* Hero avec photo (classe sv-hero) : texte sur 7/12 ; dès 64rem, la photo déborde jusqu'au bord droit
+   de l'écran et le motif officiel bleu nuit la chevauche (charte, « texte, image et motif »).
+   Le motif reste dans la colonne de la photo : jamais sous le texte. Mobile : photo sous le texte, sans motif.
+   Le léger excès dû à la barre de défilement est coupé par « overflow-x: clip » (.wp-site-blocks). */
+.sv-hero .wp-block-column:not(:first-child) .wp-block-image {
+  position: relative;
+}
+@media (min-width: 64rem) {
+  .sv-hero .wp-block-column:not(:first-child) .wp-block-image {
+    margin-inline-end: calc((100vw - min(75rem, 100vw - 2 * clamp(1.5rem, 5vw, 4rem))) / -2);
+  }
+  .sv-hero .wp-block-column:not(:first-child) .wp-block-image::after {
+    content: "";
+    position: absolute;
+    inset-block-end: -2rem;
+    inset-inline-start: 6%;
+    width: min(16rem, 45%);
+    aspect-ratio: 1;
+    background: url("../svg/motif-sv-nuit.svg") center / contain no-repeat;
+    pointer-events: none;
+  }
+}
+.sv-hero .wp-block-column:first-child > p:not([class*="is-style-"]) {
+  max-width: 36rem;
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  font-weight: 300;
+}
+
+/* Bloc « Suivre / Soutenir » (parts/soutien.html) : blocs inégaux ; dès 64rem, le motif vert sauge
+   déborde du coin du bloc bleu nuit, dans une marge réservée (jamais sous le texte). */
+.sv-soutien__soutenir {
+  position: relative;
+  overflow: clip;
+}
+@media (min-width: 64rem) {
+  .sv-soutien__soutenir {
+    padding-inline-end: 12rem !important; /* l'emporte sur la marge intérieure réglée dans l'éditeur */
+  }
+  .sv-soutien__soutenir::after {
+    content: "";
+    position: absolute;
+    inset-block-end: -3rem;
+    inset-inline-end: -3rem;
+    width: 14rem;
+    aspect-ratio: 1;
+    background: url("../svg/motif-sv-sauge.svg") center / contain no-repeat;
+    pointer-events: none;
+  }
+}
+
+/* Logo de l'en-tête (patterns/logo.php) : hauteur du symbole conservée, zone de sûreté de la charte */
+.sv-logo-site {
+  margin: 0;
+  padding-block: 0.25rem;
+}
+.sv-logo-site img {
+  display: block;
+  width: 140px !important; /* largeur réglée dans le bloc : mobile d'abord */
+  height: auto;
+}
+@media (min-width: 48rem) {
+  .sv-logo-site img {
+    width: 164px !important;
+  }
+}
+
+/* =========================================================
    7. COMPOSANTS
    ========================================================= */
 /* Chiffres clés */

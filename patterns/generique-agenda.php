@@ -29,7 +29,7 @@
                 <!-- /wp:group -->
                 <!-- wp:group {"className":"sv-evenement__infos","style":{"spacing":{"blockGap":"0.4rem"}},"layout":{"type":"flex","orientation":"vertical"}} -->
                 <div class="wp-block-group sv-evenement__infos">
-                    <!-- wp:post-terms {"term":"sv_pole","fontSize":"small"} /-->
+                    <!-- wp:post-terms {"term":"sv_pole","className":"is-style-etiquette","fontSize":"small"} /-->
                     <!-- wp:post-title {"level":3,"isLink":true,"className":"is-style-titre-carte"} /-->
                     <!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"savoirs-vivants/evenement","args":{"key":"horaires_lieu"}}}},"fontSize":"small"} -->
                     <p class="has-small-font-size"></p>

@@ -11,8 +11,8 @@
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Explorez nos trois pôles</h2>
 <!-- /wp:heading -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"16rem"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
+<!-- wp:group {"className":"is-style-mise-en-avant","style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"16rem"}} -->
+<div class="wp-block-group is-style-mise-en-avant" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte-image"} -->
 <div class="wp-block-group is-style-carte-image">
 <!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large"} -->

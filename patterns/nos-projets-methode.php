@@ -14,10 +14,10 @@
 <!-- wp:paragraph -->
 <p>Chaque chantier favorise quatre dimensions, au service de l'épanouissement de chacun et de la vitalité du territoire.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":2,"minimumColumnWidth":"16rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">L'échange</h3>
 <!-- /wp:heading -->
@@ -26,8 +26,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">La participation citoyenne</h3>
 <!-- /wp:heading -->
@@ -36,8 +36,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">L'expérimentation</h3>
 <!-- /wp:heading -->
@@ -46,8 +46,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:heading {"level":3,"className":"is-style-titre-carte"} -->
 <h3 class="wp-block-heading is-style-titre-carte">Le développement personnel</h3>
 <!-- /wp:heading -->

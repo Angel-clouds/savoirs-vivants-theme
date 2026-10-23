@@ -9,9 +9,6 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
 <div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Nos engagements</p>
-<!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Notre cap pour les années à venir</h2>
 <!-- /wp:heading -->
@@ -20,8 +17,8 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- /wp:paragraph -->
 <!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:image {"sizeSlug":"full","className":"sv-icone"} -->
 <figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url($svg . 'fiole.svg'); ?>" alt=""/></figure>
 <!-- /wp:image -->
@@ -33,8 +30,8 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:image {"sizeSlug":"full","className":"sv-icone"} -->
 <figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url($svg . 'feuille.svg'); ?>" alt=""/></figure>
 <!-- /wp:image -->
@@ -46,8 +43,8 @@ $svg = get_template_directory_uri() . '/assets/svg/';
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:image {"sizeSlug":"full","className":"sv-icone"} -->
 <figure class="wp-block-image size-full sv-icone"><img src="<?php echo esc_url($svg . 'reseau.svg'); ?>" alt=""/></figure>
 <!-- /wp:image -->

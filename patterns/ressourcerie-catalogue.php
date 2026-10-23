@@ -18,7 +18,7 @@
 <!-- wp:group {"className":"is-style-carte-image"} -->
 <div class="wp-block-group is-style-carte-image">
 <!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
-<!-- wp:post-terms {"term":"sv_type_materiel","fontSize":"small"} /-->
+<!-- wp:post-terms {"term":"sv_type_materiel","className":"is-style-etiquette","fontSize":"small"} /-->
 <!-- wp:post-title {"level":3,"isLink":true,"className":"is-style-titre-carte"} /-->
 <!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"sv_age"}}}},"style":{"typography":{"fontWeight":"700"}},"fontSize":"small"} -->
 <p class="has-small-font-size" style="font-weight:700"></p>

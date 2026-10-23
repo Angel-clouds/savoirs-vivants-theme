@@ -14,13 +14,10 @@
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Le bureau</h3>
 <!-- /wp:heading -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}},"layout":{"type":"grid","minimumColumnWidth":"15rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--30)">
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Laure Froehlig</strong></p>
 <!-- /wp:paragraph -->
@@ -29,11 +26,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Thomas Bernard</strong></p>
 <!-- /wp:paragraph -->
@@ -42,11 +36,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Victor Dumesge</strong></p>
 <!-- /wp:paragraph -->
@@ -55,11 +46,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Quentin Czerwiec</strong></p>
 <!-- /wp:paragraph -->
@@ -73,13 +61,10 @@
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Le conseil d'administration</h3>
 <!-- /wp:heading -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}},"layout":{"type":"grid","minimumColumnWidth":"15rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--30)">
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Antonio Capobianco</strong></p>
 <!-- /wp:paragraph -->
@@ -88,11 +73,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Erica Gaudillère</strong></p>
 <!-- /wp:paragraph -->
@@ -101,11 +83,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Yann Gaudeau</strong></p>
 <!-- /wp:paragraph -->
@@ -114,11 +93,8 @@
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-carte"} -->
-<div class="wp-block-group is-style-carte">
-<!-- wp:image {"sizeSlug":"thumbnail","className":"sv-portrait"} -->
-<figure class="wp-block-image size-thumbnail sv-portrait"><img alt=""/></figure>
-<!-- /wp:image -->
+<!-- wp:group {"className":"is-style-filet"} -->
+<div class="wp-block-group is-style-filet">
 <!-- wp:paragraph -->
 <p><strong>Claude Casterot</strong></p>
 <!-- /wp:paragraph -->

@@ -10,7 +10,6 @@
  */
 ?>
 <!-- wp:pattern {"slug":"savoirs-vivants/a-propos-hero"} /-->
-<!-- wp:pattern {"slug":"savoirs-vivants/a-propos-chiffres"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/a-propos-histoire"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/a-propos-equipe"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/a-propos-gouvernance"} /-->

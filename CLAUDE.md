@@ -27,11 +27,17 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
    - CréaBot : Orbitron (titres) / Exo 2 (texte), couleurs `--cb-*` ;
    - Schlouk de Sciences : Bebas Neue (titres) / Poppins (texte), couleurs `--sk-*`.
    Polices auto-hébergées (assets/fonts). Contrastes RGAA à respecter comme pour la charte globale.
+   **Charte 2023** (dossier `chartes graph/`, non versionné) : uniquement vert sauge et bleu nuit (le vert-jaune
+   et le noir d'un fichier d'exemples sont exclus) ; H1 Space Mono gras, **H2 gras italique vert sauge**,
+   **H3 gras MAJUSCULES bleu nuit** (theme.json), légendes Space Mono gras italique ; logo officiel complet
+   (assets/svg/logo-savoirs-vivants.svg, patterns/logo.php) ; motif = symbole officiel (assets/svg/motif-sv-*.svg),
+   jamais sous du texte. Pas de surtitre au-dessus des titres hors univers : style « Sous-titre » SOUS le titre.
+   Charte SRP : aucune, la charte globale s'applique.
 3. **Mobile-first** : CSS de base pour mobile, puis `@media (min-width: …)`.
 4. **RGPD** : aucun script tiers sans consentement (tarteaucitron.js, inc/assets.php).
 5. **Autonomie de l'éditeur** : sections = compositions (catégorie « Savoirs Vivants – Sections »),
-   pages = compositions « Pages complètes » ; styles de blocs : Surtitre, Titre de carte, Carte,
-   Carte avec image, Question fréquente.
+   pages = compositions « Pages complètes » ; styles de blocs : Surtitre (univers seulement), Titre de carte, Carte,
+   Carte avec image, Question fréquente, Sous-titre, Étiquette (paragraphe, termes), Filet, Mise en avant (grille).
 
 ## Contenu
 - Source de vérité : Rapport d'activités 2025. Aucun Lorem Ipsum, aucune info inventée.

@@ -71,5 +71,29 @@ add_action(
 				'label' => __( 'Question fréquente', 'savoirs-vivants' ),
 			]
 		);
+
+		/*
+		 * Styles tirés de la charte graphique 2023 (voir src/css/main.css, section 6).
+		 * - Sous-titre : « Sous-titre 1 » de la charte, Space Mono gras italique vert sauge, placé SOUS le titre.
+		 * - Étiquette : donnée courte encadrée (date, pôle, statut), comme les encadrés de la charte.
+		 * - Filet : filet vertical bleu nuit à gauche, à la place d'une carte encadrée.
+		 * - Mise en avant : grille dont le premier élément occupe la colonne large (7/12).
+		 */
+		$styles = [
+			[ 'core/paragraph', 'sous-titre', __( 'Sous-titre', 'savoirs-vivants' ) ],
+			[ 'core/paragraph', 'etiquette', __( 'Étiquette', 'savoirs-vivants' ) ],
+			[ 'core/post-terms', 'etiquette', __( 'Étiquette', 'savoirs-vivants' ) ],
+			[ 'core/group', 'filet', __( 'Filet', 'savoirs-vivants' ) ],
+			[ 'core/group', 'mise-en-avant', __( 'Mise en avant', 'savoirs-vivants' ) ],
+		];
+		foreach ( $styles as [ $bloc, $nom, $libelle ] ) {
+			register_block_style(
+				$bloc,
+				[
+					'name'  => $nom,
+					'label' => $libelle,
+				]
+			);
+		}
 	}
 );

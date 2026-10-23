@@ -9,9 +9,6 @@
 ?>
 <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"bleu-nuit","textColor":"blanc","className":"sv-ambitions","layout":{"type":"constrained","contentSize":"75rem"}} -->
 <div class="wp-block-group alignfull sv-ambitions has-blanc-color has-bleu-nuit-background-color has-text-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
-<!-- wp:paragraph {"className":"is-style-surtitre","textColor":"blanc"} -->
-<p class="is-style-surtitre has-blanc-color has-text-color">Ambitions 2026</p>
-<!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">L’année de la consolidation</h2>
 <!-- /wp:heading -->
@@ -23,8 +20,8 @@
 <div class="wp-block-columns" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:column {"style":{"border":{"left":{"color":"var:preset|color|vert-sauge","style":"solid","width":"4px"}},"spacing":{"padding":{"left":"var:preset|spacing|40"}}}} -->
 <div class="wp-block-column" style="border-left-color:var(--wp--preset--color--vert-sauge);border-left-style:solid;border-left-width:4px;padding-left:var(--wp--preset--spacing--40)">
-<!-- wp:paragraph {"className":"is-style-surtitre","textColor":"blanc"} -->
-<p class="is-style-surtitre has-blanc-color has-text-color">CréaBot · Robotique éducative</p>
+<!-- wp:paragraph {"className":"is-style-etiquette","textColor":"blanc"} -->
+<p class="is-style-etiquette has-blanc-color has-text-color">CréaBot · Robotique éducative</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Le premier concours de robotique de CréaBot en Alsace du Nord</h3>
@@ -42,8 +39,8 @@
 <!-- /wp:column -->
 <!-- wp:column {"style":{"border":{"left":{"color":"var:preset|color|vert-sauge","style":"solid","width":"4px"}},"spacing":{"padding":{"left":"var:preset|spacing|40"}}}} -->
 <div class="wp-block-column" style="border-left-color:var(--wp--preset--color--vert-sauge);border-left-style:solid;border-left-width:4px;padding-left:var(--wp--preset--spacing--40)">
-<!-- wp:paragraph {"className":"is-style-surtitre","textColor":"blanc"} -->
-<p class="is-style-surtitre has-blanc-color has-text-color">Vir-Age · Réalité virtuelle en EHPAD</p>
+<!-- wp:paragraph {"className":"is-style-etiquette","textColor":"blanc"} -->
+<p class="is-style-etiquette has-blanc-color has-text-color">Vir-Age · Réalité virtuelle en EHPAD</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">La réalité virtuelle dans de nouveaux EHPAD</h3>
