@@ -21,6 +21,7 @@ add_action(
 require_once SV_DIR . '/inc/assets.php';             // CSS, JS, tarteaucitron
 require_once SV_DIR . '/inc/blocks.php';             // Styles de blocs + catégories de compositions
 require_once SV_DIR . '/inc/contenus.php';           // Événements, matériel, champs, bindings
+require_once SV_DIR . '/inc/agenda-filtres.php';     // Agenda général : filtres par agenda et par mois
 require_once SV_DIR . '/inc/sync-agenda.php';        // Import horaire de l'agenda Google (.ics) en brouillons
 require_once SV_DIR . '/inc/mini-sites.php';        // Mini-sites .zip de la Ressourcerie (bac à sable)
 require_once SV_DIR . '/inc/formulaire-contact.php'; // Formulaire de contact accessible

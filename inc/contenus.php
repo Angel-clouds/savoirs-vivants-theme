@@ -130,7 +130,7 @@ add_action(
 				'show_in_rest'  => true,
 				'menu_icon'     => 'dashicons-calendar-alt',
 				'menu_position' => 20,
-				'has_archive'   => 'agenda',
+				'has_archive'   => false, // /agenda/ est une vraie page (composition page-agenda, filtres : inc/agenda-filtres.php)
 				'rewrite'       => [
 					'slug'       => 'agenda',
 					'with_front' => false,
@@ -256,19 +256,23 @@ add_action(
 );
 
 /**
- * Permaliens régénérés à l'activation du thème (sinon /agenda/ et /ressourcerie/xxx/ renverraient une 404).
+ * Permaliens régénérés à l'activation du thème (sinon /agenda/pole/xxx/ et /ressourcerie/xxx/ renverraient une 404).
  */
 add_action( 'after_switch_theme', 'flush_rewrite_rules' );
 
 /**
- * Permaliens régénérés une seule fois quand les règles d'adresse du thème changent
- * (incrémenter SV_REGLES_ADRESSES à chaque modification d'un « rewrite »).
+ * Permaliens régénérés quand les règles d'adresse du thème changent (incrémenter SV_REGLES_ADRESSES
+ * à chaque modification d'un « rewrite »), ou quand elles ont disparu : règles enregistrées pendant
+ * que le thème n'était pas chargé (changement de thème, mise à jour…) → /agenda/ en 404.
+ * Vérification gratuite : l'option rewrite_rules est déjà chargée en mémoire.
  */
-const SV_REGLES_ADRESSES = '2';
+const SV_REGLES_ADRESSES = '3';
 add_action(
 	'init',
 	function () {
-		if ( get_option( 'sv_regles_adresses' ) !== SV_REGLES_ADRESSES ) {
+		$regles  = get_option( 'rewrite_rules' );
+		$perdues = is_array( $regles ) && get_option( 'permalink_structure' ) && ! isset( $regles['agenda/pole/([^/]+)/?$'] );
+		if ( $perdues || get_option( 'sv_regles_adresses' ) !== SV_REGLES_ADRESSES ) {
 			flush_rewrite_rules( false );
 			update_option( 'sv_regles_adresses', SV_REGLES_ADRESSES );
 		}

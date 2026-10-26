@@ -25,6 +25,7 @@ add_action(
 			'sv-outils'             => [ __( 'SV · Outils numériques', 'savoirs-vivants' ), __( 'Sections de la page USUEL.', 'savoirs-vivants' ) ],
 			'sv-a-propos'           => [ __( 'SV · À propos', 'savoirs-vivants' ), __( 'Sections de la page À propos.', 'savoirs-vivants' ) ],
 			'sv-contact'            => [ __( 'SV · Contact', 'savoirs-vivants' ), __( 'Sections de la page Contact.', 'savoirs-vivants' ) ],
+			'sv-agenda'             => [ __( 'SV · Agenda', 'savoirs-vivants' ), __( 'Sections de la page Agenda.', 'savoirs-vivants' ) ],
 		];
 		foreach ( $categories as $slug => [ $label, $description ] ) {
 			register_block_pattern_category(

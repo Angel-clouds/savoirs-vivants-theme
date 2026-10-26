@@ -1,0 +1,43 @@
+# Fichiers à NE PAS envoyer sur le serveur de production.
+# Ces fichiers servent au développement ; sous Nginx, tout fichier présent dans le thème
+# est téléchargeable publiquement (.htaccess n'est lu que par Apache).
+#
+# Utilisation :
+#   rsync -av --delete --exclude-from=.distignore ./ utilisateur@serveur:/chemin/wp-content/themes/savoirs-vivants/
+#   wp dist-archive .            (archive .zip du thème, sans ces fichiers)
+# Avant l'envoi : npm run build (assets/css/main.css et assets/vendor à jour).
+
+# Git et ce fichier
+.git
+.gitignore
+.distignore
+
+# Dépendances et sources de compilation (le site n'utilise que assets/)
+node_modules
+src
+package.json
+package-lock.json
+
+# Documentation et instructions de travail
+docs
+CLAUDE.md
+CLAUDE.local.md
+skills-lock.json
+
+# Réglages d'éditeur et d'outils
+.vscode
+.claude
+.phpcs.xml.dist
+
+# Documents sources (hors dépôt, à ne jamais publier)
+chartes graph
+*.pdf
+
+# Fichiers temporaires et journaux
+*.log
+*.bak
+*.zip
+.DS_Store
+Thumbs.db
+*~
+*.swp

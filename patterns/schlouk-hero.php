@@ -12,9 +12,9 @@
 <div class="wp-block-columns are-vertically-aligned-center">
 <!-- wp:column {"verticalAlignment":"center","width":"55%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:55%">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Médiation scientifique</p>
-<!-- /wp:paragraph -->
+<!-- wp:image {"width":"176px","sizeSlug":"full","className":"sv-logo-pole"} -->
+<figure class="wp-block-image size-full is-resized sv-logo-pole"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/schlouk-logo.webp' ); ?>" alt="" style="width:176px"/></figure>
+<!-- /wp:image -->
 <!-- wp:heading {"level":1} -->
 <h1 class="wp-block-heading">Schlouk de Sciences, la science sans prise de tête</h1>
 <!-- /wp:heading -->

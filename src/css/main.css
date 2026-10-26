@@ -651,6 +651,91 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
   flex: 1 1 16rem;
 }
 
+/* Filtres de l'agenda général (inc/agenda-filtres.php) : mobile d'abord, en ligne dès 48rem.
+   Bordures bleu nuit ≥ 3:1 (RGAA 3.3) ; case cochée = coche ET fond bleu nuit (pas la couleur seule, 3.1). */
+.sv-filtres-agenda {
+  display: grid;
+  gap: var(--wp--preset--spacing--20);
+  margin-block: var(--wp--preset--spacing--40);
+  padding: var(--wp--preset--spacing--30);
+  background: var(--color-fond);
+}
+.sv-filtres-agenda fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.sv-filtres-agenda legend,
+.sv-filtres-agenda__mois label {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+.sv-filtres-agenda__choix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sv-filtres-agenda__choix label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem; /* cible tactile confortable */
+  padding: 0.4rem 0.9rem;
+  border: 2px solid var(--color-nuit);
+  background: var(--color-blanc);
+  cursor: pointer;
+}
+.sv-filtres-agenda__choix input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--color-nuit);
+}
+.sv-filtres-agenda__choix label:has(:checked) {
+  background: var(--color-nuit);
+  color: var(--color-blanc);
+}
+.sv-filtres-agenda__choix label:has(:checked) input {
+  accent-color: var(--color-blanc);
+}
+.sv-filtres-agenda__aide {
+  margin: 0.5rem 0 0;
+  font-size: var(--text-sm);
+}
+.sv-filtres-agenda__mois {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.sv-filtres-agenda__mois select {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  color: var(--color-nuit);
+  background: var(--color-blanc);
+  border: 2px solid var(--color-nuit);
+}
+.sv-filtres-agenda__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--wp--preset--spacing--20);
+  margin: 0;
+}
+@media (min-width: 48rem) {
+  .sv-filtres-agenda {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+  .sv-filtres-agenda__actions {
+    grid-column: 1 / -1;
+  }
+}
+.sv-filtres-agenda__resultats {
+  margin-top: var(--wp--preset--spacing--40);
+  font-size: var(--wp--preset--font-size--large);
+}
+
 /* Bouton lié à un champ facultatif (ex. lien d'inscription) : masqué s'il est vide */
 .sv-bouton-optionnel:has(> a:not([href])),
 .sv-bouton-optionnel:has(> a[href=""]) {
@@ -1374,7 +1459,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   border-radius: 1.5rem;
   overflow: hidden;
 }
-:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait, .sv-logo-pole) img {
   border-radius: 1.5rem;
 }
 :is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-carte-image > .wp-block-image img {
@@ -1385,14 +1470,14 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 }
 
 /* Photo de l'introduction : forme organique + tache orange derrière, comme sur l'affiche */
-:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image {
+:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image:not(.sv-logo-pole) {
   position: relative;
   isolation: isolate;
 }
-:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image img {
+:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image:not(.sv-logo-pole) img {
   border-radius: 58% 42% 45% 55% / 45% 55% 45% 55%;
 }
-:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image::before {
+:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image:not(.sv-logo-pole)::before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -1400,6 +1485,16 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   background: var(--sk-orange);
   border-radius: 42% 58% 62% 38% / 55% 40% 60% 45%;
   pointer-events: none;
+}
+
+/* Logo du collectif en tête de l'introduction (fourni par Schlouk de Sciences, octobre 2026) */
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .sv-logo-pole {
+  margin: 0 0 var(--wp--preset--spacing--20);
+}
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .sv-logo-pole img {
+  width: clamp(8rem, 6rem + 6vw, 11rem) !important; /* largeur réglée dans le bloc : mobile d'abord */
+  height: auto;
+  border-radius: 0;
 }
 
 /* Chiffres clés : Bebas en orange foncé (grand texte, 4,9:1) */
@@ -1651,82 +1746,64 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
    Logo plein écran 1,2 s puis fondu. La classe sv-intro-sv / -creabot / -schlouk
    est posée sur <html> par le script de tête. Décorative (aria-hidden), sans
    clignotement, < 5 s (RGAA 13.7, 13.8), clics et clavier jamais bloqués
-   (pointer-events: none), rien si « réduire les animations » est demandé.
+   (pointer-events: none).
+   « Réduire les animations » demandé : simple fondu, sans zoom
+   (aucun mouvement, WCAG 2.3.3) ; zoom seulement en no-preference.
    Couleurs des pôles reprises de la section 10 (hors <main> : écran d'entrée seulement).
    ========================================================= */
 .sv-intro,
 .sv-intro__logo {
   display: none;
 }
+:is(.sv-intro-sv, .sv-intro-creabot, .sv-intro-schlouk) .sv-intro {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  padding: var(--wp--preset--spacing--30);
+  background: #fff;
+  pointer-events: none;
+  animation: sv-intro-voile 1.2s ease-in-out forwards;
+}
+.sv-intro-creabot .sv-intro {
+  background: color-mix(in srgb, #a8a5c2 18%, #fff); /* Ciel cosmique très clair (charte CréaBot) */
+}
+.sv-intro-schlouk .sv-intro {
+  background: #c3e9fd; /* aquarelle (charte dérivée Schlouk) */
+}
+.sv-intro-sv .sv-intro__logo--sv,
+.sv-intro-creabot .sv-intro__logo--creabot,
+.sv-intro-schlouk .sv-intro__logo--schlouk {
+  display: block;
+  animation: sv-intro-apparition 1.2s ease-out forwards;
+}
+.sv-intro__logo--sv {
+  width: min(70vw, 22rem);
+  height: auto;
+}
+.sv-intro__logo--creabot {
+  width: min(55vw, 15rem);
+  height: auto;
+}
+.sv-intro__logo--schlouk {
+  width: min(65vw, 17rem);
+  height: auto;
+}
 @media (prefers-reduced-motion: no-preference) {
-  :is(.sv-intro-sv, .sv-intro-creabot, .sv-intro-schlouk) .sv-intro {
-    display: grid;
-    place-items: center;
-    position: fixed;
-    inset: 0;
-    z-index: 100000;
-    padding: var(--wp--preset--spacing--30);
-    background: #fff;
-    pointer-events: none;
-    animation: sv-intro-voile 1.2s ease-in-out forwards;
-  }
-  .sv-intro-creabot .sv-intro {
-    background: color-mix(in srgb, #a8a5c2 18%, #fff); /* Ciel cosmique très clair (charte CréaBot) */
-  }
-  .sv-intro-schlouk .sv-intro {
-    background: #c3e9fd; /* aquarelle (charte dérivée Schlouk) */
-  }
   .sv-intro-sv .sv-intro__logo--sv,
   .sv-intro-creabot .sv-intro__logo--creabot,
   .sv-intro-schlouk .sv-intro__logo--schlouk {
-    display: block;
     animation: sv-intro-logo 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   }
-  .sv-intro__logo--sv {
-    width: min(70vw, 22rem);
-    height: auto;
-  }
-  .sv-intro__logo--creabot {
-    width: min(55vw, 15rem);
-    height: auto;
-  }
-  /* Schlouk : nom en Bebas Neue (en attendant le logo HD de la cigogne) et bulles du flacon */
-  .sv-intro__logo--schlouk {
-    position: relative;
-    margin: 0;
-    font-family: "Bebas Neue", system-ui, sans-serif;
-    font-size: clamp(2rem, 1.2rem + 4vw, 3.5rem);
-    line-height: 0.95;
-    text-align: center;
-    color: #342c6f;
-  }
-  .sv-intro__nom {
-    display: block;
-    font-size: 2.2em;
-    color: #ee3e00;
-  }
-  .sv-intro__bulle {
-    position: absolute;
-    bottom: 100%;
-    width: 0.5em;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: #34a5c9;
+}
+@keyframes sv-intro-apparition {
+  0% {
     opacity: 0;
-    animation: sv-intro-bulle 1s ease-out 0.1s forwards;
   }
-  .sv-intro__bulle:nth-of-type(2) {
-    left: 30%;
-  }
-  .sv-intro__bulle:nth-of-type(3) {
-    left: 52%;
-    width: 0.35em;
-    animation-delay: 0.25s;
-  }
-  .sv-intro__bulle:nth-of-type(4) {
-    left: 68%;
-    width: 0.25em;
-    animation-delay: 0.4s;
+  30%,
+  100% {
+    opacity: 1;
   }
 }
 @keyframes sv-intro-voile {
@@ -1751,19 +1828,6 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   100% {
     opacity: 1;
     transform: scale(1.04);
-  }
-}
-@keyframes sv-intro-bulle {
-  0% {
-    opacity: 0;
-    transform: translateY(0.5em);
-  }
-  40% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-1.5em);
   }
 }
 @media print {

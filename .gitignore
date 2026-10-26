@@ -36,3 +36,7 @@ CLAUDE.local.md
 
 # Documents de travail lourds (rapport d'activités : à mettre dans la médiathèque)
 *.pdf
+
+# Chartes graphiques sources (logos, polices, PDF) : hors dépôt public.
+# Tout ce que le thème utilise est déjà copié dans assets/.
+chartes graph/

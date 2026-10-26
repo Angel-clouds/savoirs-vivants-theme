@@ -34,7 +34,7 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
    - Schlouk de Sciences : **charte dérivée** (aucune charte officielle) dans docs/charte-schlouk-de-sciences.md,
      à faire valider par le collectif. Bebas Neue (titres) / Poppins (texte), couleurs `--sk-*` : bleu #34A5C9
      (décor), bleu foncé #1B7A9C (texte blanc dessus), H1 orange-rouge #EE3E00 (grands titres seulement), fond
-     aquarelle #C3E9FD, encre #342C6F ; accroche officielle en bulle bleue. Logo HD (cigogne) à demander au collectif.
+     aquarelle #C3E9FD, encre #342C6F ; accroche officielle en bulle bleue. Logo officiel fourni (assets/img/schlouk-logo.webp, 698 px, fond transparent) en tête de l'introduction.
    Polices auto-hébergées (assets/fonts). Contrastes RGAA à respecter comme pour la charte globale.
    **Charte 2023** (dossier `chartes graph/`, non versionné) : uniquement vert sauge et bleu nuit (le vert-jaune
    et le noir d'un fichier d'exemples sont exclus) ; H1 Space Mono gras, **H2 gras italique vert sauge**,
@@ -56,10 +56,18 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 ## Architecture
 - inc/contenus.php : types « sv_evenement » (Agenda, /agenda/) et « sv_materiel » (/ressourcerie/xxx/),
   taxonomies sv_pole et sv_type_materiel, champs + panneau éditeur, source de liaison
-  « savoirs-vivants/evenement », filtre « événements à venir » (sans date ou date passée = invisible).
+  « savoirs-vivants/evenement », filtre « événements à venir » (sans date ou date passée = invisible) ;
+  adresses : /agenda/<événement>/ et /agenda/pole/<pôle>/ (la page /agenda/ elle-même est une page WordPress).
   Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
   obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date
   absente ou passée ; boîte « Pôles » d'origine masquée. Plus de pôle deviné d'après le titre.
+- inc/agenda-filtres.php : agenda général = **vraie page « Agenda »** (/agenda/, composition page-agenda =
+  agenda-hero + agenda-liste, catégorie « SV · Agenda » ; plus d'archive : has_archive false). Code court
+  [sv_filtres_agenda] = formulaire GET sans JS (cases agendas[] = termes sv_pole, liste « mois » des mois ayant un
+  événement à venir) + titre h2 #resultats « N rendez-vous à venir pour … en … » ; les filtres restreignent la boucle
+  dont la requête porte "svFiltres":true (query_loop_block_query_vars, priorité 20). Événements en h3.
+- Adresses perdues (/agenda/pole/… en 404 si les règles ont été enregistrées sans le thème) : inc/contenus.php les
+  régénère d'office quand la règle « agenda/pole/([^/]+)/?$ » manque.
 - inc/sync-agenda.php : import horaire (WP-Cron « sv_sync_agenda ») du flux .ics Google Agenda (SV_GCAL_ICS_URL,
   à définir dans wp-config.php) ; clé _sv_gcal_uid, nouveaux événements en brouillon, mise à jour seulement si Google
   a changé (_sv_gcal_empreinte), corbeille respectée, passés et annulés ignorés. Test : `wp cron event run sv_sync_agenda`.
@@ -81,10 +89,10 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins ;
   Sciences participatives : charte globale, titres Space Mono italique vert sauge, motifs du rapport d'activités).
 - inc/intro.php + section 11 de src/css/main.css : animation d'entrée (logo plein écran 1,2 s puis fondu).
-  Logo SV à la 1re page de la session, logo CréaBot / Schlouk à l'entrée dans l'univers du pôle ; jamais au
+  Logo SV à la 1re page de la session, logo CréaBot / Schlouk à la 1re entrée dans l'univers du pôle ; jamais au
   rechargement ni au retour arrière. Choix fait par un script en tête de <head> (classe sv-intro-* sur <html>,
-  sessionStorage « sv-univers »). RGAA : aria-hidden, < 5 s (13.8), sans clignotement, pointer-events: none,
-  rien avec prefers-reduced-motion. Schlouk : nom en Bebas Neue + bulles en attendant le logo HD (cigogne).
+  sessionStorage « sv-intro-vus » : chaque logo une seule fois par visite). RGAA : aria-hidden, < 5 s (13.8), sans clignotement, pointer-events: none,
+  avec prefers-reduced-motion : simple fondu sans zoom ni bulles (demande de l'équipe, animations coupées sur leur poste).
 - parts/soutien.html : bloc « Suivre / Soutenir » affiché avant le pied de page sur toutes les pages.
 - parts/footer.html appelle la composition patterns/pied-de-page.php (Inserter: no) : textes en gettext.
   Ne pas modifier le pied de page dans l'éditeur de site (la copie en base remplacerait le fichier et figerait le texte).
@@ -124,6 +132,9 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - Ne jamais commiter ni pousser sans demande explicite ; l'équipe gère l'historique git et la configuration serveur.
   Travail de Claude : sur une branche `claude/…`, messages de commit détaillés (quoi, pourquoi, tests, limites).
 - Dépôt public : aucun secret dans le thème (identifiants et adresses privées dans wp-config.php).
+- Mise en ligne : n'envoyer que ce que .distignore n'exclut pas (`rsync -av --delete --exclude-from=.distignore ./ …`
+  ou `wp dist-archive .`, après `npm run build`) — sous Nginx, tout fichier du thème est public. `chartes graph/` est
+  hors dépôt depuis octobre 2026 (.gitignore) mais reste dans l'historique git (purge = git filter-repo, décision d'équipe).
 - `?ver=` des CSS/JS : version de WordPress **masquée** (empreinte, inc/securite.php), jamais supprimée
   (sinon cache navigateur périmé après mise à jour). Ne pas reposer la question.
 - Code de sécurité dans inc/securite.php ; functions.php ne fait que charger les fichiers de inc/.
