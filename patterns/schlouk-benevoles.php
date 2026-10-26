@@ -6,8 +6,8 @@
  * Description: Bandeau sombre : chercheurs et bénévoles.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"bleu-nuit","textColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-blanc-color has-bleu-nuit-background-color has-text-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","className":"sv-pole-schlouk","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"bleu-nuit","textColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-schlouk has-blanc-color has-bleu-nuit-background-color has-text-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 <!-- wp:heading {"textAlign":"center"} -->
 <h2 class="wp-block-heading has-text-align-center">Chercheur·e ou bénévole ? Rejoignez le collectif</h2>
 <!-- /wp:heading -->

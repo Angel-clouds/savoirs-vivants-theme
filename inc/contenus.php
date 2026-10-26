@@ -15,8 +15,16 @@ defined( 'ABSPATH' ) || exit;
 function sv_champs_editeur(): array {
 	return [
 		'sv_evenement' => [
-			'titre'  => __( 'Informations de l’événement', 'savoirs-vivants' ),
-			'champs' => [
+			'titre'   => __( 'Informations de l’événement', 'savoirs-vivants' ),
+			// Choix obligatoire des agendas (termes sv_pole) : enregistrement bloqué tant qu'aucun n'est coché.
+			'agendas' => [
+				'legende'        => __( 'Agendas où afficher l’événement', 'savoirs-vivants' ),
+				'aide'           => __( 'Cochez au moins un agenda. L’agenda général (/agenda/) affiche tous les événements.', 'savoirs-vivants' ),
+				'manquant'       => __( 'Choisissez au moins un agenda pour pouvoir enregistrer l’événement.', 'savoirs-vivants' ),
+				'date_manquante' => __( 'Sans date, l’événement n’apparaît dans aucun agenda.', 'savoirs-vivants' ),
+				'date_passee'    => __( 'Cette date est passée : l’événement n’apparaît plus dans les agendas.', 'savoirs-vivants' ),
+			],
+			'champs'  => [
 				[
 					'cle'   => 'sv_date',
 					'label' => _x( 'Date', 'champ d’un événement', 'savoirs-vivants' ),
@@ -399,39 +407,4 @@ add_action(
 			}
 		}
 	}
-);
-/**
- * Confort de saisie : si aucun pôle n'est coché, on le devine d'après le titre
- * de l'événement (« CréaBot », « Schlouk », « Pint of Science »…).
- * La case cochée manuellement reste toujours prioritaire.
- */
-add_action(
-	'save_post_sv_evenement',
-	function ( $id, $post ) {
-		if ( wp_is_post_autosave( $id ) || wp_is_post_revision( $id ) ) {
-			return;
-		}
-		if ( has_term( '', 'sv_pole', $id ) ) {
-			return; // un pôle est déjà choisi : on ne touche à rien
-		}
-
-		$titre = strtolower( remove_accents( $post->post_title ) );
-
-		$indices = [
-			'creabot'                 => [ 'creabot', 'robotique', 'robotech', 'club maker', 'factory kids' ],
-			'schlouk-de-sciences'     => [ 'schlouk', 'pint of science', 'choco', 'cafe botanique', 'quiz' ],
-			'sciences-participatives' => [ 'sure', 'usuel', 'vir-age', 'otez l', 'crep', 'ilot', 'participativ' ],
-		];
-
-		foreach ( $indices as $pole => $mots ) {
-			foreach ( $mots as $mot ) {
-				if ( str_contains( $titre, $mot ) ) {
-					wp_set_object_terms( $id, $pole, 'sv_pole' );
-					return;
-				}
-			}
-		}
-	},
-	10,
-	2
 );

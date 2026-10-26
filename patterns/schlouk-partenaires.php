@@ -7,8 +7,8 @@
  * Keywords: logos, soutiens, financeurs, partenaires
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<!-- wp:group {"align":"full","className":"sv-pole-schlouk","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-schlouk has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 <!-- wp:heading {"textAlign":"center","fontSize":"small"} -->
 <h2 class="wp-block-heading has-text-align-center has-small-font-size">Ils soutiennent nos actions</h2>
 <!-- /wp:heading -->

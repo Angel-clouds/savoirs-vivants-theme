@@ -6,12 +6,12 @@
  * Description: Factory Kids, RobotechGirls, Fête de la science, Karlsruhe.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","className":"sv-pole-creabot","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-creabot has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Nos temps forts et ouvertures</h2>
 <!-- /wp:heading -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"14rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":2,"minimumColumnWidth":"20rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte-image"} -->
 <div class="wp-block-group is-style-carte-image">

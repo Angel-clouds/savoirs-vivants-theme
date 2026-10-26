@@ -6,8 +6,8 @@
  * Description: Quatre chiffres clés du pôle.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<!-- wp:group {"align":"full","className":"sv-pole-sciences","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-sciences has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 <!-- wp:heading {"className":"sv-sr-only"} -->
 <h2 class="wp-block-heading sv-sr-only">La recherche participative en chiffres (2025)</h2>
 <!-- /wp:heading -->

@@ -8,7 +8,8 @@
  * Soutenir » et le pied de page restent aux couleurs de Savoirs Vivants.
  *
  * Aucune modification des compositions n'est nécessaire : les pages déjà créées
- * prennent le nouvel habillage automatiquement.
+ * prennent le nouvel habillage automatiquement. Dans l'éditeur (pas de <body> de page),
+ * c'est la classe sv-pole-… de chaque section de pôle qui applique la charte du pôle.
  *
  * Multilingue : une page traduite (ex. /de/creabot-de/) a un autre slug ; on compare donc aussi
  * le slug de sa traduction dans la langue par défaut du site (Polylang), voir sv_univers_source().

@@ -24,8 +24,17 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
    Gris bordure #DCDFE6. Space Mono (titres) / Space Grotesk (texte), auto-hébergées.
    **Exception validée : univers des pôles** (inc/univers.php, section 10 de src/css/main.css),
    limitée au `<main>` des pages du pôle (en-tête, Soutien et pied de page restent à la charte globale) :
-   - CréaBot : Orbitron (titres) / Exo 2 (texte), couleurs `--cb-*` ;
-   - Schlouk de Sciences : Bebas Neue (titres) / Poppins (texte), couleurs `--sk-*`.
+   - CréaBot : **charte officielle** (`chartes graph/2_-_Charte_Graphique_CREABOT`, juillet 2026). Orbitron Black
+     (H1, H2 MAJUSCULES ; H3 casse normale), H4 Exo 2 Bold, texte Exo 2 ; tailles dans les proportions
+     22/20/17/15/11 pt (calculées sur le texte courant). Palette `--cb-*` : turquoise #6BC5CE, violet #5D4696,
+     ciel #A8A5C2, bleu #405EA7, rose #B14B95 ; **texte uniquement #160735 ou blanc** (blanc sur violet/bleu/rose,
+     #160735 sur ciel/turquoise). Logo officiel non modifiable (assets/svg/creabot-logo.svg, ≥ 62 px, zone de
+     protection) ; motif principal = circuits en tons clairs ; motif secondaire (robot au trait) **interdit** sur une
+     page qui affiche le logo ; photos réelles en priorité.
+   - Schlouk de Sciences : **charte dérivée** (aucune charte officielle) dans docs/charte-schlouk-de-sciences.md,
+     à faire valider par le collectif. Bebas Neue (titres) / Poppins (texte), couleurs `--sk-*` : bleu #34A5C9
+     (décor), bleu foncé #1B7A9C (texte blanc dessus), H1 orange-rouge #EE3E00 (grands titres seulement), fond
+     aquarelle #C3E9FD, encre #342C6F ; accroche officielle en bulle bleue. Logo HD (cigogne) à demander au collectif.
    Polices auto-hébergées (assets/fonts). Contrastes RGAA à respecter comme pour la charte globale.
    **Charte 2023** (dossier `chartes graph/`, non versionné) : uniquement vert sauge et bleu nuit (le vert-jaune
    et le noir d'un fichier d'exemples sont exclus) ; H1 Space Mono gras, **H2 gras italique vert sauge**,
@@ -47,7 +56,10 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 ## Architecture
 - inc/contenus.php : types « sv_evenement » (Agenda, /agenda/) et « sv_materiel » (/ressourcerie/xxx/),
   taxonomies sv_pole et sv_type_materiel, champs + panneau éditeur, source de liaison
-  « savoirs-vivants/evenement », filtre « événements à venir ».
+  « savoirs-vivants/evenement », filtre « événements à venir » (sans date ou date passée = invisible).
+  Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
+  obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date
+  absente ou passée ; boîte « Pôles » d'origine masquée. Plus de pôle deviné d'après le titre.
 - inc/sync-agenda.php : import horaire (WP-Cron « sv_sync_agenda ») du flux .ics Google Agenda (SV_GCAL_ICS_URL,
   à définir dans wp-config.php) ; clé _sv_gcal_uid, nouveaux événements en brouillon, mise à jour seulement si Google
   a changé (_sv_gcal_empreinte), corbeille respectée, passés et annulés ignorés. Test : `wp cron event run sv_sync_agenda`.
@@ -68,6 +80,11 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   (et sous-pages) ; la section 10 de src/css/main.css applique la charte du pôle au seul <main>
   (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins ;
   Sciences participatives : charte globale, titres Space Mono italique vert sauge, motifs du rapport d'activités).
+- inc/intro.php + section 11 de src/css/main.css : animation d'entrée (logo plein écran 1,2 s puis fondu).
+  Logo SV à la 1re page de la session, logo CréaBot / Schlouk à l'entrée dans l'univers du pôle ; jamais au
+  rechargement ni au retour arrière. Choix fait par un script en tête de <head> (classe sv-intro-* sur <html>,
+  sessionStorage « sv-univers »). RGAA : aria-hidden, < 5 s (13.8), sans clignotement, pointer-events: none,
+  rien avec prefers-reduced-motion. Schlouk : nom en Bebas Neue + bulles en attendant le logo HD (cigogne).
 - parts/soutien.html : bloc « Suivre / Soutenir » affiché avant le pied de page sur toutes les pages.
 - parts/footer.html appelle la composition patterns/pied-de-page.php (Inserter: no) : textes en gettext.
   Ne pas modifier le pied de page dans l'éditeur de site (la copie en base remplacerait le fichier et figerait le texte).

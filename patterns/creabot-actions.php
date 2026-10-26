@@ -6,15 +6,15 @@
  * Description: Clubs, clubs maker, stages, interventions, événementiel.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","className":"sv-pole-creabot","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-creabot has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Comment s'organise CréaBot ?</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
 <p>Cinq types d’actions, pour tous les âges et toutes les situations.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"13rem"}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"15rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">

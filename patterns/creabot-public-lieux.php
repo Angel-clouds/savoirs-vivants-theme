@@ -6,9 +6,9 @@
  * Description: Publics accueillis et villes des clubs.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|10"}}},"layout":{"type":"grid","minimumColumnWidth":"20rem"}} -->
+<!-- wp:group {"align":"full","className":"sv-pole-creabot","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-creabot has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|10"}}},"layout":{"type":"grid","columnCount":2,"minimumColumnWidth":"20rem"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--10)">
 <!-- wp:group {"className":"is-style-carte"} -->
 <div class="wp-block-group is-style-carte">

@@ -6,15 +6,15 @@
  * Description: Titre, présentation, boutons et photo.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<!-- wp:group {"align":"full","className":"sv-pole-creabot","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-creabot has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 <!-- wp:columns {"verticalAlignment":"center"} -->
 <div class="wp-block-columns are-vertically-aligned-center">
 <!-- wp:column {"verticalAlignment":"center","width":"55%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:55%">
-<!-- wp:paragraph {"className":"is-style-surtitre"} -->
-<p class="is-style-surtitre">Robotique éducative</p>
-<!-- /wp:paragraph -->
+<!-- wp:image {"width":"176px","sizeSlug":"full","className":"sv-logo-pole"} -->
+<figure class="wp-block-image size-full is-resized sv-logo-pole"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/svg/creabot-logo.svg' ); ?>" alt="" style="width:176px"/></figure>
+<!-- /wp:image -->
 <!-- wp:heading {"level":1} -->
 <h1 class="wp-block-heading">CréaBot, un robot pour tous</h1>
 <!-- /wp:heading -->

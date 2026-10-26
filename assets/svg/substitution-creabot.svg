@@ -1,14 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-hidden="true" focusable="false">
-  <rect width="1600" height="900" fill="#5D4696"/>
-  <g fill="#A8A5C2" opacity="0.45">
-    <path d="M300 180c90-40 190-30 250 40s60 170-10 230-180 70-250 10-80-240 10-280Z"/>
-    <path d="M1080 120c120 0 210 90 210 200s-100 210-220 200-200-100-190-215 80-185 200-185Z"/>
-    <path d="M620 520c140-60 300-20 360 100s-20 250-160 280-290-40-330-160 -10-190 130-220Z"/>
-    <circle cx="1230" cy="640" r="90"/>
-    <circle cx="240" cy="640" r="60"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" aria-hidden="true" focusable="false">
+<!-- Image de substitution CréaBot (charte CréaBot 2026) : fond Ciel cosmique, motif principal « circuits » en ton clair.
+     Pas de robot au trait : la page affiche le logo officiel (motif secondaire interdit avec le logo). -->
+<defs><pattern id="circuits" width="160" height="160" patternUnits="userSpaceOnUse">
+<g fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 18v46"/>
+    <path d="M48 18v22l14 14v30"/>
+    <path d="M86 20v18h26v24"/>
+    <path d="M138 18v52"/>
+    <path d="M22 104v38"/>
+    <path d="M50 118h22l14 14v12"/>
+    <path d="M112 96v20l16 16v10"/>
   </g>
-  <g fill="#FFFFFF" opacity="0.9">
-    <circle cx="800" cy="430" r="70" fill="none" stroke="#FFFFFF" stroke-width="10"/>
-    <circle cx="800" cy="430" r="28"/>
+<g fill="#FFFFFF">
+    <circle cx="24" cy="70" r="7"/>
+    <circle cx="48" cy="14" r="6"/>
+    <circle cx="62" cy="90" r="7"/>
+    <circle cx="86" cy="14" r="6"/>
+    <circle cx="112" cy="68" r="7"/>
+    <circle cx="138" cy="76" r="7"/>
+    <circle cx="22" cy="98" r="6"/>
+    <circle cx="44" cy="118" r="6"/>
+    <circle cx="86" cy="148" r="6"/>
+    <circle cx="112" cy="90" r="6"/>
+    <circle cx="128" cy="148" r="6"/>
+    <circle cx="80" cy="66" r="4"/>
+    <circle cx="146" cy="108" r="4"/>
+    <circle cx="36" cy="86" r="3.5"/>
+    <circle cx="96" cy="104" r="3.5"/>
   </g>
+</pattern></defs>
+<rect width="1600" height="900" fill="#A8A5C2"/>
+<rect width="1600" height="900" fill="url(#circuits)" opacity="0.45"/>
 </svg>

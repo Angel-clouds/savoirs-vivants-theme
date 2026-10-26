@@ -6,8 +6,8 @@
  * Description: Titre, présentation, boutons et photo.
  */
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<!-- wp:group {"align":"full","className":"sv-pole-schlouk","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-schlouk has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 <!-- wp:columns {"verticalAlignment":"center"} -->
 <div class="wp-block-columns are-vertically-aligned-center">
 <!-- wp:column {"verticalAlignment":"center","width":"55%"} -->
@@ -18,6 +18,9 @@
 <!-- wp:heading {"level":1} -->
 <h1 class="wp-block-heading">Schlouk de Sciences, la science sans prise de tête</h1>
 <!-- /wp:heading -->
+<!-- wp:paragraph {"className":"is-style-sous-titre"} -->
+<p class="is-style-sous-titre">Le collectif qui fait bouger les sciences à Strasbourg !</p>
+<!-- /wp:paragraph -->
 <!-- wp:paragraph -->
 <p>Émanation de Pint of Science Strasbourg, Schlouk de Sciences est un collectif strasbourgeois dédié à la communication scientifique grand public. Son objectif : rendre les sciences accessibles à tous, du comptoir de bar à la médiathèque.</p>
 <!-- /wp:paragraph -->

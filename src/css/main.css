@@ -351,11 +351,11 @@ h2.has-small-font-size {
 }
 /* - univers CréaBot et Schlouk (chartes propres) : titres inchangés. Ces règles précèdent la section 10,
      dont les règles de même poids l'emportent toujours. */
-:is(.sv-univers-creabot, .sv-univers-schlouk) main h2 {
+:is(.sv-univers-creabot main, .sv-univers-schlouk main, :where(.is-root-container:has(> :is(.sv-pole-creabot, .sv-pole-schlouk)))) h2 {
   font-style: normal;
   color: var(--wp--preset--color--bleu-nuit);
 }
-:is(.sv-univers-creabot, .sv-univers-schlouk) main h3 {
+:is(.sv-univers-creabot main, .sv-univers-schlouk main, :where(.is-root-container:has(> :is(.sv-pole-creabot, .sv-pole-schlouk)))) h3 {
   font-style: italic;
   text-transform: none;
   letter-spacing: normal;
@@ -402,8 +402,12 @@ main .wp-block-group.alignfull:not(.has-bleu-nuit-background-color) > :is(h1, h2
 }
 /* Univers CréaBot et Schlouk : leur « sauge » est une couleur de décor (turquoise 1,99:1, orange) ;
    le sous-titre prend leur couleur de texte validée (violet CréaBot, bleu foncé Schlouk). */
-:is(.sv-univers-creabot, .sv-univers-schlouk) .is-style-sous-titre {
+:is(.sv-univers-creabot, .sv-univers-schlouk, :where(.is-root-container:has(> :is(.sv-pole-creabot, .sv-pole-schlouk)))) .is-style-sous-titre {
   color: var(--color-sauge-texte);
+}
+/* CréaBot : la charte n'autorise que #160735 (ou le blanc) pour le texte */
+:is(.sv-univers-creabot, :where(.is-root-container:has(> .sv-pole-creabot))) .is-style-sous-titre {
+  color: var(--color-nuit);
 }
 
 /* Style « Étiquette » (paragraphe, termes d'un contenu) : donnée courte encadrée (date, pôle, statut),
@@ -961,6 +965,11 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
    restent aux couleurs de Savoirs Vivants.
    Principe : on redéfinit les variables de la charte dans <main>, donc tous
    les blocs, styles de blocs et compositions suivent sans être modifiés.
+   Éditeur (écran Compositions, aperçus de l'outil d'insertion, édition de page) :
+   ni <main> ni classe du <body> ; chaque section de pôle porte donc la classe
+   sv-pole-creabot / sv-pole-schlouk / sv-pole-sciences, et chaque sélecteur accepte
+   aussi « .is-root-container:has(> .sv-pole-…) » (racine des blocs de l'éditeur).
+   Cette alternative est dans :where() : la spécificité reste celle du site public.
    ========================================================= */
 
 /* Polices auto-hébergées (RGPD : aucun appel à Google Fonts).
@@ -1007,7 +1016,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
    Textes : uniquement #160735 ou blanc (associations autorisées par la charte).
    Contrastes vérifiés (RGAA 3.2) : #160735 sur blanc 18,8:1 · blanc sur violet 7,6:1
    · blanc sur bleu 6,2:1 · #160735 sur turquoise 9,4:1 · #160735 sur ciel 7,9:1. */
-.sv-univers-creabot main {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) {
   --cb-bleu: #405ea7;
   --cb-ciel: #a8a5c2;
   --cb-rose: #b14b95;
@@ -1038,7 +1047,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 
 /* Titres : Orbitron Black. H1 et H2 en MAJUSCULES, H3 en casse normale, H4 en Exo 2 Bold.
    Tailles dans les proportions de la charte (22 / 20 / 17 / 15 / 11 pt). */
-.sv-univers-creabot main :is(h1, h2, h3) {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) :is(h1, h2, h3) {
   font-family: var(--font-titre);
   font-weight: 900;
   font-style: normal;
@@ -1047,52 +1056,68 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   overflow-wrap: break-word;
   hyphens: auto;
 }
-.sv-univers-creabot main :is(h1, h2) {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) :is(h1, h2) {
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
-.sv-univers-creabot main h1 {
-  font-size: clamp(1.625rem, 1.1rem + 2.4vw, 2.5rem);
+/* Tailles calculées sur le texte courant, dans les proportions exactes de la charte
+   (H1 22 pt, H2 20 pt, H3 17 pt, H4 15 pt pour un texte de 11 pt) : les titres de carte (H3)
+   ne sont plus plus petits que le texte. */
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) {
+  --cb-p: var(--wp--preset--font-size--medium);
 }
-.sv-univers-creabot main h2 {
-  font-size: clamp(1.375rem, 1rem + 1.8vw, 2.125rem);
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) h1 {
+  font-size: calc(var(--cb-p) * 22 / 11);
 }
-.sv-univers-creabot main h3 {
-  font-size: clamp(1.125rem, 0.95rem + 0.9vw, 1.5rem);
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) h2 {
+  font-size: calc(var(--cb-p) * 20 / 11);
 }
-.sv-univers-creabot main h3.is-style-titre-carte {
-  font-size: 1.0625rem;
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) h3,
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) h3.is-style-titre-carte {
+  font-size: calc(var(--cb-p) * 17 / 11);
 }
-.sv-univers-creabot main h4 {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) h4 {
   font-family: var(--font-texte);
-  font-size: 1.375rem;
+  font-size: calc(var(--cb-p) * 15 / 11);
   font-weight: 700;
   text-transform: none;
 }
 
+/* Logo officiel CréaBot (version principale, assets/svg/creabot-logo.svg) dans l'introduction.
+   Charte : jamais modifié ni arrondi, ≥ 62 px de large, zone de protection libre autour (hauteur du « C »). */
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .sv-logo-pole {
+  margin: 0 0 var(--wp--preset--spacing--30);
+  padding: 0.75rem 0.75rem 0.75rem 0;
+}
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .sv-logo-pole img {
+  width: clamp(8rem, 6rem + 6vw, 11rem) !important; /* largeur réglée dans le bloc : mobile d'abord */
+  height: auto;
+  border-radius: 0;
+}
+
 /* Liens : couleur du texte, soulignés (la charte n'autorise que #160735 pour le texte) */
-.sv-univers-creabot main a:where(:not(.wp-element-button)) {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) a:where(:not(.wp-element-button)) {
   color: var(--cb-texte);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
-.sv-univers-creabot main a:where(:not(.wp-element-button)):hover {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) a:where(:not(.wp-element-button)):hover {
   text-decoration-thickness: 3px;
 }
 
 /* Surtitre : pastille turquoise ronde, texte Orbitron */
-.sv-univers-creabot main .is-style-surtitre {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .is-style-surtitre {
   font-weight: 700;
   letter-spacing: 0.08em;
 }
-.sv-univers-creabot main .is-style-surtitre::before {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .is-style-surtitre::before {
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
 }
 
 /* Boutons : pastilles arrondies violet figue, texte blanc */
-.sv-univers-creabot main .wp-block-button__link {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .wp-block-button__link {
   font-family: var(--font-texte);
   font-size: 1rem;
   font-weight: 700;
@@ -1101,68 +1126,71 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   background-color: var(--cb-violet);
   color: #fff;
 }
-.sv-univers-creabot main .wp-block-button__link:hover {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .wp-block-button__link:hover {
   background-color: var(--cb-bleu);
 }
-.sv-univers-creabot main .is-style-outline > .wp-block-button__link {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .is-style-outline > .wp-block-button__link {
   background-color: transparent;
   color: var(--cb-texte);
   border-color: var(--cb-violet);
 }
-.sv-univers-creabot main .is-style-outline > .wp-block-button__link:hover {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .is-style-outline > .wp-block-button__link:hover {
   background-color: var(--cb-fond);
 }
 
 /* Formes arrondies : la charte privilégie des formes douces, sans angle vif */
-.sv-univers-creabot main :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
   border-radius: 1.25rem;
   overflow: hidden;
 }
-.sv-univers-creabot main .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait, .sv-logo-pole) img {
   border-radius: 1.25rem;
 }
-.sv-univers-creabot main .is-style-carte-image > .wp-block-image img {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .is-style-carte-image > .wp-block-image img {
   border-radius: 0;
 }
-.sv-univers-creabot main .sv-icone img {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .sv-icone img {
   border-radius: 50%;
 }
 
 /* Chiffres clés : liseré violet au-dessus de chaque carte */
-.sv-univers-creabot main .wp-block-group:has(> .sv-chiffre) {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .wp-block-group:has(> .sv-chiffre) {
   border-top: 6px solid var(--cb-violet);
 }
-.sv-univers-creabot main .sv-chiffre {
+/* Orbitron Black est plus large que Space Mono : taille réduite pour que « +58 % » tienne
+   dans les cartes de la grille de 4 colonnes dès 768 px */
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .sv-chiffre {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 900;
 }
 
 /* Date d'événement : violet figue, texte blanc */
-.sv-univers-creabot main .sv-date {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .sv-date {
   background: var(--cb-violet);
   border-radius: 1rem;
 }
 
 /* Bandeaux foncés (appel à l'action) : violet figue au lieu du bleu nuit.
    Les classes de couleur de WordPress sont en !important, d'où celui-ci. */
-.sv-univers-creabot main .has-bleu-nuit-background-color {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color {
   background-color: var(--cb-violet) !important;
 }
-.sv-univers-creabot main .has-bleu-nuit-background-color :is(h1, h2, h3, h4, p, li) {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color :is(h1, h2, h3, h4, p, li) {
   color: #fff;
 }
-.sv-univers-creabot main .has-bleu-nuit-background-color .wp-block-button__link {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color .wp-block-button__link {
   background-color: #fff;
   color: var(--cb-texte);
 }
-.sv-univers-creabot main .has-bleu-nuit-background-color .wp-block-button__link:hover {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color .wp-block-button__link:hover {
   background-color: var(--cb-turquoise);
 }
-.sv-univers-creabot main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
   background-color: transparent;
   border-color: #fff;
   color: #fff !important;
 }
-.sv-univers-creabot main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
+:is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
   background-color: var(--cb-bleu);
 }
 
@@ -1171,13 +1199,13 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
    par les lecteurs d'écran (RGAA 1.1). Fondu progressif pour ne jamais gêner la lecture.
    Réservé aux écrans larges : sur mobile, il passerait sous le titre (interdit par la charte). */
 @media (min-width: 48rem) {
-  .sv-univers-creabot main .wp-block-post-content > .alignfull:first-child,
-  .sv-univers-creabot main .has-bleu-nuit-background-color.alignfull {
+  :is(.sv-univers-creabot main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-creabot))) > .alignfull:first-child,
+  :is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color.alignfull {
     position: relative;
     isolation: isolate;
   }
-  .sv-univers-creabot main .wp-block-post-content > .alignfull:first-child::before,
-  .sv-univers-creabot main .has-bleu-nuit-background-color.alignfull::before {
+  :is(.sv-univers-creabot main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-creabot))) > .alignfull:first-child::before,
+  :is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color.alignfull::before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -1190,24 +1218,27 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
     mask-image: linear-gradient(to bottom left, #000 20%, transparent 85%);
     pointer-events: none;
   }
-  .sv-univers-creabot main .has-bleu-nuit-background-color.alignfull::before {
+  :is(.sv-univers-creabot main, :where(.is-root-container:has(> .sv-pole-creabot))) .has-bleu-nuit-background-color.alignfull::before {
     opacity: 0.35;
   }
 }
 
-/* ---------- 10.2 Schlouk de Sciences (univers de l'affiche « On recherche des bénévoles ») ----------
-   Couleurs relevées sur l'affiche : Bleu Schlouk #34A5C9, Orange #EE5723, Encre #342C6F.
+/* ---------- 10.2 Schlouk de Sciences (charte dérivée : docs/charte-schlouk-de-sciences.md) ----------
+   Affiches 2026 (Echosciences) : Bleu Schlouk #34A5C9, titres orange-rouge #EE3E00 (grands titres seulement :
+   3,94:1 sur blanc, 3,08:1 sur aquarelle), fond aquarelle #C3E9FD (encre dessus : 9,44:1).
+   Affiche « On recherche des bénévoles » : Orange #EE5723, Encre #342C6F.
    Le bleu et l'orange d'origine n'atteignent pas 4,5:1 avec du texte blanc : ils restent
    décoratifs. Les éléments qui portent du texte utilisent des teintes foncées :
    blanc sur bleu foncé #1B7A9C 4,9:1 · blanc sur orange foncé #C7461A 4,9:1
    · encre sur blanc 12,7:1 · encre sur bleu très clair 11,5:1 (RGAA 3.2). */
-.sv-univers-schlouk main {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) {
   --sk-bleu: #34a5c9;
   --sk-bleu-fonce: #1b7a9c;
   --sk-orange: #ee5723;
   --sk-orange-fonce: #c7461a;
   --sk-encre: #342c6f;
-  --sk-fond: #eaf6fb;
+  --sk-orange-vif: #ee3e00; /* titres des affiches 2026 : grands titres uniquement */
+  --sk-fond: #c3e9fd; /* aquarelle bleu clair des affiches 2026 */
   --sk-bordure: #b9e1ee;
 
   --wp--preset--color--bleu-nuit: var(--sk-encre);
@@ -1230,7 +1261,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 }
 
 /* Titres : Bebas Neue (police condensée en capitales, comme l'affiche) */
-.sv-univers-schlouk main :is(h1, h2, h3) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) :is(h1, h2, h3) {
   font-family: var(--font-titre);
   font-weight: 400;
   font-style: normal;
@@ -1239,20 +1270,35 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   line-height: 1.05;
   color: var(--sk-encre);
 }
-.sv-univers-schlouk main h1 {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h1 {
   font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5rem);
+  color: var(--sk-orange-vif); /* ≥ 44 px : grand texte, 3,94:1 sur blanc (RGAA 3.2) */
 }
-.sv-univers-schlouk main h2 {
+/* Accroche officielle (« Le collectif qui fait bouger les sciences à Strasbourg ! ») : bulle bleue
+   de la bannière du collectif, en bleu foncé pour porter du texte blanc (4,87:1). */
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-sous-titre {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.45em 1.2em 0.45em 0.9em;
+  border-radius: 0.4rem 999px 999px 0.4rem;
+  background: var(--sk-bleu-fonce);
+  color: #fff;
+  font-family: var(--font-texte);
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  font-style: normal;
+  font-weight: 700;
+}
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h2 {
   font-size: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
 }
-.sv-univers-schlouk main h3 {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h3 {
   font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
 }
 /* Titres de carte, h3 ou h2 (cartes de l'agenda par pôle : templates/taxonomy-sv_pole.html) */
-.sv-univers-schlouk main :is(h2, h3).is-style-titre-carte {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) :is(h2, h3).is-style-titre-carte {
   font-size: 1.625rem;
 }
-.sv-univers-schlouk main h4 {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h4 {
   font-family: var(--font-texte);
   font-weight: 700;
 }
@@ -1260,7 +1306,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 /* Titres de section en bandeau bleu arrondi, comme « Pourquoi rejoindre le collectif ».
    Les titres de carte en sont exclus : leur lien encre sur ce bleu n'atteignait que 2,48:1
    (RGAA 3.2 et 10.7). Ils restent en encre sur blanc : 12,6:1. */
-.sv-univers-schlouk main h2:not(.sv-sr-only):not(.is-style-titre-carte) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h2:not(.sv-sr-only):not(.is-style-titre-carte) {
   width: fit-content;
   max-width: 100%;
   padding: 0.3em 1.1em 0.2em 0.8em;
@@ -1268,41 +1314,41 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   color: #fff;
   border-radius: 0.4rem 999px 999px 0.4rem;
 }
-.sv-univers-schlouk main h2.has-text-align-center:not(.sv-sr-only):not(.is-style-titre-carte) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h2.has-text-align-center:not(.sv-sr-only):not(.is-style-titre-carte) {
   margin-inline: auto;
   padding-inline: 1.1em;
   border-radius: 999px;
 }
 /* Lien dans un titre en bandeau : blanc comme le titre (blanc sur #1B7A9C : 4,9:1) */
-.sv-univers-schlouk main h2:not(.sv-sr-only):not(.is-style-titre-carte) a {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) h2:not(.sv-sr-only):not(.is-style-titre-carte) a {
   color: inherit;
 }
 
 /* Liens : encre, soulignés (le bleu foncé serait trop pâle sur les fonds clairs) */
-.sv-univers-schlouk main a:where(:not(.wp-element-button)) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) a:where(:not(.wp-element-button)) {
   color: var(--sk-encre);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
-.sv-univers-schlouk main a:where(:not(.wp-element-button)):hover {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) a:where(:not(.wp-element-button)):hover {
   text-decoration-thickness: 3px;
 }
 
 /* Surtitre : Bebas en bleu foncé, pastille orange */
-.sv-univers-schlouk main .is-style-surtitre {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-surtitre {
   font-size: 1.375rem;
   font-weight: 400;
   letter-spacing: 0.04em;
   color: var(--sk-bleu-fonce);
 }
-.sv-univers-schlouk main .is-style-surtitre::before {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-surtitre::before {
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
 }
 
 /* Boutons : orange foncé, arrondis */
-.sv-univers-schlouk main .wp-block-button__link {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .wp-block-button__link {
   font-family: var(--font-texte);
   font-size: 1rem;
   font-weight: 700;
@@ -1311,42 +1357,42 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   background-color: var(--sk-orange-fonce);
   color: #fff;
 }
-.sv-univers-schlouk main .wp-block-button__link:hover {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .wp-block-button__link:hover {
   background-color: var(--sk-encre);
 }
-.sv-univers-schlouk main .is-style-outline > .wp-block-button__link {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-outline > .wp-block-button__link {
   background-color: transparent;
   color: var(--sk-encre);
   border-color: var(--sk-encre);
 }
-.sv-univers-schlouk main .is-style-outline > .wp-block-button__link:hover {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-outline > .wp-block-button__link:hover {
   background-color: var(--sk-fond);
 }
 
 /* Cartes et images aux formes arrondies */
-.sv-univers-schlouk main :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
   border-radius: 1.5rem;
   overflow: hidden;
 }
-.sv-univers-schlouk main .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
   border-radius: 1.5rem;
 }
-.sv-univers-schlouk main .is-style-carte-image > .wp-block-image img {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .is-style-carte-image > .wp-block-image img {
   border-radius: 0;
 }
-.sv-univers-schlouk main .sv-icone img {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .sv-icone img {
   border-radius: 50%;
 }
 
 /* Photo de l'introduction : forme organique + tache orange derrière, comme sur l'affiche */
-.sv-univers-schlouk main .wp-block-post-content > .alignfull:first-child .wp-block-image {
+:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image {
   position: relative;
   isolation: isolate;
 }
-.sv-univers-schlouk main .wp-block-post-content > .alignfull:first-child .wp-block-image img {
+:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image img {
   border-radius: 58% 42% 45% 55% / 45% 55% 45% 55%;
 }
-.sv-univers-schlouk main .wp-block-post-content > .alignfull:first-child .wp-block-image::before {
+:is(.sv-univers-schlouk main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-schlouk))) > .alignfull:first-child .wp-block-image::before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -1357,25 +1403,25 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 }
 
 /* Chiffres clés : Bebas en orange foncé (grand texte, 4,9:1) */
-.sv-univers-schlouk main .sv-chiffre {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .sv-chiffre {
   font-size: clamp(2.5rem, 7vw, 3.25rem);
   font-weight: 400;
   color: var(--sk-orange-fonce);
 }
 
 /* Listes : coches orange dans un cercle (décoratives, la liste reste une vraie liste) */
-.sv-univers-schlouk main ul.wp-block-list {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) ul.wp-block-list {
   padding-left: 0;
   list-style: none;
 }
-.sv-univers-schlouk main ul.wp-block-list > li {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) ul.wp-block-list > li {
   position: relative;
   padding-left: 2.25rem;
 }
-.sv-univers-schlouk main ul.wp-block-list > li + li {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) ul.wp-block-list > li + li {
   margin-top: 0.6rem;
 }
-.sv-univers-schlouk main ul.wp-block-list > li::before {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) ul.wp-block-list > li::before {
   content: "";
   position: absolute;
   left: 0;
@@ -1386,39 +1432,39 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 }
 
 /* Date d'événement : bleu foncé, arrondie */
-.sv-univers-schlouk main .sv-date {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .sv-date {
   background: var(--sk-bleu-fonce);
   border-radius: 1rem;
 }
-.sv-univers-schlouk main .sv-date__jour {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .sv-date__jour {
   font-size: 2.25rem;
   font-weight: 400;
 }
 
 /* Bandeaux foncés (appel à l'action) : orange foncé comme le pied de l'affiche */
-.sv-univers-schlouk main .has-bleu-nuit-background-color {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color {
   background-color: var(--sk-orange-fonce) !important;
 }
-.sv-univers-schlouk main .has-bleu-nuit-background-color :is(h1, h2, h3, h4, p, li) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color :is(h1, h2, h3, h4, p, li) {
   color: #fff;
 }
-.sv-univers-schlouk main .has-bleu-nuit-background-color h2:not(.sv-sr-only) {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color h2:not(.sv-sr-only) {
   padding: 0;
   background: none;
 }
-.sv-univers-schlouk main .has-bleu-nuit-background-color .wp-block-button__link {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color .wp-block-button__link {
   background-color: #fff;
   color: var(--sk-encre);
 }
-.sv-univers-schlouk main .has-bleu-nuit-background-color .wp-block-button__link:hover {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color .wp-block-button__link:hover {
   background-color: var(--sk-fond);
 }
-.sv-univers-schlouk main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link {
   background-color: transparent;
   border-color: #fff;
   color: #fff !important;
 }
-.sv-univers-schlouk main .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
+:is(.sv-univers-schlouk main, :where(.is-root-container:has(> .sv-pole-schlouk))) .has-bleu-nuit-background-color .is-style-outline > .wp-block-button__link:hover {
   background-color: var(--sk-encre);
 }
 
@@ -1431,7 +1477,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
    Vert sauge réservé aux titres ≥ 24 px (3,6:1) ; textes et fonds sous texte
    blanc en vert foncé (5,3:1) — RGAA 3.2.
    --------------------------------------------------------- */
-.sv-univers-sciences main {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) {
   --sp-fond: color-mix(in srgb, var(--wp--preset--color--vert-sauge) 7%, #fff);
 
   --wp--preset--color--gris-clair: var(--sp-fond);
@@ -1440,26 +1486,26 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 
 /* Titres h1 et h2 : Space Mono gras italique, vert sauge (tous ≥ 28 px).
    Les petits h2 (« Ils soutiennent nos actions », 14 px) restent en bleu nuit. */
-.sv-univers-sciences main :is(h1, h2):not(.has-small-font-size) {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) :is(h1, h2):not(.has-small-font-size) {
   font-style: italic;
   color: var(--color-sauge);
 }
-.sv-univers-sciences main .is-style-surtitre {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .is-style-surtitre {
   font-style: italic;
   color: var(--color-sauge-texte);
 }
-.sv-univers-sciences main .is-style-surtitre::before {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .is-style-surtitre::before {
   border-radius: 50%;
 }
 
 /* Introduction : filigrane d'anneaux à droite (image de fond = décor, ignorée
    par les lecteurs d'écran) */
-.sv-univers-sciences main .wp-block-post-content > .alignfull:first-child {
+:is(.sv-univers-sciences main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-sciences))) > .alignfull:first-child {
   position: relative;
   isolation: isolate;
   overflow: hidden;
 }
-.sv-univers-sciences main .wp-block-post-content > .alignfull:first-child::after {
+:is(.sv-univers-sciences main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-sciences))) > .alignfull:first-child::after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -1472,57 +1518,57 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   pointer-events: none;
 }
 @media (min-width: 64rem) {
-  .sv-univers-sciences main .wp-block-post-content > .alignfull:first-child::after {
+  :is(.sv-univers-sciences main .wp-block-post-content, :where(.is-root-container:has(> .sv-pole-sciences))) > .alignfull:first-child::after {
     right: -6rem;
     width: 34rem;
   }
 }
 
 /* Boutons : vert foncé légèrement arrondis */
-.sv-univers-sciences main .wp-block-button__link {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .wp-block-button__link {
   border-radius: 0.5rem;
   background-color: var(--color-sauge-texte);
 }
-.sv-univers-sciences main .wp-block-button__link:hover {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .wp-block-button__link:hover {
   background-color: var(--color-nuit);
 }
-.sv-univers-sciences main .is-style-outline > .wp-block-button__link {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .is-style-outline > .wp-block-button__link {
   background-color: transparent;
 }
 
 /* Cartes et images arrondies */
-.sv-univers-sciences main :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) :is(.is-style-carte, .is-style-carte-image, .is-style-faq) {
   border-radius: 1rem;
   overflow: hidden;
 }
-.sv-univers-sciences main .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .wp-block-image:not(.sv-icone, .sv-logo, .sv-portrait) img {
   border-radius: 1rem;
 }
-.sv-univers-sciences main .is-style-carte-image > .wp-block-image img {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .is-style-carte-image > .wp-block-image img {
   border-radius: 0;
 }
 
 /* Chiffres clés : sans cadre, grands chiffres en italique vert sauge, comme dans le rapport */
-.sv-univers-sciences main .is-style-carte:has(> .sv-chiffre) {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .is-style-carte:has(> .sv-chiffre) {
   background: transparent;
   border: 0;
   border-top: 4px solid var(--color-sauge);
   border-radius: 0;
 }
-.sv-univers-sciences main .sv-chiffre {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .sv-chiffre {
   font-size: clamp(2.25rem, 6vw, 3rem);
   font-style: italic;
   color: var(--color-sauge);
 }
 
 /* Démarche : étapes reliées par une frise sinueuse (écrans larges), numéros en pastilles */
-.sv-univers-sciences main .is-style-carte:has(> .sv-etape) {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .is-style-carte:has(> .sv-etape) {
   background: transparent;
   border: 0;
   padding: 0;
   overflow: visible;
 }
-.sv-univers-sciences main .sv-etape {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .sv-etape {
   display: grid;
   place-items: center;
   width: 3rem;
@@ -1534,11 +1580,11 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   box-shadow: 0 0 0 6px var(--color-fond); /* détache la pastille de la frise */
 }
 @media (min-width: 48rem) {
-  .sv-univers-sciences main .wp-block-group:has(> .is-style-carte > .sv-etape) {
+  :is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .wp-block-group:has(> .is-style-carte > .sv-etape) {
     position: relative;
     isolation: isolate;
   }
-  .sv-univers-sciences main .wp-block-group:has(> .is-style-carte > .sv-etape)::before {
+  :is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .wp-block-group:has(> .is-style-carte > .sv-etape)::before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -1552,18 +1598,18 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 }
 
 /* Listes (Cap sur 2026) : puces rondes vert sauge */
-.sv-univers-sciences main ul.wp-block-list {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) ul.wp-block-list {
   padding-left: 0;
   list-style: none;
 }
-.sv-univers-sciences main ul.wp-block-list > li {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) ul.wp-block-list > li {
   position: relative;
   padding-left: 1.5rem;
 }
-.sv-univers-sciences main ul.wp-block-list > li + li {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) ul.wp-block-list > li + li {
   margin-top: 0.5rem;
 }
-.sv-univers-sciences main ul.wp-block-list > li::before {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) ul.wp-block-list > li::before {
   content: "";
   position: absolute;
   left: 0;
@@ -1576,25 +1622,152 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 
 /* Bandeau d'appel : encadré vert foncé arrondi, comme « Et après ? » dans le rapport
    (blanc sur vert foncé : 5,3:1). Les classes de couleur de WordPress sont en !important. */
-.sv-univers-sciences main .has-bleu-nuit-background-color {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .has-bleu-nuit-background-color {
   background-color: var(--color-sauge-texte) !important;
 }
-.sv-univers-sciences main .has-bleu-nuit-background-color :is(h1, h2, h3, h4) {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .has-bleu-nuit-background-color :is(h1, h2, h3, h4) {
   color: #fff;
 }
 /* Encadré détaché des bords (les sections pleine largeur sont forcées en !important, section 3) */
-.sv-univers-sciences main .wp-block-group.alignfull.has-bleu-nuit-background-color {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .wp-block-group.alignfull.has-bleu-nuit-background-color {
   width: min(75rem, calc(100vw - 2 * clamp(1.5rem, 5vw, 4rem)));
   max-width: none !important;
   margin-inline: auto !important;
   margin-block: var(--wp--preset--spacing--60);
   border-radius: 1.5rem;
 }
-.sv-univers-sciences main .has-bleu-nuit-background-color .wp-block-button__link {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .has-bleu-nuit-background-color .wp-block-button__link {
   color: var(--color-sauge-texte);
   background-color: #fff;
 }
-.sv-univers-sciences main .has-bleu-nuit-background-color .wp-block-button__link:hover {
+:is(.sv-univers-sciences main, :where(.is-root-container:has(> .sv-pole-sciences))) .has-bleu-nuit-background-color .wp-block-button__link:hover {
   color: #fff;
   background-color: var(--color-nuit);
+}
+
+/* =========================================================
+   11. ANIMATION D'ENTRÉE (inc/intro.php)
+   ---------------------------------------------------------
+   Logo plein écran 1,2 s puis fondu. La classe sv-intro-sv / -creabot / -schlouk
+   est posée sur <html> par le script de tête. Décorative (aria-hidden), sans
+   clignotement, < 5 s (RGAA 13.7, 13.8), clics et clavier jamais bloqués
+   (pointer-events: none), rien si « réduire les animations » est demandé.
+   Couleurs des pôles reprises de la section 10 (hors <main> : écran d'entrée seulement).
+   ========================================================= */
+.sv-intro,
+.sv-intro__logo {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.sv-intro-sv, .sv-intro-creabot, .sv-intro-schlouk) .sv-intro {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    padding: var(--wp--preset--spacing--30);
+    background: #fff;
+    pointer-events: none;
+    animation: sv-intro-voile 1.2s ease-in-out forwards;
+  }
+  .sv-intro-creabot .sv-intro {
+    background: color-mix(in srgb, #a8a5c2 18%, #fff); /* Ciel cosmique très clair (charte CréaBot) */
+  }
+  .sv-intro-schlouk .sv-intro {
+    background: #c3e9fd; /* aquarelle (charte dérivée Schlouk) */
+  }
+  .sv-intro-sv .sv-intro__logo--sv,
+  .sv-intro-creabot .sv-intro__logo--creabot,
+  .sv-intro-schlouk .sv-intro__logo--schlouk {
+    display: block;
+    animation: sv-intro-logo 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  .sv-intro__logo--sv {
+    width: min(70vw, 22rem);
+    height: auto;
+  }
+  .sv-intro__logo--creabot {
+    width: min(55vw, 15rem);
+    height: auto;
+  }
+  /* Schlouk : nom en Bebas Neue (en attendant le logo HD de la cigogne) et bulles du flacon */
+  .sv-intro__logo--schlouk {
+    position: relative;
+    margin: 0;
+    font-family: "Bebas Neue", system-ui, sans-serif;
+    font-size: clamp(2rem, 1.2rem + 4vw, 3.5rem);
+    line-height: 0.95;
+    text-align: center;
+    color: #342c6f;
+  }
+  .sv-intro__nom {
+    display: block;
+    font-size: 2.2em;
+    color: #ee3e00;
+  }
+  .sv-intro__bulle {
+    position: absolute;
+    bottom: 100%;
+    width: 0.5em;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #34a5c9;
+    opacity: 0;
+    animation: sv-intro-bulle 1s ease-out 0.1s forwards;
+  }
+  .sv-intro__bulle:nth-of-type(2) {
+    left: 30%;
+  }
+  .sv-intro__bulle:nth-of-type(3) {
+    left: 52%;
+    width: 0.35em;
+    animation-delay: 0.25s;
+  }
+  .sv-intro__bulle:nth-of-type(4) {
+    left: 68%;
+    width: 0.25em;
+    animation-delay: 0.4s;
+  }
+}
+@keyframes sv-intro-voile {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes sv-intro-logo {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+@keyframes sv-intro-bulle {
+  0% {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+  40% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-1.5em);
+  }
+}
+@media print {
+  .sv-intro {
+    display: none !important;
+  }
 }
