@@ -62,7 +62,8 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   vignette = image mise en avant, ajoutée après chaque groupe sv-date par un filtre render_block_core/group
   (toutes les listes, copies en base comprises, sans toucher aux compositions ; alt vide, .sv-evenement__vignette) ;
   mise en page de la carte en CSS seul (src/css/main.css, `.is-style-carte:has(> .sv-date)`) : grille « visuel | infos | lien »,
-  image en bandeau 16/9 sur mobile, colonne de 13rem dès 40rem, pastille de date posée sur l'image ;
+  pastille de date et image accolées en un seul bloc (jamais superposées, choix de l'équipe) : image 16/9 à côté
+  de la date sur mobile, colonne de 11rem dès 40rem ;
   adresses : /agenda/<événement>/ et /agenda/pole/<pôle>/ (la page /agenda/ elle-même est une page WordPress).
   Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
   obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date

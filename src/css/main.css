@@ -687,10 +687,11 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
   transform: translateX(0.25em);
 }
 
-/* Avec vignette */
+/* Avec vignette : pastille et image accolées en un seul bloc, sans superposition */
 .wp-block-group.is-style-carte:has(> .sv-evenement__vignette) {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "visuel" "infos" "lien";
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "date visuel" "infos infos" "lien lien";
+  column-gap: 0;
   padding: 0 0 var(--wp--preset--spacing--40);
 }
 .is-style-carte > .sv-evenement__vignette {
@@ -701,19 +702,12 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
   object-fit: cover;
   object-position: top;
 }
-/* Pastille posée sur l'image : plus compacte, liseré blanc pour la détacher du visuel */
 .is-style-carte:has(> .sv-evenement__vignette) > .sv-date {
-  z-index: 1;
-  min-width: 4rem;
-  margin: var(--wp--preset--spacing--20);
-  padding: 0.4rem 0.6rem;
-  box-shadow: 0 0 0 3px var(--color-blanc);
-}
-.is-style-carte:has(> .sv-evenement__vignette) > .sv-date .sv-date__jour {
-  font-size: var(--text-lg);
-}
-.is-style-carte:has(> .sv-evenement__vignette) > .sv-date .sv-date__mois {
-  font-size: 0.75rem;
+  grid-area: date;
+  align-self: stretch;
+  justify-self: stretch;
+  justify-content: center;
+  border-radius: 0;
 }
 .is-style-carte:has(> .sv-evenement__vignette) > :is(.sv-evenement__infos, .wp-block-read-more) {
   margin-inline: var(--wp--preset--spacing--40);
@@ -731,8 +725,9 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
     font-size: var(--text-lg);
   }
   .wp-block-group.is-style-carte:has(> .sv-evenement__vignette) {
-    grid-template-columns: 13rem minmax(0, 1fr) auto;
-    grid-template-rows: minmax(11rem, auto);
+    grid-template-columns: auto 11rem minmax(0, 1fr) auto;
+    grid-template-areas: "date visuel infos lien";
+    grid-template-rows: minmax(10rem, auto);
     padding: 0;
   }
   /* Hauteur nulle + min-height 100 % : l'image suit la hauteur de la carte sans l'imposer */
@@ -742,11 +737,11 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
     min-height: 100%;
     aspect-ratio: auto;
   }
-  .is-style-carte:has(> .sv-evenement__vignette) > :is(.sv-evenement__infos, .wp-block-read-more) {
-    margin: var(--wp--preset--spacing--30) 0;
+  .is-style-carte:has(> .sv-evenement__vignette) > .sv-evenement__infos {
+    margin: var(--wp--preset--spacing--30) 0 var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
   }
   .is-style-carte:has(> .sv-evenement__vignette) > .wp-block-read-more {
-    margin-right: var(--wp--preset--spacing--40);
+    margin: 0 var(--wp--preset--spacing--40) 0 var(--wp--preset--spacing--30);
   }
 }
 @media (prefers-reduced-motion: reduce) {
