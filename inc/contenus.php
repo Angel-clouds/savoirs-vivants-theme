@@ -571,6 +571,7 @@ function sv_apercu_carte(): void {
 		'wp_enqueue_scripts',
 		static function () {
 			wp_dequeue_script( 'tarteaucitron' );
+			wp_dequeue_script( 'sv-cookies' );
 		},
 		20
 	);
@@ -699,5 +700,29 @@ add_action(
 				$query->set( $cle, $valeur );
 			}
 		}
+	}
+);
+
+/**
+ * Éditeur : panneau « Informations » (date, lieu, âge…) pour les événements et le matériel.
+ * Script sans étape de compilation (wp.element.createElement).
+ */
+add_action(
+	'enqueue_block_editor_assets',
+	function () {
+		$ecran = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $ecran || ! in_array( $ecran->post_type, [ 'sv_evenement', 'sv_materiel' ], true ) ) {
+			return;
+		}
+
+		$js = '/assets/js/editeur-champs.js';
+		wp_enqueue_script(
+			'sv-editeur-champs',
+			SV_URI . $js,
+			[ 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-components', 'wp-data', 'wp-core-data', 'wp-element' ],
+			filemtime( SV_DIR . $js ),
+			true
+		);
+		wp_add_inline_script( 'sv-editeur-champs', 'window.svChampsEditeur = ' . wp_json_encode( sv_champs_editeur() ) . ';', 'before' );
 	}
 );

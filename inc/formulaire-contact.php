@@ -43,6 +43,71 @@ function sv_contact_etat( ?array $etat = null ): array {
 }
 
 /**
+ * Une adresse IP appartient-elle à la liste (adresses seules ou plages CIDR, IPv4 ou IPv6) ?
+ *
+ * @param string   $ip    Adresse à tester.
+ * @param string[] $liste Adresses ou plages (« 203.0.113.0/24 », « 2400:cb00::/32 »).
+ */
+function sv_ip_dans_liste( string $ip, array $liste ): bool {
+	$binaire = inet_pton( $ip );
+	if ( false === $binaire ) {
+		return false;
+	}
+	foreach ( $liste as $entree ) {
+		[ $reseau, $bits ] = array_pad( explode( '/', (string) $entree, 2 ), 2, null );
+		$reseau            = inet_pton( trim( $reseau ) );
+		if ( false === $reseau || strlen( $reseau ) !== strlen( $binaire ) ) {
+			continue;
+		}
+		$bits   = null === $bits ? strlen( $binaire ) * 8 : max( 0, min( (int) $bits, strlen( $binaire ) * 8 ) );
+		$octets = intdiv( $bits, 8 );
+		$reste  = $bits % 8;
+		if ( substr( $binaire, 0, $octets ) !== substr( $reseau, 0, $octets ) ) {
+			continue;
+		}
+		$masque = $reste ? ( 0xFF << ( 8 - $reste ) ) & 0xFF : 0;
+		if ( ! $reste || ( ord( $binaire[ $octets ] ) & $masque ) === ( ord( $reseau[ $octets ] ) & $masque ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Adresse IP du visiteur, pour la limite d'envois.
+ *
+ * Par défaut REMOTE_ADDR, seule valeur impossible à falsifier. Derrière un proxy ou un CDN
+ * (Cloudflare, Varnish…), REMOTE_ADDR est celle du proxy : la limite deviendrait commune à
+ * tous les visiteurs. On lit alors CF-Connecting-IP ou X-Forwarded-For, mais SEULEMENT si la
+ * connexion vient d'un proxy déclaré dans wp-config.php (sinon n'importe qui pourrait
+ * envoyer un faux en-tête et contourner la limite) :
+ *   define( 'SV_PROXIES_CONFIANCE', [ '127.0.0.1', '173.245.48.0/20' ] );
+ */
+function sv_contact_ip(): string {
+	$ip      = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+	$proxies = defined( 'SV_PROXIES_CONFIANCE' ) ? (array) SV_PROXIES_CONFIANCE : [];
+	if ( ! $proxies || ! sv_ip_dans_liste( $ip, $proxies ) ) {
+		return $ip;
+	}
+	$cloudflare = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '' ) );
+	if ( filter_var( $cloudflare, FILTER_VALIDATE_IP ) ) {
+		return $cloudflare;
+	}
+	// X-Forwarded-For : « client, proxy1, proxy2 ». On remonte depuis la droite (ajouts des
+	// proxys de confiance) jusqu'à la première adresse qui n'en est pas un : le vrai client.
+	$chaine = array_map( 'trim', explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '' ) ) ) );
+	foreach ( array_reverse( $chaine ) as $candidate ) {
+		if ( ! filter_var( $candidate, FILTER_VALIDATE_IP ) ) {
+			break;
+		}
+		if ( ! sv_ip_dans_liste( $candidate, $proxies ) ) {
+			return $candidate;
+		}
+	}
+	return $ip;
+}
+
+/**
  * Traitement de l'envoi (avant tout affichage).
  */
 add_action(
@@ -101,7 +166,7 @@ add_action(
 		}
 
 		// Limite anti-abus : 5 envois par heure et par connexion (empreinte de l'IP, jamais l'IP en clair).
-		$ip     = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+		$ip     = sv_contact_ip();
 		$limite = 'sv_contact_' . wp_hash( $ip );
 		$envois = (int) get_transient( $limite );
 		if ( $envois >= 5 ) {
@@ -157,6 +222,32 @@ add_filter(
 add_shortcode(
 	'sv_formulaire_contact',
 	function () {
+		/*
+		 * Page du formulaire jamais mise en cache : le jeton (nonce) expire au bout de 12 à 24 h.
+		 * Servie depuis un cache plus ancien, chaque envoi échouerait. DONOTCACHEPAGE est reconnu
+		 * par les extensions de cache (WP Super Cache, W3 Total Cache, WP Rocket…) ; les en-têtes
+		 * HTTP suffisent pour les caches serveur et CDN. Le modèle bloc est rendu avant tout envoi
+		 * au navigateur : les en-têtes sont encore modifiables ici.
+		 */
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+		if ( ! headers_sent() ) {
+			nocache_headers();
+		}
+		// Focus sur le message de retour après un envoi (assets/js/sv.js) : seulement sur cette page.
+		$js = '/assets/js/sv.js';
+		wp_enqueue_script(
+			'sv-formulaire-contact',
+			SV_URI . $js,
+			[],
+			filemtime( SV_DIR . $js ),
+			[
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			]
+		);
+
 		$etat    = sv_contact_etat();
 		$erreurs = $etat['erreurs'] ?? [];
 		$v       = $etat['valeurs'] ?? [];

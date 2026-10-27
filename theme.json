@@ -3,6 +3,9 @@
   "version": 3,
   "settings": {
     "appearanceTools": true,
+    "shadow": {
+      "defaultPresets": false
+    },
     "useRootPaddingAwareAlignments": true,
     "layout": {
       "contentSize": "48rem",

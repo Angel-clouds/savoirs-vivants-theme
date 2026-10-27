@@ -1,6 +1,6 @@
 <?php
 /**
- * Animation d'entrée : logo plein écran pendant 1,2 s, puis fondu vers la page.
+ * Animation d'entrée : logo plein écran pendant 0,6 s, puis fondu vers la page.
  *
  * - Logo Savoirs Vivants : première page vue pendant la visite (session du navigateur).
  * - Logo CréaBot / Schlouk de Sciences : à la première entrée dans l'univers du pôle pendant la visite
@@ -9,7 +9,7 @@
  *
  * Accessibilité (RGAA) :
  * - décorative : conteneur aria-hidden, images alt="" (1.2) ;
- * - 1,2 s, sous le seuil de 5 s au-delà duquel une pause est exigée (13.8), sans clignotement (13.7) ;
+ * - 0,6 s, sous le seuil de 5 s au-delà duquel une pause est exigée (13.8), sans clignotement (13.7) ;
  * - pointer-events: none : les clics et le clavier atteignent la page dès le premier instant ;
  * - « réduire les animations » demandé (prefers-reduced-motion) : simple fondu, sans zoom.
  *

@@ -51,6 +51,23 @@
     box-shadow: 0 0 0 2px var(--color-nuit);
   }
 
+  /* Listes éditoriales (mentions légales, confidentialité, accessibilité, actualités…) :
+     puces, numéros et retrait du navigateur rétablis après le preflight de Tailwind
+     (ol, ul { list-style: none }). Sans puce, VoiceOver (Safari) n'annonce plus la liste — RGAA 9.3.
+     Les listes stylisées (.sv-liste-liens, .sv-minisites, univers des pôles) gardent la priorité :
+     leurs règles sont hors couche. Navigation et pied de page ne sont pas visés. */
+  :is(main, .editor-styles-wrapper) :is(ul, ol).wp-block-list {
+    list-style: revert;
+    padding-inline-start: 1.5rem;
+  }
+
+  /* Titres longs coupés proprement : Space Mono est à chasse fixe, un mot de plus de 13 lettres
+     (« confidentialité ») déborde d'un H1 à 320 px — RGAA 10.11. La césure suit lang="fr-FR". */
+  :is(h1, h2, h3) {
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
   /* Respect des préférences de mouvement réduit */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -146,9 +163,11 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-ambitions > * {
 .wp-block-navigation .wp-block-navigation-item__content:hover {
   text-decoration: underline;
 }
-/* Page en cours : vert foncé + soulignement permanent (couleur ET forme — RGAA 10.6) */
+/* Page en cours (aria-current="page") ou rubrique en cours (aria-current="true", sous-page,
+   événement de l'agenda) : vert foncé + soulignement permanent (couleur ET forme — RGAA 10.6).
+   aria-current posé par inc/blocks.php (sv_menu_lien_en_cours). */
 .wp-block-navigation .current-menu-item > .wp-block-navigation-item__content,
-.wp-block-navigation [aria-current="page"] {
+.wp-block-navigation [aria-current] {
   color: var(--color-sauge-texte);
   text-decoration: underline;
 }
@@ -1843,7 +1862,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 /* =========================================================
    11. ANIMATION D'ENTRÉE (inc/intro.php)
    ---------------------------------------------------------
-   Logo plein écran 1,2 s puis fondu. La classe sv-intro-sv / -creabot / -schlouk
+   Logo plein écran 0,6 s (1,2 s jusqu'en v0.2 : raccourci après l'audit, le visiteur voit la page plus tôt) puis fondu. La classe sv-intro-sv / -creabot / -schlouk
    est posée sur <html> par le script de tête. Décorative (aria-hidden), sans
    clignotement, < 5 s (RGAA 13.7, 13.8), clics et clavier jamais bloqués
    (pointer-events: none).
@@ -1864,7 +1883,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   padding: var(--wp--preset--spacing--30);
   background: #fff;
   pointer-events: none;
-  animation: sv-intro-voile 1.2s ease-in-out forwards;
+  animation: sv-intro-voile 0.6s ease-in-out forwards;
 }
 .sv-intro-creabot .sv-intro {
   background: color-mix(in srgb, #a8a5c2 18%, #fff); /* Ciel cosmique très clair (charte CréaBot) */
@@ -1876,7 +1895,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 .sv-intro-creabot .sv-intro__logo--creabot,
 .sv-intro-schlouk .sv-intro__logo--schlouk {
   display: block;
-  animation: sv-intro-apparition 1.2s ease-out forwards;
+  animation: sv-intro-apparition 0.6s ease-out forwards;
 }
 .sv-intro__logo--sv {
   width: min(70vw, 22rem);
@@ -1894,7 +1913,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   .sv-intro-sv .sv-intro__logo--sv,
   .sv-intro-creabot .sv-intro__logo--creabot,
   .sv-intro-schlouk .sv-intro__logo--schlouk {
-    animation: sv-intro-logo 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation: sv-intro-logo 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   }
 }
 @keyframes sv-intro-apparition {

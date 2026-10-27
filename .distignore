@@ -41,3 +41,6 @@ chartes graph
 Thumbs.db
 *~
 *.swp
+
+# Extension « Savoirs Vivants – Fonctionnalités » : envoyée à part, dans wp-content/plugins/
+extension
