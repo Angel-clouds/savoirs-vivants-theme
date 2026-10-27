@@ -59,6 +59,8 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   « savoirs-vivants/evenement », filtre « événements à venir » (sans date ou date passée = invisible) ;
   plusieurs jours : champ facultatif sv_date_fin (dernier jour, ignoré s'il n'est pas après sv_date, sv_evenement_dates()),
   visible jusqu'au dernier jour (groupe « OU » imbriqué dans meta_query), pastille « 26–28 », date « Du … au … » ;
+  vignette = image mise en avant, ajoutée après chaque groupe sv-date par un filtre render_block_core/group
+  (toutes les listes, copies en base comprises, sans toucher aux compositions ; alt vide, 6rem, .sv-evenement__vignette) ;
   adresses : /agenda/<événement>/ et /agenda/pole/<pôle>/ (la page /agenda/ elle-même est une page WordPress).
   Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
   obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date

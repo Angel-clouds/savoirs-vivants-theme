@@ -418,6 +418,33 @@ function sv_valeur_evenement( array $args, $bloc ): string {
 }
 
 /**
+ * Vignette d'un événement dans les listes : l'image mise en avant, insérée juste après la pastille
+ * de date (groupe sv-date) de toutes les compositions d'agenda, y compris leurs copies en base.
+ * Rien sans image. Alternative vide (RGAA 1.2) : illustration, le titre de la carte porte l'information.
+ */
+add_filter(
+	'render_block_core/group',
+	function ( string $html, array $bloc ): string {
+		$classes = (string) ( $bloc['attrs']['className'] ?? '' );
+		if ( ! in_array( 'sv-date', explode( ' ', $classes ), true ) || 'sv_evenement' !== get_post_type() || ! has_post_thumbnail() ) {
+			return $html;
+		}
+		return $html . get_the_post_thumbnail(
+			null,
+			'medium',
+			[
+				'class'   => 'sv-evenement__vignette',
+				'alt'     => '',
+				'sizes'   => '6rem',
+				'loading' => 'lazy',
+			]
+		);
+	},
+	10,
+	2
+);
+
+/**
  * Agenda : n'afficher que les événements à venir ou en cours (plusieurs jours : jusqu'au dernier),
  * du plus proche au plus lointain (tri sur le premier jour).
  * S'applique aux blocs « Boucle de requête » et à la page /agenda/.
