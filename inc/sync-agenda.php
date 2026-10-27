@@ -410,17 +410,43 @@ function sv_gcal_lire_ligne( string $ligne ): ?array {
  * Texte iCalendar → texte brut : \n, \, \; et \\ sont des séquences d'échappement.
  */
 function sv_gcal_texte( string $valeur ): string {
-	return trim(
-		strtr(
-			$valeur,
-			[
-				'\\n'  => "\n",
-				'\\N'  => "\n",
-				'\\,'  => ',',
-				'\\;'  => ';',
-				'\\\\' => '\\',
-			]
+	return sv_gcal_caracteres(
+		trim(
+			strtr(
+				$valeur,
+				[
+					'\\n'  => "\n",
+					'\\N'  => "\n",
+					'\\,'  => ',',
+					'\\;'  => ';',
+					'\\\\' => '\\',
+				]
+			)
 		)
+	);
+}
+
+/**
+ * Caractères hors du plan de base (émojis, « gras » LinkedIn 𝗖𝗿𝗲́𝗮𝗕𝗼𝘁) : la base du site est en utf8 sur
+ * 3 octets et les remplacerait par « ? ».
+ * - Lettres et chiffres « mathématiques » (U+1D400 à U+1D7FF, faux gras ou italique des réseaux sociaux) :
+ *   ramenés aux lettres ordinaires, que les lecteurs d'écran lisent normalement (RGAA) ; le gras se perd.
+ * - Autres (émojis…) : entité HTML (&#x1F916;), affichée telle quelle par le navigateur.
+ */
+function sv_gcal_caracteres( string $texte ): string {
+	$normaliser = class_exists( 'Normalizer' );
+	$texte      = (string) preg_replace_callback(
+		'/[\x{1D400}-\x{1D7FF}]/u',
+		static fn( array $m ): string => $normaliser ? (string) Normalizer::normalize( $m[0], Normalizer::FORM_KC ) : $m[0],
+		$texte
+	);
+	if ( $normaliser ) {
+		$texte = (string) Normalizer::normalize( $texte, Normalizer::FORM_C ); // e + accent combinant → é
+	}
+	return (string) preg_replace_callback(
+		'/[\x{10000}-\x{10FFFF}]/u',
+		static fn( array $m ): string => '&#x' . strtoupper( dechex( mb_ord( $m[0], 'UTF-8' ) ) ) . ';',
+		$texte
 	);
 }
 

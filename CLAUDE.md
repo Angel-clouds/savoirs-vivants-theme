@@ -88,6 +88,11 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   Page Agenda → Synchronisation Google (edit_others_posts) : bouton « Synchroniser maintenant » (admin-post sv_gcal_sync),
   dernier / prochain passage et résultat par événement (option sv_gcal_journal). Le flux .ics de Google est publié avec
   plusieurs heures de retard : « Inchangé dans Google » après une modification = Google n'a pas encore publié.
+  Caractères sur 4 octets (sv_gcal_caracteres) : faux gras « 𝗖𝗿𝗲́𝗮𝗕𝗼𝘁 » des réseaux sociaux ramené aux lettres
+  ordinaires (lecteurs d'écran), émojis en entités HTML (&#x1F916;).
+- Émojis à l'enregistrement (inc/contenus.php, wp_insert_post_data) : la connexion à la base du site en ligne est en
+  utf8 sur 3 octets (DB_CHARSET « utf8 ») → titre, contenu et extrait encodés par wp_encode_emoji tant que connexion
+  et colonne ne sont pas en utf8mb4 (sinon « ? »). Correctif de fond côté serveur : DB_CHARSET « utf8mb4 ».
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
 - inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip
   vérifié et extrait dans uploads/mini-sites/<id>-<jeton>/, servi par /mini-sites/<slug>/ avec CSP « sandbox »

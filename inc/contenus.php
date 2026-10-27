@@ -418,6 +418,29 @@ function sv_valeur_evenement( array $args, $bloc ): string {
 }
 
 /**
+ * Émojis : si la connexion à la base est en utf8 sur 3 octets (DB_CHARSET « utf8 » dans wp-config.php),
+ * un caractère sur 4 octets (🤖) devient « ? », même dans une colonne utf8mb4. WordPress ne les encode en
+ * entités HTML (&#x1F916;) que d'après le jeu de caractères de la colonne : on le fait donc à chaque
+ * enregistrement tant que connexion et colonne ne sont pas toutes deux en utf8mb4.
+ */
+add_filter(
+	'wp_insert_post_data',
+	function ( array $data ): array {
+		global $wpdb;
+		if ( 'utf8mb4' === $wpdb->charset && 'utf8mb4' === $wpdb->get_col_charset( $wpdb->posts, 'post_content' ) ) {
+			return $data;
+		}
+		foreach ( [ 'post_title', 'post_content', 'post_excerpt' ] as $champ ) {
+			if ( isset( $data[ $champ ] ) && is_string( $data[ $champ ] ) ) {
+				$data[ $champ ] = wp_encode_emoji( $data[ $champ ] );
+			}
+		}
+		return $data;
+	},
+	20
+);
+
+/**
  * Vignette d'un événement dans les listes : l'image mise en avant, insérée juste après la pastille
  * de date (groupe sv-date) de toutes les compositions d'agenda, y compris leurs copies en base.
  * Rien sans image. Alternative vide (RGAA 1.2) : illustration, le titre de la carte porte l'information.
