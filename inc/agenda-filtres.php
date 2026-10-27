@@ -45,22 +45,39 @@ function sv_filtres_mois_choisi(): string {
 }
 
 /**
- * Mois qui comptent au moins un événement publié à venir (pour la liste déroulante).
+ * Mois qui comptent au moins un événement publié à venir ou en cours (pour la liste déroulante).
+ * Un événement de plusieurs jours compte dans chaque mois qu'il couvre (à partir du mois en cours).
  */
 function sv_filtres_mois_disponibles(): array {
 	global $wpdb;
+	$aujourdhui = current_time( 'Y-m-d' );
 	// Requête en lecture seule, uniquement sur la page Agenda : pas de cache nécessaire.
 	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-	return $wpdb->get_col(
+	$lignes = $wpdb->get_results(
 		$wpdb->prepare(
-			"SELECT DISTINCT LEFT(pm.meta_value, 7) AS mois FROM {$wpdb->postmeta} pm
-			INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-			WHERE pm.meta_key = 'sv_date' AND pm.meta_value >= %s
-			AND p.post_type = 'sv_evenement' AND p.post_status = 'publish'
-			ORDER BY mois ASC",
-			current_time( 'Y-m-d' )
+			"SELECT d.meta_value AS debut, f.meta_value AS fin FROM {$wpdb->postmeta} d
+			INNER JOIN {$wpdb->posts} p ON p.ID = d.post_id
+			LEFT JOIN {$wpdb->postmeta} f ON f.post_id = d.post_id AND f.meta_key = 'sv_date_fin'
+			WHERE d.meta_key = 'sv_date' AND d.meta_value <> ''
+			AND ( d.meta_value >= %s OR f.meta_value >= %s )
+			AND p.post_type = 'sv_evenement' AND p.post_status = 'publish'",
+			$aujourdhui,
+			$aujourdhui
 		)
 	);
+
+	$mois = [];
+	foreach ( $lignes as $ligne ) {
+		$debut = substr( max( (string) $ligne->debut, $aujourdhui ), 0, 7 );
+		$fin   = substr( max( (string) $ligne->debut, (string) $ligne->fin ), 0, 7 );
+		// Mois par mois, du premier au dernier (borné à 24 mois par sécurité).
+		for ( $i = 0, $courant = $debut; $courant <= $fin && $i < 24; $i++ ) {
+			$mois[ $courant ] = true;
+			$courant          = gmdate( 'Y-m', strtotime( $courant . '-01 +1 month' ) );
+		}
+	}
+	ksort( $mois );
+	return array_keys( $mois );
 }
 
 /**
@@ -86,13 +103,30 @@ function sv_filtres_appliquer( array $vars ): array {
 	}
 	$mois = sv_filtres_mois_choisi();
 	if ( $mois ) {
+		// Événement qui touche le mois : commence avant sa fin ET (commence ou finit après son début).
+		$premier              = $mois . '-01';
 		$vars['meta_query']   = $vars['meta_query'] ?? [];
 		$vars['meta_query'][] = [
 			'key'     => 'sv_date',
 			// Dernier jour réel du mois (« 2027-02-31 » serait une date invalide pour MySQL).
-			'value'   => [ $mois . '-01', gmdate( 'Y-m-t', strtotime( $mois . '-01' ) ) ],
-			'compare' => 'BETWEEN',
+			'value'   => gmdate( 'Y-m-t', strtotime( $premier ) ),
+			'compare' => '<=',
 			'type'    => 'DATE',
+		];
+		$vars['meta_query'][] = [
+			'relation' => 'OR',
+			[
+				'key'     => 'sv_date',
+				'value'   => $premier,
+				'compare' => '>=',
+				'type'    => 'DATE',
+			],
+			[
+				'key'     => 'sv_date_fin',
+				'value'   => $premier,
+				'compare' => '>=',
+				'type'    => 'DATE',
+			],
 		];
 	}
 	return $vars;

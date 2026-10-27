@@ -5,7 +5,7 @@
  *
  * Événements : cases « Agendas » (termes sv_pole) en tête du panneau. L'enregistrement est
  * bloqué tant qu'aucun agenda n'est coché, et un avertissement signale une date absente ou passée
- * (l'événement n'apparaîtrait alors dans aucun agenda). La boîte « Pôles » d'origine est masquée.
+ * (l'événement n'apparaîtrait alors dans aucun agenda), ou une date de fin qui n'est pas après le début. La boîte « Pôles » d'origine est masquée.
  */
 ( function ( wp ) {
 	if ( ! wp || ! wp.plugins ) {
@@ -56,8 +56,11 @@
 		}
 		if ( ! props.date ) {
 			avertissements.push( el( Notice, { key: 'date', status: 'warning', isDismissible: false }, textes.date_manquante ) );
-		} else if ( props.date < aujourdhui() ) {
+		} else if ( ( props.dateFin > props.date ? props.dateFin : props.date ) < aujourdhui() ) {
 			avertissements.push( el( Notice, { key: 'date', status: 'warning', isDismissible: false }, textes.date_passee ) );
+		}
+		if ( props.dateFin && props.date && props.dateFin <= props.date ) {
+			avertissements.push( el( Notice, { key: 'fin', status: 'warning', isDismissible: false }, textes.fin_invalide ) );
 		}
 
 		// fieldset + legend : les cases sont annoncées comme un groupe (RGAA 11.5).
@@ -103,7 +106,7 @@
 		return el(
 			Panel,
 			{ name: 'sv-champs', title: reglages.titre, initialOpen: true },
-			reglages.agendas ? el( Agendas, { textes: reglages.agendas, date: meta.sv_date || '' } ) : null,
+			reglages.agendas ? el( Agendas, { textes: reglages.agendas, date: meta.sv_date || '', dateFin: meta.sv_date_fin || '' } ) : null,
 			reglages.champs.map( function ( champ ) {
 				return el( TextControl, {
 					key: champ.cle,
