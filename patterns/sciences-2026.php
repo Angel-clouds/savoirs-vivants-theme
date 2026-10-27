@@ -3,11 +3,15 @@
  * Title: Sciences participatives – Cap sur 2026
  * Slug: savoirs-vivants/sciences-2026
  * Categories: sv-sciences
- * Description: Perspectives par projet.
+ * Description: Perspectives par projet et photo.
  */
 ?>
-<!-- wp:group {"align":"full","className":"sv-pole-sciences","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"blanc","layout":{"type":"constrained","contentSize":"75rem"}} -->
-<div class="wp-block-group alignfull sv-pole-sciences has-blanc-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:group {"align":"full","className":"sv-pole-sciences","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"gris-clair","layout":{"type":"constrained","contentSize":"75rem"}} -->
+<div class="wp-block-group alignfull sv-pole-sciences has-gris-clair-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+<!-- wp:columns {"verticalAlignment":"center"} -->
+<div class="wp-block-columns are-vertically-aligned-center">
+<!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center">
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Cap sur 2026</h2>
 <!-- /wp:heading -->
@@ -33,5 +37,16 @@
 <!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
+</div>
+<!-- /wp:column -->
+<!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center">
+<!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img alt="" style="aspect-ratio:16/9;object-fit:cover"/></figure>
+<!-- /wp:image -->
+</div>
+<!-- /wp:column -->
+</div>
+<!-- /wp:columns -->
 </div>
 <!-- /wp:group -->

@@ -13,6 +13,7 @@
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-chiffres"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-projets"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-demarche"} /-->
+<!-- wp:pattern {"slug":"savoirs-vivants/sciences-agenda"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-2026"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-participer"} /-->
 <!-- wp:pattern {"slug":"savoirs-vivants/sciences-partenaires"} /-->
