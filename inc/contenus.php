@@ -23,13 +23,20 @@ function sv_champs_editeur(): array {
 				'manquant'       => __( 'Choisissez au moins un agenda pour pouvoir enregistrer l’événement.', 'savoirs-vivants' ),
 				'date_manquante' => __( 'Sans date, l’événement n’apparaît dans aucun agenda.', 'savoirs-vivants' ),
 				'date_passee'    => __( 'Cette date est passée : l’événement n’apparaît plus dans les agendas.', 'savoirs-vivants' ),
+				'fin_invalide'   => __( 'La date de fin doit être après la date de début : sinon elle est ignorée.', 'savoirs-vivants' ),
 			],
 			'champs'  => [
 				[
 					'cle'   => 'sv_date',
 					'label' => _x( 'Date', 'champ d’un événement', 'savoirs-vivants' ),
 					'type'  => 'date',
-					'aide'  => __( 'Obligatoire pour apparaître dans l’agenda.', 'savoirs-vivants' ),
+					'aide'  => __( 'Obligatoire pour apparaître dans l’agenda. Premier jour si l’événement dure plusieurs jours.', 'savoirs-vivants' ),
+				],
+				[
+					'cle'   => 'sv_date_fin',
+					'label' => __( 'Date de fin (plusieurs jours)', 'savoirs-vivants' ),
+					'type'  => 'date',
+					'aide'  => __( 'À laisser vide pour un événement d’une seule journée. Les heures s’appliquent à chaque jour.', 'savoirs-vivants' ),
 				],
 				[
 					'cle'   => 'sv_heure_debut',
@@ -314,10 +321,27 @@ function sv_heure( string $heure ): string {
 	return sprintf( _x( '%1$s h %2$s', 'heure d’un événement', 'savoirs-vivants' ), $parties[0], $parties[1] );
 }
 
+/**
+ * Dates d'un événement : [ début, fin ] au format AAAA-MM-JJ.
+ * La fin est vide pour un événement d'une seule journée, ou si elle n'est pas après le début.
+ *
+ * @return array{0:string, 1:string}
+ */
+function sv_evenement_dates( int $id ): array {
+	$debut = (string) get_post_meta( $id, 'sv_date', true );
+	$fin   = (string) get_post_meta( $id, 'sv_date_fin', true );
+	if ( '' === $debut || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $fin ) || $fin <= $debut ) {
+		$fin = '';
+	}
+	return [ $debut, $fin ];
+}
+
 function sv_valeur_evenement( array $args, $bloc ): string {
-	$id   = $bloc->context['postId'] ?? get_the_ID();
-	$date = get_post_meta( $id, 'sv_date', true );
-	$ts   = $date ? strtotime( $date . ' 12:00:00' ) : false;
+	$id                  = (int) ( $bloc->context['postId'] ?? get_the_ID() );
+	[ $date, $fin_date ] = sv_evenement_dates( $id );
+	$ts                  = $date ? strtotime( $date . ' 12:00:00' ) : false;
+	$ts_fin              = $fin_date ? strtotime( $fin_date . ' 12:00:00' ) : false;
+	$meme_mois           = $ts_fin && wp_date( 'Y-m', $ts ) === wp_date( 'Y-m', $ts_fin );
 
 	$debut = sv_heure( (string) get_post_meta( $id, 'sv_heure_debut', true ) );
 	$fin   = sv_heure( (string) get_post_meta( $id, 'sv_heure_fin', true ) );
@@ -341,17 +365,41 @@ function sv_valeur_evenement( array $args, $bloc ): string {
 
 	switch ( $args['key'] ?? '' ) {
 		case 'jour':
-			$valeur = $ts ? wp_date( 'j', $ts ) : '';
+			// Plusieurs jours : « 26–28 » (pastille de l'agenda).
+			$valeur = $ts ? wp_date( 'j', $ts ) . ( $ts_fin ? '–' . wp_date( 'j', $ts_fin ) : '' ) : '';
 			break;
 		case 'mois':
-			$valeur = $ts ? wp_date( 'F', $ts ) : '';
+			// Plusieurs jours sur deux mois : « nov. – déc. ».
+			if ( $ts_fin && ! $meme_mois ) {
+				$valeur = wp_date( 'M', $ts ) . ' – ' . wp_date( 'M', $ts_fin );
+			} else {
+				$valeur = $ts ? wp_date( 'F', $ts ) : '';
+			}
 			break;
 		case 'date':
-			$valeur = $ts ? wp_date(
 			/* translators: format de la date complète d'un événement (voir https://www.php.net/manual/fr/datetime.format.php ; allemand : « l, j. F Y »). */
-				_x( 'l j F Y', 'format de date d’un événement', 'savoirs-vivants' ),
-				$ts
-			) : __( 'Date à venir', 'savoirs-vivants' );
+			$format = _x( 'l j F Y', 'format de date d’un événement', 'savoirs-vivants' );
+			if ( ! $ts ) {
+				$valeur = __( 'Date à venir', 'savoirs-vivants' );
+			} elseif ( $ts_fin ) {
+				if ( $meme_mois ) {
+					/* translators: premier jour d'un événement de plusieurs jours dans le même mois (« jeudi 26 ») ; allemand : « l, j. ». */
+					$format_debut = _x( 'l j', 'premier jour, même mois', 'savoirs-vivants' );
+				} elseif ( wp_date( 'Y', $ts ) === wp_date( 'Y', $ts_fin ) ) {
+					/* translators: premier jour d'un événement de plusieurs jours sur deux mois (« samedi 28 novembre ») ; allemand : « l, j. F ». */
+					$format_debut = _x( 'l j F', 'premier jour, même année', 'savoirs-vivants' );
+				} else {
+					$format_debut = $format;
+				}
+				$valeur = sprintf(
+					/* translators: dates d'un événement de plusieurs jours. 1 : premier jour, 2 : dernier jour (« Du jeudi 26 au samedi 28 novembre 2026 »). */
+					__( 'Du %1$s au %2$s', 'savoirs-vivants' ),
+					wp_date( $format_debut, $ts ),
+					wp_date( $format, $ts_fin )
+				);
+			} else {
+				$valeur = wp_date( $format, $ts );
+			}
 			break;
 		case 'horaires':
 			$valeur = $horaires;
@@ -370,19 +418,58 @@ function sv_valeur_evenement( array $args, $bloc ): string {
 }
 
 /**
- * Agenda : n'afficher que les événements à venir, du plus proche au plus lointain.
+ * Vignette d'un événement dans les listes : l'image mise en avant, insérée juste après la pastille
+ * de date (groupe sv-date) de toutes les compositions d'agenda, y compris leurs copies en base.
+ * Rien sans image. Alternative vide (RGAA 1.2) : illustration, le titre de la carte porte l'information.
+ */
+add_filter(
+	'render_block_core/group',
+	function ( string $html, array $bloc ): string {
+		$classes = (string) ( $bloc['attrs']['className'] ?? '' );
+		if ( ! in_array( 'sv-date', explode( ' ', $classes ), true ) || 'sv_evenement' !== get_post_type() || ! has_post_thumbnail() ) {
+			return $html;
+		}
+		return $html . get_the_post_thumbnail(
+			null,
+			'medium',
+			[
+				'class'   => 'sv-evenement__vignette',
+				'alt'     => '',
+				'sizes'   => '6rem',
+				'loading' => 'lazy',
+			]
+		);
+	},
+	10,
+	2
+);
+
+/**
+ * Agenda : n'afficher que les événements à venir ou en cours (plusieurs jours : jusqu'au dernier),
+ * du plus proche au plus lointain (tri sur le premier jour).
  * S'applique aux blocs « Boucle de requête » et à la page /agenda/.
+ * Groupe « OU » imbriqué : les critères ajoutés ensuite (filtres de l'agenda) restent en « ET ».
  */
 function sv_requete_evenements_a_venir( array $vars ): array {
+	$aujourdhui         = current_time( 'Y-m-d' );
 	$vars['meta_key']   = 'sv_date';
 	$vars['orderby']    = 'meta_value';
 	$vars['order']      = 'ASC';
 	$vars['meta_query'] = [
 		[
-			'key'     => 'sv_date',
-			'value'   => current_time( 'Y-m-d' ),
-			'compare' => '>=',
-			'type'    => 'DATE',
+			'relation' => 'OR',
+			[
+				'key'     => 'sv_date',
+				'value'   => $aujourdhui,
+				'compare' => '>=',
+				'type'    => 'DATE',
+			],
+			[
+				'key'     => 'sv_date_fin',
+				'value'   => $aujourdhui,
+				'compare' => '>=',
+				'type'    => 'DATE',
+			],
 		],
 	];
 	return $vars;

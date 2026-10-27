@@ -57,6 +57,10 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - inc/contenus.php : types « sv_evenement » (Agenda, /agenda/) et « sv_materiel » (/ressourcerie/xxx/),
   taxonomies sv_pole et sv_type_materiel, champs + panneau éditeur, source de liaison
   « savoirs-vivants/evenement », filtre « événements à venir » (sans date ou date passée = invisible) ;
+  plusieurs jours : champ facultatif sv_date_fin (dernier jour, ignoré s'il n'est pas après sv_date, sv_evenement_dates()),
+  visible jusqu'au dernier jour (groupe « OU » imbriqué dans meta_query), pastille « 26–28 », date « Du … au … » ;
+  vignette = image mise en avant, ajoutée après chaque groupe sv-date par un filtre render_block_core/group
+  (toutes les listes, copies en base comprises, sans toucher aux compositions ; alt vide, 6rem, .sv-evenement__vignette) ;
   adresses : /agenda/<événement>/ et /agenda/pole/<pôle>/ (la page /agenda/ elle-même est une page WordPress).
   Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
   obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date
@@ -64,12 +68,13 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - inc/agenda-filtres.php : agenda général = **vraie page « Agenda »** (/agenda/, composition page-agenda =
   agenda-hero + agenda-liste, catégorie « SV · Agenda » ; plus d'archive : has_archive false). Code court
   [sv_filtres_agenda] = formulaire GET sans JS (cases agendas[] = termes sv_pole, liste « mois » des mois ayant un
-  événement à venir) + titre h2 #resultats « N rendez-vous à venir pour … en … » ; les filtres restreignent la boucle
+  événement à venir, chaque mois couvert pour un événement de plusieurs jours) + titre h2 #resultats « N rendez-vous à venir pour … en … » ; les filtres restreignent la boucle
   dont la requête porte "svFiltres":true (query_loop_block_query_vars, priorité 20). Événements en h3.
 - Adresses perdues (/agenda/pole/… en 404 si les règles ont été enregistrées sans le thème) : inc/contenus.php les
   régénère d'office quand la règle « agenda/pole/([^/]+)/?$ » manque.
 - inc/sync-agenda.php : import horaire (WP-Cron « sv_sync_agenda ») du flux .ics Google Agenda (SV_GCAL_ICS_URL,
-  à définir dans wp-config.php) ; clé _sv_gcal_uid, nouveaux événements en brouillon, mise à jour seulement si Google
+  à définir dans wp-config.php) ; clé _sv_gcal_uid, nouveaux événements en brouillon, DTEND sur un autre jour → sv_date_fin (clé « date_fin » ajoutée à
+  l'empreinte seulement si présente : événements d'un jour inchangés), mise à jour seulement si Google
   a changé (_sv_gcal_empreinte), corbeille respectée, passés et annulés ignorés. Test : `wp cron event run sv_sync_agenda`.
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
 - inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip

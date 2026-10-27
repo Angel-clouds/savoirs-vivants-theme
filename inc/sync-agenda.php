@@ -12,7 +12,8 @@
  *
  * Correspondance des champs (inc/contenus.php) :
  *   SUMMARY → titre, DESCRIPTION → contenu, LOCATION → sv_lieu,
- *   DTSTART → sv_date (Y-m-d) + sv_heure_debut (H:i), DTEND → sv_heure_fin (H:i, même jour seulement).
+ *   DTSTART → sv_date (Y-m-d) + sv_heure_debut (H:i), DTEND → sv_heure_fin (H:i, même jour seulement)
+ *   ou sv_date_fin (Y-m-d, événement de plusieurs jours ; DTEND d'une journée entière = lendemain du dernier jour).
  *
  * Limites : les événements récurrents (RRULE) ne sont importés qu'à leur première date
  * (les occurrences modifiées une à une dans Google, RECURRENCE-ID, sont importées à part) ;
@@ -149,7 +150,7 @@ function sv_gcal_recuperer( string $url ): ?string {
 /**
  * Extrait les blocs VEVENT du fichier .ics.
  *
- * @return list<array{uid:string, titre:string, description:string, lieu:string, date:string, heure_debut:string, heure_fin:string}>
+ * @return list<array{uid:string, titre:string, description:string, lieu:string, date:string, heure_debut:string, heure_fin:string, date_fin?:string}>
  */
 function sv_gcal_parser( string $ics ): array {
 	// Lignes repliées : une ligne qui commence par une espace ou une tabulation prolonge la précédente.
@@ -304,15 +305,22 @@ function sv_gcal_convertir( array $proprietes ): ?array {
 	}
 
 	// Heure de fin : seulement pour un événement qui commence et finit le même jour.
+	// Date de fin : pour un événement de plusieurs jours (DTEND d'une journée entière = lendemain, exclu).
 	$heure_fin = '';
-	if ( ! $journee && ! empty( $proprietes['DTEND'] ) ) {
+	$date_fin  = '';
+	if ( ! empty( $proprietes['DTEND'] ) ) {
 		$fin = sv_gcal_date( $proprietes['DTEND'] );
-		if ( $fin && $fin[0]->format( 'Y-m-d' ) === $date_debut->format( 'Y-m-d' ) ) {
-			$heure_fin = $fin[0]->format( 'H:i' );
+		if ( $fin ) {
+			$dernier = $journee ? $fin[0]->modify( '-1 day' ) : $fin[0];
+			if ( $dernier->format( 'Y-m-d' ) > $date_debut->format( 'Y-m-d' ) ) {
+				$date_fin = $dernier->format( 'Y-m-d' );
+			} elseif ( ! $journee && $fin[0]->format( 'Y-m-d' ) === $date_debut->format( 'Y-m-d' ) ) {
+				$heure_fin = $fin[0]->format( 'H:i' );
+			}
 		}
 	}
 
-	return [
+	$evenement = [
 		'uid'         => $uid,
 		'titre'       => sv_gcal_texte( $proprietes['SUMMARY']['valeur'] ?? '' ),
 		'description' => sv_gcal_texte( $proprietes['DESCRIPTION']['valeur'] ?? '' ),
@@ -321,6 +329,12 @@ function sv_gcal_convertir( array $proprietes ): ?array {
 		'heure_debut' => $journee ? '' : $date_debut->format( 'H:i' ),
 		'heure_fin'   => $heure_fin,
 	];
+	// Clé ajoutée seulement si besoin : l'empreinte des événements d'un jour ne change pas
+	// (sinon la première synchronisation écraserait toutes les retouches faites sur le site).
+	if ( '' !== $date_fin ) {
+		$evenement['date_fin'] = $date_fin;
+	}
+	return $evenement;
 }
 
 /* ---------- Écriture dans WordPress ---------- */
@@ -380,14 +394,14 @@ function sv_gcal_trouver( string $uid ): int {
 /**
  * Crée ou met à jour un événement.
  *
- * @param array{uid:string, titre:string, description:string, lieu:string, date:string, heure_debut:string, heure_fin:string} $evenement
+ * @param array{uid:string, titre:string, description:string, lieu:string, date:string, heure_debut:string, heure_fin:string, date_fin?:string} $evenement
  * @return string « crees », « mis_a_jour », « inchanges » ou « ignores » (clé du bilan).
  */
 function sv_gcal_enregistrer( array $evenement ): string {
 	$id = sv_gcal_trouver( $evenement['uid'] );
 
 	// Événement passé jamais importé : on ne remplit pas l'agenda avec l'historique Google.
-	if ( ! $id && $evenement['date'] < current_time( 'Y-m-d' ) ) {
+	if ( ! $id && ( $evenement['date_fin'] ?? $evenement['date'] ) < current_time( 'Y-m-d' ) ) {
 		return 'ignores';
 	}
 	// Mis à la corbeille par l'équipe : refus volontaire, on n'y touche plus.
@@ -402,6 +416,7 @@ function sv_gcal_enregistrer( array $evenement ): string {
 
 	$metas = [
 		'sv_date'            => $evenement['date'],
+		'sv_date_fin'        => $evenement['date_fin'] ?? '',
 		'sv_heure_debut'     => $evenement['heure_debut'],
 		'sv_heure_fin'       => $evenement['heure_fin'],
 		'sv_lieu'            => $evenement['lieu'],

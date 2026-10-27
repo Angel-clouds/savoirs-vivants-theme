@@ -650,6 +650,14 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
 .sv-evenement__infos {
   flex: 1 1 16rem;
 }
+/* Vignette (image mise en avant, inc/contenus.php) : carrée, recadrée sur le haut de l'affiche */
+.sv-evenement__vignette {
+  flex: none;
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  object-position: top;
+}
 
 /* Filtres de l'agenda général (inc/agenda-filtres.php) : mobile d'abord, en ligne dès 48rem.
    Bordures bleu nuit ≥ 3:1 (RGAA 3.3) ; case cochée = coche ET fond bleu nuit (pas la couleur seule, 3.1). */
