@@ -650,13 +650,110 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
 .sv-evenement__infos {
   flex: 1 1 16rem;
 }
-/* Vignette (image mise en avant, inc/contenus.php) : carrée, recadrée sur le haut de l'affiche */
-.sv-evenement__vignette {
-  flex: none;
-  width: 6rem;
-  height: 6rem;
+/* Carte d'événement (compositions d'agenda) : grille « visuel | infos | lien ».
+   Mobile : visuel en bandeau, pastille de date posée dessus ; dès 40rem : visuel à gauche sur toute la hauteur.
+   Sans vignette, la pastille occupe seule la zone du visuel. */
+.wp-block-group.is-style-carte:has(> .sv-date) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "visuel infos" "lien lien";
+  align-items: center;
+  gap: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+  transition: border-color 0.2s;
+}
+.wp-block-group.is-style-carte:has(> .sv-date):is(:hover, :focus-within) {
+  border-color: var(--color-nuit);
+}
+.is-style-carte:has(> .sv-date) > .sv-date {
+  grid-area: visuel;
+  align-self: start;
+  justify-self: start;
+}
+.is-style-carte:has(> .sv-date) > .sv-evenement__infos {
+  grid-area: infos;
+}
+.is-style-carte:has(> .sv-date) > .wp-block-read-more {
+  grid-area: lien;
+  justify-self: start;
+  font-weight: 600;
+}
+.is-style-carte:has(> .sv-date) > .wp-block-read-more::after {
+  content: "→" / "";
+  display: inline-block;
+  margin-left: 0.4em;
+  transition: transform 0.2s;
+}
+.is-style-carte:has(> .sv-date) > .wp-block-read-more:is(:hover, :focus-visible)::after {
+  transform: translateX(0.25em);
+}
+
+/* Avec vignette */
+.wp-block-group.is-style-carte:has(> .sv-evenement__vignette) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "visuel" "infos" "lien";
+  padding: 0 0 var(--wp--preset--spacing--40);
+}
+.is-style-carte > .sv-evenement__vignette {
+  grid-area: visuel;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: top;
+}
+/* Pastille posée sur l'image : plus compacte, liseré blanc pour la détacher du visuel */
+.is-style-carte:has(> .sv-evenement__vignette) > .sv-date {
+  z-index: 1;
+  min-width: 4rem;
+  margin: var(--wp--preset--spacing--20);
+  padding: 0.4rem 0.6rem;
+  box-shadow: 0 0 0 3px var(--color-blanc);
+}
+.is-style-carte:has(> .sv-evenement__vignette) > .sv-date .sv-date__jour {
+  font-size: var(--text-lg);
+}
+.is-style-carte:has(> .sv-evenement__vignette) > .sv-date .sv-date__mois {
+  font-size: 0.75rem;
+}
+.is-style-carte:has(> .sv-evenement__vignette) > :is(.sv-evenement__infos, .wp-block-read-more) {
+  margin-inline: var(--wp--preset--spacing--40);
+}
+
+@media (min-width: 40rem) {
+  .wp-block-group.is-style-carte:has(> .sv-date) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "visuel infos lien";
+  }
+  .is-style-carte:has(> .sv-date) > .wp-block-read-more {
+    justify-self: end;
+  }
+  .is-style-carte:has(> .sv-date) .is-style-titre-carte {
+    font-size: var(--text-lg);
+  }
+  .wp-block-group.is-style-carte:has(> .sv-evenement__vignette) {
+    grid-template-columns: 13rem minmax(0, 1fr) auto;
+    grid-template-rows: minmax(11rem, auto);
+    padding: 0;
+  }
+  /* Hauteur nulle + min-height 100 % : l'image suit la hauteur de la carte sans l'imposer */
+  .is-style-carte > .sv-evenement__vignette {
+    align-self: stretch;
+    height: 0;
+    min-height: 100%;
+    aspect-ratio: auto;
+  }
+  .is-style-carte:has(> .sv-evenement__vignette) > :is(.sv-evenement__infos, .wp-block-read-more) {
+    margin: var(--wp--preset--spacing--30) 0;
+  }
+  .is-style-carte:has(> .sv-evenement__vignette) > .wp-block-read-more {
+    margin-right: var(--wp--preset--spacing--40);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-block-group.is-style-carte:has(> .sv-date),
+  .is-style-carte:has(> .sv-date) > .wp-block-read-more::after {
+    transition: none;
+  }
 }
 
 /* Filtres de l'agenda général (inc/agenda-filtres.php) : mobile d'abord, en ligne dès 48rem.
