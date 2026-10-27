@@ -85,6 +85,9 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   à définir dans wp-config.php) ; clé _sv_gcal_uid, nouveaux événements en brouillon, DTEND sur un autre jour → sv_date_fin (clé « date_fin » ajoutée à
   l'empreinte seulement si présente : événements d'un jour inchangés), mise à jour seulement si Google
   a changé (_sv_gcal_empreinte), corbeille respectée, passés et annulés ignorés. Test : `wp cron event run sv_sync_agenda`.
+  Page Agenda → Synchronisation Google (edit_others_posts) : bouton « Synchroniser maintenant » (admin-post sv_gcal_sync),
+  dernier / prochain passage et résultat par événement (option sv_gcal_journal). Le flux .ics de Google est publié avec
+  plusieurs heures de retard : « Inchangé dans Google » après une modification = Google n'a pas encore publié.
 - inc/formulaire-contact.php : code court [sv_formulaire_contact].
 - inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip
   vérifié et extrait dans uploads/mini-sites/<id>-<jeton>/, servi par /mini-sites/<slug>/ avec CSP « sandbox »
