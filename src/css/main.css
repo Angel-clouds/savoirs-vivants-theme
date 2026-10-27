@@ -51,6 +51,23 @@
     box-shadow: 0 0 0 2px var(--color-nuit);
   }
 
+  /* Listes éditoriales (mentions légales, confidentialité, accessibilité, actualités…) :
+     puces, numéros et retrait du navigateur rétablis après le preflight de Tailwind
+     (ol, ul { list-style: none }). Sans puce, VoiceOver (Safari) n'annonce plus la liste — RGAA 9.3.
+     Les listes stylisées (.sv-liste-liens, .sv-minisites, univers des pôles) gardent la priorité :
+     leurs règles sont hors couche. Navigation et pied de page ne sont pas visés. */
+  :is(main, .editor-styles-wrapper) :is(ul, ol).wp-block-list {
+    list-style: revert;
+    padding-inline-start: 1.5rem;
+  }
+
+  /* Titres longs coupés proprement : Space Mono est à chasse fixe, un mot de plus de 13 lettres
+     (« confidentialité ») déborde d'un H1 à 320 px — RGAA 10.11. La césure suit lang="fr-FR". */
+  :is(h1, h2, h3) {
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
   /* Respect des préférences de mouvement réduit */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -146,9 +163,11 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-ambitions > * {
 .wp-block-navigation .wp-block-navigation-item__content:hover {
   text-decoration: underline;
 }
-/* Page en cours : vert foncé + soulignement permanent (couleur ET forme — RGAA 10.6) */
+/* Page en cours (aria-current="page") ou rubrique en cours (aria-current="true", sous-page,
+   événement de l'agenda) : vert foncé + soulignement permanent (couleur ET forme — RGAA 10.6).
+   aria-current posé par inc/blocks.php (sv_menu_lien_en_cours). */
 .wp-block-navigation .current-menu-item > .wp-block-navigation-item__content,
-.wp-block-navigation [aria-current="page"] {
+.wp-block-navigation [aria-current] {
   color: var(--color-sauge-texte);
   text-decoration: underline;
 }
@@ -650,13 +669,105 @@ main .wp-block-group.alignfull.has-bleu-nuit-background-color.sv-chiffres-bandea
 .sv-evenement__infos {
   flex: 1 1 16rem;
 }
-/* Vignette (image mise en avant, inc/contenus.php) : carrée, recadrée sur le haut de l'affiche */
-.sv-evenement__vignette {
-  flex: none;
-  width: 6rem;
-  height: 6rem;
+/* Carte d'événement (compositions d'agenda) : grille « visuel | infos | lien ».
+   Mobile : visuel en bandeau, pastille de date posée dessus ; dès 40rem : visuel à gauche sur toute la hauteur.
+   Sans vignette, la pastille occupe seule la zone du visuel. */
+.wp-block-group.is-style-carte:has(> .sv-date) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "visuel infos" "lien lien";
+  align-items: center;
+  gap: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+  transition: border-color 0.2s;
+}
+.wp-block-group.is-style-carte:has(> .sv-date):is(:hover, :focus-within) {
+  border-color: var(--color-nuit);
+}
+.is-style-carte:has(> .sv-date) > .sv-date {
+  grid-area: visuel;
+  align-self: start;
+  justify-self: start;
+}
+.is-style-carte:has(> .sv-date) > .sv-evenement__infos {
+  grid-area: infos;
+}
+.is-style-carte:has(> .sv-date) > .wp-block-read-more {
+  grid-area: lien;
+  justify-self: start;
+  font-weight: 600;
+}
+.is-style-carte:has(> .sv-date) > .wp-block-read-more::after {
+  content: "→" / "";
+  display: inline-block;
+  margin-left: 0.4em;
+  transition: transform 0.2s;
+}
+.is-style-carte:has(> .sv-date) > .wp-block-read-more:is(:hover, :focus-visible)::after {
+  transform: translateX(0.25em);
+}
+
+/* Avec vignette : pastille et image accolées en un seul bloc, sans superposition */
+.wp-block-group.is-style-carte:has(> .sv-evenement__vignette) {
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "date visuel" "infos infos" "lien lien";
+  column-gap: 0;
+  padding: 0 0 var(--wp--preset--spacing--40);
+}
+.is-style-carte > .sv-evenement__vignette {
+  grid-area: visuel;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: top;
+}
+.is-style-carte:has(> .sv-evenement__vignette) > .sv-date {
+  grid-area: date;
+  align-self: stretch;
+  justify-self: stretch;
+  justify-content: center;
+  border-radius: 0;
+}
+.is-style-carte:has(> .sv-evenement__vignette) > :is(.sv-evenement__infos, .wp-block-read-more) {
+  margin-inline: var(--wp--preset--spacing--40);
+}
+
+@media (min-width: 40rem) {
+  .wp-block-group.is-style-carte:has(> .sv-date) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "visuel infos lien";
+  }
+  .is-style-carte:has(> .sv-date) > .wp-block-read-more {
+    justify-self: end;
+  }
+  .is-style-carte:has(> .sv-date) .is-style-titre-carte {
+    font-size: var(--text-lg);
+  }
+  .wp-block-group.is-style-carte:has(> .sv-evenement__vignette) {
+    grid-template-columns: auto 11rem minmax(0, 1fr) auto;
+    grid-template-areas: "date visuel infos lien";
+    grid-template-rows: minmax(10rem, auto);
+    padding: 0;
+  }
+  /* Hauteur nulle + min-height 100 % : l'image suit la hauteur de la carte sans l'imposer */
+  .is-style-carte > .sv-evenement__vignette {
+    align-self: stretch;
+    height: 0;
+    min-height: 100%;
+    aspect-ratio: auto;
+  }
+  .is-style-carte:has(> .sv-evenement__vignette) > .sv-evenement__infos {
+    margin: var(--wp--preset--spacing--30) 0 var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
+  }
+  .is-style-carte:has(> .sv-evenement__vignette) > .wp-block-read-more {
+    margin: 0 var(--wp--preset--spacing--40) 0 var(--wp--preset--spacing--30);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-block-group.is-style-carte:has(> .sv-date),
+  .is-style-carte:has(> .sv-date) > .wp-block-read-more::after {
+    transition: none;
+  }
 }
 
 /* Filtres de l'agenda général (inc/agenda-filtres.php) : mobile d'abord, en ligne dès 48rem.
@@ -1751,7 +1862,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 /* =========================================================
    11. ANIMATION D'ENTRÉE (inc/intro.php)
    ---------------------------------------------------------
-   Logo plein écran 1,2 s puis fondu. La classe sv-intro-sv / -creabot / -schlouk
+   Logo plein écran 0,6 s (1,2 s jusqu'en v0.2 : raccourci après l'audit, le visiteur voit la page plus tôt) puis fondu. La classe sv-intro-sv / -creabot / -schlouk
    est posée sur <html> par le script de tête. Décorative (aria-hidden), sans
    clignotement, < 5 s (RGAA 13.7, 13.8), clics et clavier jamais bloqués
    (pointer-events: none).
@@ -1772,7 +1883,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   padding: var(--wp--preset--spacing--30);
   background: #fff;
   pointer-events: none;
-  animation: sv-intro-voile 1.2s ease-in-out forwards;
+  animation: sv-intro-voile 0.6s ease-in-out forwards;
 }
 .sv-intro-creabot .sv-intro {
   background: color-mix(in srgb, #a8a5c2 18%, #fff); /* Ciel cosmique très clair (charte CréaBot) */
@@ -1784,7 +1895,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
 .sv-intro-creabot .sv-intro__logo--creabot,
 .sv-intro-schlouk .sv-intro__logo--schlouk {
   display: block;
-  animation: sv-intro-apparition 1.2s ease-out forwards;
+  animation: sv-intro-apparition 0.6s ease-out forwards;
 }
 .sv-intro__logo--sv {
   width: min(70vw, 22rem);
@@ -1802,7 +1913,7 @@ div.sv-minisites-colonnes:not(.wp-block-group) {
   .sv-intro-sv .sv-intro__logo--sv,
   .sv-intro-creabot .sv-intro__logo--creabot,
   .sv-intro-schlouk .sv-intro__logo--schlouk {
-    animation: sv-intro-logo 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation: sv-intro-logo 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
   }
 }
 @keyframes sv-intro-apparition {

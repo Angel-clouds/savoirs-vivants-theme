@@ -1,0 +1,9 @@
+# Fichiers à NE PAS envoyer sur le serveur de production (voir README.md).
+.distignore
+.phpcs.xml.dist
+README.md
+*.log
+*.bak
+*.zip
+.DS_Store
+*~

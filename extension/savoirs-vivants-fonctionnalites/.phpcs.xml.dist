@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="Savoirs Vivants – Fonctionnalités">
+	<description>Standard de code PHP de l'extension (WordPress Coding Standards), comme le thème.</description>
+
+	<file>savoirs-vivants-fonctionnalites.php</file>
+	<file>inc</file>
+	<arg name="extensions" value="php"/>
+	<config name="testVersion" value="8.2-"/>
+
+	<rule ref="WordPress-Extra">
+		<!-- Syntaxe courte [] des tableaux : déjà utilisée partout, on la garde -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+	</rule>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="savoirs-vivants-fonctionnalites"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>

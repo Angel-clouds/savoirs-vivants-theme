@@ -1,0 +1,1009 @@
+# Copyright (C) 2026 Savoirs Vivants
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Savoirs Vivants – Fonctionnalités 0.3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/savoirs-vivants-fonctionnalites\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-27T14:33:34+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: savoirs-vivants-fonctionnalites\n"
+
+#. Plugin Name of the plugin
+#: savoirs-vivants-fonctionnalites.php
+msgid "Savoirs Vivants – Fonctionnalités"
+msgstr ""
+
+#. Description of the plugin
+#: savoirs-vivants-fonctionnalites.php
+msgid "Agenda (événements, filtres, synchronisation Google), Ressourcerie (matériel, mini-sites), formulaire de contact, redirections, SMTP et sécurité du site savoirsvivants.fr. Indépendant du thème : les contenus et leurs adresses survivent à un changement de thème."
+msgstr ""
+
+#. Author of the plugin
+#: savoirs-vivants-fonctionnalites.php
+msgid "Savoirs Vivants"
+msgstr ""
+
+#. translators: %s : noms des agendas choisis, séparés par des virgules.
+#: inc/agenda-filtres.php:192
+#, php-format
+msgid "pour %s"
+msgstr ""
+
+#. translators: %s : mois choisi (ex. « novembre 2026 »).
+#: inc/agenda-filtres.php:196
+#, php-format
+msgid "en %s"
+msgstr ""
+
+#. translators: %d : nombre d'événements à venir.
+#: inc/agenda-filtres.php:200
+#, php-format
+msgid "%d rendez-vous à venir"
+msgid_plural "%d rendez-vous à venir"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/agenda-filtres.php:202
+msgid "Aucun rendez-vous à venir"
+msgstr ""
+
+#: inc/agenda-filtres.php:209
+msgid "Agendas"
+msgstr ""
+
+#: inc/agenda-filtres.php:215
+msgid "Aucune case cochée : tous les agendas."
+msgstr ""
+
+#: inc/agenda-filtres.php:218
+msgid "Mois"
+msgstr ""
+
+#: inc/agenda-filtres.php:220
+msgid "Tous les mois"
+msgstr ""
+
+#: inc/agenda-filtres.php:227
+msgid "Afficher les rendez-vous"
+msgstr ""
+
+#: inc/agenda-filtres.php:229
+msgid "Effacer les filtres"
+msgstr ""
+
+#: inc/contenus.php:18
+msgid "Informations de l’événement"
+msgstr ""
+
+#: inc/contenus.php:21
+msgid "Agendas où afficher l’événement"
+msgstr ""
+
+#: inc/contenus.php:22
+msgid "Cochez au moins un agenda. L’agenda général (/agenda/) affiche tous les événements."
+msgstr ""
+
+#: inc/contenus.php:23
+msgid "Choisissez au moins un agenda pour pouvoir enregistrer l’événement."
+msgstr ""
+
+#: inc/contenus.php:24
+msgid "Sans date, l’événement n’apparaît dans aucun agenda."
+msgstr ""
+
+#: inc/contenus.php:25
+msgid "Cette date est passée : l’événement n’apparaît plus dans les agendas."
+msgstr ""
+
+#: inc/contenus.php:26
+msgid "La date de fin doit être après la date de début : sinon elle est ignorée."
+msgstr ""
+
+#: inc/contenus.php:31
+msgctxt "champ d’un événement"
+msgid "Date"
+msgstr ""
+
+#: inc/contenus.php:33
+msgid "Obligatoire pour apparaître dans l’agenda. Premier jour si l’événement dure plusieurs jours."
+msgstr ""
+
+#: inc/contenus.php:37
+msgid "Date de fin (plusieurs jours)"
+msgstr ""
+
+#: inc/contenus.php:39
+msgid "À laisser vide pour un événement d’une seule journée. Les heures s’appliquent à chaque jour."
+msgstr ""
+
+#: inc/contenus.php:43
+msgid "Heure de début"
+msgstr ""
+
+#: inc/contenus.php:48
+msgid "Heure de fin"
+msgstr ""
+
+#: inc/contenus.php:53
+msgctxt "champ d’un événement"
+msgid "Lieu"
+msgstr ""
+
+#: inc/contenus.php:55
+msgid "Ex. : IUT de Haguenau, 30 rue du Maire André Traband"
+msgstr ""
+
+#: inc/contenus.php:59
+msgid "Lien d’inscription (facultatif)"
+msgstr ""
+
+#: inc/contenus.php:65
+msgid "Informations du matériel"
+msgstr ""
+
+#: inc/contenus.php:69
+msgid "Âge conseillé"
+msgstr ""
+
+#: inc/contenus.php:71
+msgid "Ex. : Dès 6 ans"
+msgstr ""
+
+#: inc/contenus.php:75
+msgid "Tarif de location"
+msgstr ""
+
+#: inc/contenus.php:77
+msgid "Ex. : 15 € la semaine"
+msgstr ""
+
+#: inc/contenus.php:81
+msgid "Équipement nécessaire à la maison"
+msgstr ""
+
+#: inc/contenus.php:83
+msgid "Ex. : ordinateur ou tablette"
+msgstr ""
+
+#: inc/contenus.php:104
+msgid "Pôles"
+msgstr ""
+
+#: inc/contenus.php:105
+msgid "Pôle"
+msgstr ""
+
+#: inc/contenus.php:106
+msgid "Ajouter un pôle"
+msgstr ""
+
+#: inc/contenus.php:124
+msgid "Événements"
+msgstr ""
+
+#: inc/contenus.php:125
+msgid "Événement"
+msgstr ""
+
+#: inc/contenus.php:126
+msgctxt "menu d’administration"
+msgid "Agenda"
+msgstr ""
+
+#: inc/contenus.php:127
+#: inc/contenus.php:128
+msgid "Ajouter un événement"
+msgstr ""
+
+#: inc/contenus.php:129
+msgid "Modifier l’événement"
+msgstr ""
+
+#: inc/contenus.php:130
+msgid "Nouvel événement"
+msgstr ""
+
+#: inc/contenus.php:131
+msgid "Voir l’événement"
+msgstr ""
+
+#: inc/contenus.php:132
+msgid "Rechercher un événement"
+msgstr ""
+
+#: inc/contenus.php:133
+msgid "Aucun événement trouvé"
+msgstr ""
+
+#: inc/contenus.php:134
+msgid "Tous les événements"
+msgstr ""
+
+#: inc/contenus.php:147
+msgid "Décrivez l’événement : programme, public concerné, intervenant·es…"
+msgstr ""
+
+#: inc/contenus.php:157
+msgctxt "type de contenu (pluriel)"
+msgid "Matériel"
+msgstr ""
+
+#: inc/contenus.php:158
+msgctxt "type de contenu (singulier)"
+msgid "Matériel"
+msgstr ""
+
+#: inc/contenus.php:159
+msgctxt "menu d’administration"
+msgid "Ressourcerie"
+msgstr ""
+
+#: inc/contenus.php:160
+#: inc/contenus.php:161
+msgid "Ajouter du matériel"
+msgstr ""
+
+#: inc/contenus.php:162
+msgid "Modifier le matériel"
+msgstr ""
+
+#: inc/contenus.php:163
+msgid "Voir la fiche"
+msgstr ""
+
+#: inc/contenus.php:164
+msgid "Rechercher du matériel"
+msgstr ""
+
+#: inc/contenus.php:165
+msgid "Aucun matériel trouvé"
+msgstr ""
+
+#: inc/contenus.php:166
+msgid "Tout le matériel"
+msgstr ""
+
+#: inc/contenus.php:179
+msgid "Présentez le matériel : ce qu’il permet de faire, comment l’utiliser…"
+msgstr ""
+
+#: inc/contenus.php:189
+msgid "Types de matériel"
+msgstr ""
+
+#: inc/contenus.php:190
+msgid "Type de matériel"
+msgstr ""
+
+#: inc/contenus.php:191
+msgid "Ajouter un type"
+msgstr ""
+
+#: inc/contenus.php:304
+msgid "Événement (Savoirs Vivants)"
+msgstr ""
+
+#. translators: heure d'un événement. 1 : heures, 2 : minutes (français « 10 h 50 », allemand « %1$s:%2$s Uhr »).
+#: inc/contenus.php:321
+#, php-format
+msgctxt "heure d’un événement"
+msgid "%1$s h %2$s"
+msgstr ""
+
+#. translators: horaires d'un événement. 1 : heure de début, 2 : heure de fin.
+#: inc/contenus.php:354
+#, php-format
+msgid "De %1$s à %2$s"
+msgstr ""
+
+#. translators: %s : heure de début d'un événement sans heure de fin.
+#: inc/contenus.php:361
+#, php-format
+msgid "À partir de %s"
+msgstr ""
+
+#. translators: format de la date complète d'un événement (voir https://www.php.net/manual/fr/datetime.format.php ; allemand : « l, j. F Y »).
+#: inc/contenus.php:381
+msgctxt "format de date d’un événement"
+msgid "l j F Y"
+msgstr ""
+
+#: inc/contenus.php:383
+msgid "Date à venir"
+msgstr ""
+
+#. translators: premier jour d'un événement de plusieurs jours dans le même mois (« jeudi 26 ») ; allemand : « l, j. ».
+#: inc/contenus.php:387
+msgctxt "premier jour, même mois"
+msgid "l j"
+msgstr ""
+
+#. translators: premier jour d'un événement de plusieurs jours sur deux mois (« samedi 28 novembre ») ; allemand : « l, j. F ».
+#: inc/contenus.php:390
+msgctxt "premier jour, même année"
+msgid "l j F"
+msgstr ""
+
+#. translators: dates d'un événement de plusieurs jours. 1 : premier jour, 2 : dernier jour (« Du jeudi 26 au samedi 28 novembre 2026 »).
+#: inc/contenus.php:396
+#, php-format
+msgid "Du %1$s au %2$s"
+msgstr ""
+
+#: inc/contenus.php:526
+msgid "Aperçu indisponible : rechargez l’éditeur."
+msgstr ""
+
+#: inc/contenus.php:632
+msgid "Image d’illustration"
+msgstr ""
+
+#: inc/contenus.php:633
+msgid "Affichée à côté de la date dans les listes de l’agenda et en haut de la page de l’événement. Une affiche convient : le haut de l’image est conservé."
+msgstr ""
+
+#: inc/contenus.php:634
+msgid "Choisir une image"
+msgstr ""
+
+#: inc/contenus.php:635
+msgid "Remplacer"
+msgstr ""
+
+#: inc/contenus.php:636
+msgid "Retirer"
+msgstr ""
+
+#: inc/contenus.php:637
+msgid "Aperçu de la carte"
+msgstr ""
+
+#: inc/contenus.php:638
+msgid "Carte telle qu’elle apparaîtra dans l’agenda, avec les informations en cours de saisie."
+msgstr ""
+
+#: inc/contenus.php:639
+msgid "Ordinateur"
+msgstr ""
+
+#: inc/contenus.php:640
+msgid "Mobile"
+msgstr ""
+
+#: inc/contenus.php:641
+msgid "Aperçu de la carte de l’événement"
+msgstr ""
+
+#: inc/contenus.php:642
+msgid "Titre de l’événement"
+msgstr ""
+
+#: inc/formulaire-contact.php:20
+msgid "Demande de renseignement"
+msgstr ""
+
+#: inc/formulaire-contact.php:21
+msgid "Adhésion à l’association"
+msgstr ""
+
+#: inc/formulaire-contact.php:22
+msgid "Emprunt de matériel (Ressourcerie)"
+msgstr ""
+
+#: inc/formulaire-contact.php:23
+msgid "Clubs, stages ou interventions CréaBot"
+msgstr ""
+
+#: inc/formulaire-contact.php:24
+msgid "Schlouk de Sciences (conférence, bénévolat)"
+msgstr ""
+
+#: inc/formulaire-contact.php:25
+msgid "Recherche participative"
+msgstr ""
+
+#: inc/formulaire-contact.php:26
+msgid "Autre demande"
+msgstr ""
+
+#: inc/formulaire-contact.php:140
+msgid "La session a expiré. Rechargez la page puis envoyez de nouveau votre message."
+msgstr ""
+
+#: inc/formulaire-contact.php:143
+msgid "Indiquez votre prénom."
+msgstr ""
+
+#: inc/formulaire-contact.php:146
+msgid "Indiquez votre nom."
+msgstr ""
+
+#: inc/formulaire-contact.php:149
+msgid "Indiquez une adresse e-mail valide, au format nom@exemple.fr."
+msgstr ""
+
+#: inc/formulaire-contact.php:152
+msgid "Choisissez l’objet de votre demande."
+msgstr ""
+
+#: inc/formulaire-contact.php:155
+msgid "Rédigez votre message."
+msgstr ""
+
+#: inc/formulaire-contact.php:175
+msgid "Vous avez envoyé plusieurs messages en peu de temps. Réessayez dans une heure ou écrivez-nous à contact@savoirsvivants.fr."
+msgstr ""
+
+#. translators: %s : titre de la page contenant le formulaire de contact en erreur.
+#. translators: %s : message d'erreur d'un champ du formulaire de contact.
+#: inc/formulaire-contact.php:213
+#: inc/formulaire-contact.php:275
+#, php-format
+msgid "Erreur : %s"
+msgstr ""
+
+#: inc/formulaire-contact.php:258
+msgid "Prénom"
+msgstr ""
+
+#: inc/formulaire-contact.php:259
+msgctxt "nom de famille"
+msgid "Nom"
+msgstr ""
+
+#: inc/formulaire-contact.php:260
+msgid "Adresse e-mail"
+msgstr ""
+
+#: inc/formulaire-contact.php:261
+msgid "Objet de la demande"
+msgstr ""
+
+#: inc/formulaire-contact.php:262
+msgid "Votre message"
+msgstr ""
+
+#: inc/formulaire-contact.php:284
+msgid "Merci, votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais."
+msgstr ""
+
+#. translators: %s : lien vers l'adresse e-mail de l'association.
+#: inc/formulaire-contact.php:288
+#, php-format
+msgid "L’envoi du message a échoué. Écrivez-nous directement à %s."
+msgstr ""
+
+#. translators: %d : nombre d'erreurs dans le formulaire de contact.
+#: inc/formulaire-contact.php:299
+#, php-format
+msgid "Le formulaire contient %d erreur :"
+msgid_plural "Le formulaire contient %d erreurs :"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/formulaire-contact.php:312
+msgid "Tous les champs sont obligatoires."
+msgstr ""
+
+#: inc/formulaire-contact.php:329
+msgid "Format attendu : nom@exemple.fr"
+msgstr ""
+
+#: inc/formulaire-contact.php:338
+msgid "Choisir un objet"
+msgstr ""
+
+#: inc/formulaire-contact.php:352
+msgid "Ne pas remplir ce champ"
+msgstr ""
+
+#: inc/formulaire-contact.php:357
+msgid "Vos données servent uniquement à répondre à votre demande et ne sont jamais transmises à des tiers."
+msgstr ""
+
+#: inc/formulaire-contact.php:359
+msgid "En savoir plus sur la gestion de vos données"
+msgstr ""
+
+#: inc/formulaire-contact.php:366
+msgid "Envoyer le message"
+msgstr ""
+
+#: inc/mini-sites.php:121
+#: inc/mini-sites.php:123
+#: inc/mini-sites.php:124
+msgid "Mini-sites"
+msgstr ""
+
+#: inc/mini-sites.php:122
+msgid "Mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:125
+#: inc/mini-sites.php:126
+msgid "Ajouter un mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:127
+msgid "Modifier le mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:128
+msgid "Rechercher un mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:129
+msgid "Aucun mini-site trouvé"
+msgstr ""
+
+#: inc/mini-sites.php:161
+#: inc/mini-sites.php:163
+#: inc/mini-sites.php:197
+#: inc/mini-sites.php:198
+msgid "Catégories de mini-sites"
+msgstr ""
+
+#: inc/mini-sites.php:162
+msgid "Catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:164
+msgid "Toutes les catégories"
+msgstr ""
+
+#: inc/mini-sites.php:165
+msgid "Catégorie parente"
+msgstr ""
+
+#: inc/mini-sites.php:166
+msgid "Catégorie parente :"
+msgstr ""
+
+#: inc/mini-sites.php:167
+msgid "Modifier la catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:168
+msgid "Voir la catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:169
+msgid "Mettre à jour la catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:170
+msgid "Ajouter une catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:171
+msgid "Nom de la nouvelle catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:172
+msgid "Rechercher une catégorie"
+msgstr ""
+
+#: inc/mini-sites.php:173
+msgid "Aucune catégorie trouvée"
+msgstr ""
+
+#: inc/mini-sites.php:174
+msgid "← Retour aux catégories"
+msgstr ""
+
+#: inc/mini-sites.php:261
+msgid "Nom du mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:270
+msgid "Fichiers du mini-site"
+msgstr ""
+
+#: inc/mini-sites.php:273
+msgid "Description courte (affichée sur la carte)"
+msgstr ""
+
+#: inc/mini-sites.php:296
+msgid "Mini-site en ligne"
+msgstr ""
+
+#: inc/mini-sites.php:297
+#: inc/mini-sites.php:1009
+#: inc/mini-sites.php:1081
+msgid "(nouvel onglet)"
+msgstr ""
+
+#. translators: 1 : nombre de fichiers, 2 : poids total (ex. 2 Mo), 3 : date et heure de l'import.
+#: inc/mini-sites.php:305
+#, php-format
+msgid "%1$d fichier, %2$s, importé le %3$s."
+msgid_plural "%1$d fichiers, %2$s, importés le %3$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: format de la date d'import d'un mini-site (allemand : « j. F Y, H:i »).
+#: inc/mini-sites.php:309
+msgctxt "date d’import d’un mini-site"
+msgid "j F Y à H:i"
+msgstr ""
+
+#: inc/mini-sites.php:315
+msgid "Fichiers importés. Le mini-site sera accessible une fois publié."
+msgstr ""
+
+#: inc/mini-sites.php:317
+msgid "Aucun fichier importé : le mini-site n’apparaîtra pas sur le site."
+msgstr ""
+
+#: inc/mini-sites.php:321
+msgid "L’extension PHP « zip » n’est pas active sur le serveur : import impossible."
+msgstr ""
+
+#: inc/mini-sites.php:325
+msgid "Votre compte ne permet pas d’importer du code (droit « unfiltered_html » requis)."
+msgstr ""
+
+#: inc/mini-sites.php:332
+msgid "Remplacer par un nouveau fichier .zip"
+msgstr ""
+
+#: inc/mini-sites.php:332
+msgid "Fichier .zip du mini-site"
+msgstr ""
+
+#. translators: %s : taille maximale du fichier .zip (ex. 50 Mo).
+#: inc/mini-sites.php:339
+#, php-format
+msgid "Le fichier est importé à l’enregistrement (« Publier » ou « Mettre à jour »), puis supprimé du serveur. Taille maximale : %s."
+msgstr ""
+
+#. translators: %s : nom du fichier index.html.
+#: inc/mini-sites.php:346
+#, php-format
+msgid "Une page %s est obligatoire, à la racine du .zip ou dans un dossier unique."
+msgstr ""
+
+#. translators: %s : liste des extensions de fichier acceptées.
+#: inc/mini-sites.php:352
+#, php-format
+msgid "Fichiers acceptés : %s. Les autres sont ignorés ; un fichier PHP ou exécutable fait refuser le .zip."
+msgstr ""
+
+#: inc/mini-sites.php:355
+msgid "Aucune ressource externe (CDN, Google Fonts, statistiques…) : incluez les bibliothèques dans le .zip, sinon elles seront bloquées."
+msgstr ""
+
+#. translators: %s : raison du refus de l'import du mini-site.
+#: inc/mini-sites.php:387
+#, php-format
+msgid "Import refusé : %s"
+msgstr ""
+
+#. translators: %d : nombre de fichiers importés.
+#: inc/mini-sites.php:390
+#, php-format
+msgid "Mini-site importé : %d fichier."
+msgid_plural "Mini-site importé : %d fichiers."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s : liste des fichiers ignorés lors de l'import.
+#: inc/mini-sites.php:394
+#, php-format
+msgid "Fichiers ignorés (type non accepté) : %s"
+msgstr ""
+
+#: inc/mini-sites.php:434
+msgid "archive .zip illisible ou corrompue."
+msgstr ""
+
+#: inc/mini-sites.php:462
+msgid "impossible de finaliser l’import (droits d’écriture du dossier uploads)."
+msgstr ""
+
+#: inc/mini-sites.php:498
+msgid "fichier trop lourd pour le serveur (upload_max_filesize)."
+msgstr ""
+
+#: inc/mini-sites.php:499
+msgid "fichier trop lourd."
+msgstr ""
+
+#: inc/mini-sites.php:500
+msgid "envoi interrompu, réessayez."
+msgstr ""
+
+#: inc/mini-sites.php:501
+msgid "dossier temporaire du serveur manquant."
+msgstr ""
+
+#: inc/mini-sites.php:502
+msgid "écriture impossible sur le serveur."
+msgstr ""
+
+#: inc/mini-sites.php:503
+msgid "envoi bloqué par une extension PHP."
+msgstr ""
+
+#: inc/mini-sites.php:507
+msgid "échec de l’envoi."
+msgstr ""
+
+#: inc/mini-sites.php:512
+msgid "fichier non reçu par le formulaire."
+msgstr ""
+
+#. translators: %s : poids maximal accepté pour le fichier .zip (ex. « 20 Mo »).
+#: inc/mini-sites.php:519
+#, php-format
+msgid "le fichier doit peser au plus %s."
+msgstr ""
+
+#: inc/mini-sites.php:523
+msgid "le fichier doit porter l’extension .zip."
+msgstr ""
+
+#: inc/mini-sites.php:531
+msgid "le contenu du fichier n’est pas une archive .zip."
+msgstr ""
+
+#: inc/mini-sites.php:538
+msgid "archive .zip vide ou non valide."
+msgstr ""
+
+#: inc/mini-sites.php:550
+msgid "nom de fichier illisible (encodage). Recréez le .zip avec des noms sans accents."
+msgstr ""
+
+#. translators: %s : nom de fichier refusé, tel qu'il figure dans l'archive .zip.
+#: inc/mini-sites.php:554
+#, php-format
+msgid "nom de fichier interdit : %s"
+msgstr ""
+
+#. translators: %s : chemin refusé dans l'archive .zip (segment vide, « . » ou « .. »).
+#. translators: %s : chemin refusé car il sortirait du dossier d'extraction.
+#: inc/mini-sites.php:564
+#: inc/mini-sites.php:700
+#, php-format
+msgid "chemin interdit : %s"
+msgstr ""
+
+#. translators: %s : chemin du fichier dont les sous-dossiers dépassent la profondeur autorisée.
+#: inc/mini-sites.php:569
+#, php-format
+msgid "trop de sous-dossiers : %s"
+msgstr ""
+
+#. translators: %d : nombre maximal de fichiers accepté dans l'archive .zip.
+#: inc/mini-sites.php:587
+#, php-format
+msgid "plus de %d fichiers dans l’archive."
+msgstr ""
+
+#: inc/mini-sites.php:599
+msgid "archive corrompue."
+msgstr ""
+
+#. translators: %s : chemin du lien symbolique refusé dans l'archive .zip.
+#: inc/mini-sites.php:610
+#, php-format
+msgid "lien symbolique interdit : %s"
+msgstr ""
+
+#. translators: %s : chemin du fichier exécutable (PHP, CGI…) refusé dans l'archive .zip.
+#: inc/mini-sites.php:615
+#, php-format
+msgid "fichier exécutable côté serveur interdit : %s"
+msgstr ""
+
+#. translators: %s : chemin du fichier présent en double dans l'archive .zip.
+#: inc/mini-sites.php:637
+#, php-format
+msgid "fichier présent deux fois : %s"
+msgstr ""
+
+#. translators: %s : volume maximal du mini-site une fois décompressé (ex. « 50 Mo »).
+#: inc/mini-sites.php:645
+#: inc/mini-sites.php:725
+#, php-format
+msgid "plus de %s une fois décompressé."
+msgstr ""
+
+#. translators: %s : chemin du fichier dont le taux de compression est suspect (bombe zip).
+#: inc/mini-sites.php:649
+#, php-format
+msgid "taux de compression anormal (archive piégée ?) : %s"
+msgstr ""
+
+#: inc/mini-sites.php:664
+msgid "aucune page index.html à la racine du mini-site."
+msgstr ""
+
+#: inc/mini-sites.php:686
+msgid "impossible de créer le dossier d’extraction."
+msgstr ""
+
+#. translators: %s : chemin du fichier dont le dossier n'a pas pu être créé.
+#: inc/mini-sites.php:694
+#, php-format
+msgid "impossible de créer le dossier de %s."
+msgstr ""
+
+#. translators: %s : chemin du fichier qui n'a pas pu être extrait de l'archive.
+#: inc/mini-sites.php:709
+#, php-format
+msgid "extraction impossible : %s"
+msgstr ""
+
+#. translators: %s : chemin du fichier dont la taille réelle diffère de celle annoncée par l'archive.
+#: inc/mini-sites.php:720
+#, php-format
+msgid "contenu incohérent : %s"
+msgstr ""
+
+#: inc/mini-sites.php:739
+msgid "impossible de créer wp-content/uploads/mini-sites/."
+msgstr ""
+
+#: inc/mini-sites.php:988
+#: inc/mini-sites.php:1106
+msgid "Aucun mini-site n’est publié pour le moment."
+msgstr ""
+
+#. translators: %d : nombre de mini-sites dans la colonne ou la catégorie.
+#: inc/mini-sites.php:1033
+#, php-format
+msgid "%d mini-site"
+msgid_plural "%d mini-sites"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/mini-sites.php:1064
+#: inc/mini-sites.php:1156
+msgid "Aucun mini-site pour le moment."
+msgstr ""
+
+#: inc/mini-sites.php:1080
+msgid "Mini-site sans titre"
+msgstr ""
+
+#: inc/securite.php:47
+msgctxt "auteur affiché dans les flux RSS"
+msgid "L’équipe Savoirs Vivants"
+msgstr ""
+
+#: inc/securite.php:148
+msgid "XML-RPC est désactivé sur ce site."
+msgstr ""
+
+#: inc/sync-agenda.php:179
+#: inc/sync-agenda.php:224
+msgid "Synchronisation Google Agenda"
+msgstr ""
+
+#: inc/sync-agenda.php:180
+msgid "Synchronisation Google"
+msgstr ""
+
+#: inc/sync-agenda.php:192
+msgid "Action non autorisée."
+msgstr ""
+
+#: inc/sync-agenda.php:217
+msgid "Créé en brouillon"
+msgstr ""
+
+#: inc/sync-agenda.php:218
+msgid "Mis à jour"
+msgstr ""
+
+#: inc/sync-agenda.php:219
+msgid "Inchangé dans Google"
+msgstr ""
+
+#: inc/sync-agenda.php:220
+msgid "Ignoré (corbeille ou erreur)"
+msgstr ""
+
+#: inc/sync-agenda.php:227
+msgid "Synchronisation terminée : voir le détail ci-dessous."
+msgstr ""
+
+#: inc/sync-agenda.php:229
+msgid "Synchronisation impossible : adresse non configurée, synchronisation déjà en cours, ou Google injoignable (voir « Dernier passage »)."
+msgstr ""
+
+#: inc/sync-agenda.php:232
+msgid "Le site lit l’agenda Google toutes les heures. Un événement modifié dans Google est mis à jour sur le site (titre, texte, dates, heures, lieu), sans changer son statut ; image, agendas et lien d’inscription ajoutés sur le site sont conservés."
+msgstr ""
+
+#: inc/sync-agenda.php:233
+msgid "Attention : Google ne met à jour le fichier qu’il partage qu’avec un délai (souvent plusieurs heures). Si un événement modifié dans Google apparaît ci-dessous comme « Inchangé dans Google », c’est que Google n’a pas encore publié la modification : réessayer plus tard."
+msgstr ""
+
+#: inc/sync-agenda.php:235
+msgid "État"
+msgstr ""
+
+#: inc/sync-agenda.php:237
+msgid "Adresse de l’agenda Google : configurée."
+msgstr ""
+
+#: inc/sync-agenda.php:237
+msgid "Adresse de l’agenda Google : non configurée (SV_GCAL_ICS_URL dans wp-config.php)."
+msgstr ""
+
+#. translators: %s : date et heure de la dernière synchronisation.
+#: inc/sync-agenda.php:243
+#, php-format
+msgid "Dernier passage : %s"
+msgstr ""
+
+#: inc/sync-agenda.php:244
+msgid "Dernier passage : aucun depuis l’installation de cette page."
+msgstr ""
+
+#. translators: %s : message d'erreur technique.
+#: inc/sync-agenda.php:248
+#, php-format
+msgid "échec : %s"
+msgstr ""
+
+#. translators: %s : date et heure du prochain passage automatique.
+#: inc/sync-agenda.php:257
+#, php-format
+msgid "Prochain passage automatique : %s (déclenché par une visite du site)."
+msgstr ""
+
+#: inc/sync-agenda.php:258
+msgid "Prochain passage automatique : non programmé."
+msgstr ""
+
+#: inc/sync-agenda.php:267
+msgid "Synchroniser maintenant"
+msgstr ""
+
+#: inc/sync-agenda.php:271
+msgid "Détail du dernier passage"
+msgstr ""
+
+#. translators: 1 : créés, 2 : mis à jour, 3 : inchangés, 4 : ignorés (nombres d'événements).
+#: inc/sync-agenda.php:277
+#, php-format
+msgid "%1$d créé(s), %2$d mis à jour, %3$d inchangé(s), %4$d ignoré(s) (passés ou à la corbeille)."
+msgstr ""
+
+#: inc/sync-agenda.php:288
+msgid "Événements lus dans l’agenda Google au dernier passage"
+msgstr ""
+
+#: inc/sync-agenda.php:291
+msgid "Événement (titre dans Google)"
+msgstr ""
+
+#: inc/sync-agenda.php:292
+msgid "Date"
+msgstr ""
+
+#: inc/sync-agenda.php:293
+msgid "Résultat"
+msgstr ""
+
+#: inc/sync-agenda.php:301
+msgid "Événement sans titre"
+msgstr ""
+
+#: savoirs-vivants-fonctionnalites.php:69
+msgid "Mettez d’abord à jour le thème Savoirs Vivants (version 0.3 ou plus récente) : le thème actuel charge encore sa propre copie de ce code, et l’activation rendrait le site inaccessible."
+msgstr ""
+
+#: savoirs-vivants-fonctionnalites.php:70
+msgid "Activation impossible"
+msgstr ""

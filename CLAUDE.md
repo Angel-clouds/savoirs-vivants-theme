@@ -43,7 +43,9 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
    jamais sous du texte. Pas de surtitre au-dessus des titres hors univers : style « Sous-titre » SOUS le titre.
    Charte SRP : aucune, la charte globale s'applique.
 3. **Mobile-first** : CSS de base pour mobile, puis `@media (min-width: …)`.
-4. **RGPD** : aucun script tiers sans consentement (tarteaucitron.js, inc/assets.php).
+4. **RGPD** : aucun script tiers sans consentement (tarteaucitron.js, inc/assets.php). Tant qu'aucun service
+   n'est déclaré (filtre `sv_services_tiers`), tarteaucitron n'est chargé qu'au clic sur « Gestion des cookies »
+   (assets/js/cookies.js) ; un service déclaré rétablit le chargement sur toutes les pages (blocage avant consentement).
 5. **Autonomie de l'éditeur** : sections = compositions (catégorie « Savoirs Vivants – Sections »),
    pages = compositions « Pages complètes » ; styles de blocs : Surtitre (univers seulement), Titre de carte, Carte,
    Carte avec image, Question fréquente, Sous-titre, Étiquette (paragraphe, termes), Filet, Mise en avant (grille).
@@ -54,17 +56,42 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - Ressourcerie, réseaux sociaux et adresse : repris du site actuel.
 
 ## Architecture
+- **Extension `savoirs-vivants-fonctionnalites`** (dossier `extension/` du dépôt, v0.3) : tout le code métier
+  (contenus, agenda-filtres, sync-agenda, mini-sites, formulaire-contact, redirections, securite, smtp, avec
+  editeur-champs.js et formulaire-contact.js), domaine de traduction `savoirs-vivants-fonctionnalites`, README.md.
+  Local : lien symbolique `wp-content/plugins/savoirs-vivants-fonctionnalites` → `extension/…`.
+  Mise en ligne : à part du thème (`.distignore` du thème exclut `extension`), zip téléversé ou rsync vers plugins/.
+  Transition v0.3 : le thème garde une **copie de secours** de ces fichiers dans inc/, chargée seulement si
+  SV_FONCTIONNALITES n'est pas défini (notice d'administration). Toute modification du code métier se fait
+  dans l'extension ET, jusqu'à la v0.4, dans la copie du thème (domaine `savoirs-vivants`, SV_URI/SV_DIR).
+  L'extension refuse de s'activer si le thème ne connaît pas SV_FONCTIONNALITES (thème v0.2 = écran blanc).
+  v0.4 : retirer les copies de inc/ et la notice, une fois l'extension active en ligne.
+  Les chemins inc/… ci-dessous désignent les fichiers de l'extension.
+- inc/assets.php (thème) : logo d'en-tête (.sv-logo-site) jamais en loading="lazy" (les autres SVG du thème oui) ;
+  script et styles d'affichage des émojis retirés du site public (l'administration les garde ; l'encodage
+  wp_encode_emoji à l'enregistrement n'est PAS concerné) ; Space Mono 700 préchargée (même URL que @font-face).
+- inc/blocks.php (thème) : H1 unique (titre du modèle Page effacé si le contenu, compositions référencées
+  comprises, porte un H1), menu : aria-current « page » / « true » (rubrique) et nom « Menu principal ».
 - inc/contenus.php : types « sv_evenement » (Agenda, /agenda/) et « sv_materiel » (/ressourcerie/xxx/),
   taxonomies sv_pole et sv_type_materiel, champs + panneau éditeur, source de liaison
   « savoirs-vivants/evenement », filtre « événements à venir » (sans date ou date passée = invisible) ;
   plusieurs jours : champ facultatif sv_date_fin (dernier jour, ignoré s'il n'est pas après sv_date, sv_evenement_dates()),
   visible jusqu'au dernier jour (groupe « OU » imbriqué dans meta_query), pastille « 26–28 », date « Du … au … » ;
   vignette = image mise en avant, ajoutée après chaque groupe sv-date par un filtre render_block_core/group
-  (toutes les listes, copies en base comprises, sans toucher aux compositions ; alt vide, 6rem, .sv-evenement__vignette) ;
+  (toutes les listes, copies en base comprises, sans toucher aux compositions ; alt vide, .sv-evenement__vignette) ;
+  mise en page de la carte en CSS seul (src/css/main.css, `.is-style-carte:has(> .sv-date)`) : grille « visuel | infos | lien »,
+  pastille de date et image accolées en un seul bloc (jamais superposées, choix de l'équipe) : image 16/9 à côté
+  de la date sur mobile, colonne de 11rem dès 40rem ;
   adresses : /agenda/<événement>/ et /agenda/pole/<pôle>/ (la page /agenda/ elle-même est une page WordPress).
   Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
   obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date
   absente ou passée ; boîte « Pôles » d'origine masquée. Plus de pôle deviné d'après le titre.
+  « Image d'illustration » (= image mise en avant, MediaUpload) dans le même panneau, boîte d'origine masquée ;
+  bouton « Aperçu de la carte » : fenêtre (Ordinateur / Mobile) avec une iframe remplie par POST des valeurs en
+  cours de saisie vers home_url('/') (champ sv_apercu_carte + jeton « sv-apercu-carte » + edit_post) ;
+  sv_apercu_carte() rend la carte de la composition agenda-liste (WP_Block) en remplaçant méta, titre, pôles et
+  image par filtres, page nue (sans barre d'admin ni tarteaucitron) ; hauteur renvoyée par postMessage
+  (l'éditeur ne peut pas lire le document de l'iframe). Aperçu au style de l'agenda général (pas des univers).
 - inc/agenda-filtres.php : agenda général = **vraie page « Agenda »** (/agenda/, composition page-agenda =
   agenda-hero + agenda-liste, catégorie « SV · Agenda » ; plus d'archive : has_archive false). Code court
   [sv_filtres_agenda] = formulaire GET sans JS (cases agendas[] = termes sv_pole, liste « mois » des mois ayant un
@@ -76,7 +103,17 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   à définir dans wp-config.php) ; clé _sv_gcal_uid, nouveaux événements en brouillon, DTEND sur un autre jour → sv_date_fin (clé « date_fin » ajoutée à
   l'empreinte seulement si présente : événements d'un jour inchangés), mise à jour seulement si Google
   a changé (_sv_gcal_empreinte), corbeille respectée, passés et annulés ignorés. Test : `wp cron event run sv_sync_agenda`.
-- inc/formulaire-contact.php : code court [sv_formulaire_contact].
+  Page Agenda → Synchronisation Google (edit_others_posts) : bouton « Synchroniser maintenant » (admin-post sv_gcal_sync),
+  dernier / prochain passage et résultat par événement (option sv_gcal_journal). Le flux .ics de Google est publié avec
+  plusieurs heures de retard : « Inchangé dans Google » après une modification = Google n'a pas encore publié.
+  Caractères sur 4 octets (sv_gcal_caracteres) : faux gras « 𝗖𝗿𝗲́𝗮𝗕𝗼𝘁 » des réseaux sociaux ramené aux lettres
+  ordinaires (lecteurs d'écran), émojis en entités HTML (&#x1F916;).
+- Émojis à l'enregistrement (inc/contenus.php, wp_insert_post_data) : la connexion à la base du site en ligne est en
+  utf8 sur 3 octets (DB_CHARSET « utf8 ») → titre, contenu et extrait encodés par wp_encode_emoji tant que connexion
+  et colonne ne sont pas en utf8mb4 (sinon « ? »). Correctif de fond côté serveur : DB_CHARSET « utf8mb4 ».
+- inc/formulaire-contact.php : code court [sv_formulaire_contact] ; page jamais en cache (nocache_headers +
+  DONOTCACHEPAGE, nonce) ; IP de la limite d'envois = REMOTE_ADDR, en-têtes de proxy lus seulement si
+  SV_PROXIES_CONFIANCE (wp-config.php, adresses ou CIDR) contient REMOTE_ADDR.
 - inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip
   vérifié et extrait dans uploads/mini-sites/<id>-<jeton>/, servi par /mini-sites/<slug>/ avec CSP « sandbox »
   (aucune ressource tierce), taxonomie hiérarchique « sv_minisite_cat » (Ressourcerie → Catégories de mini-sites,
@@ -93,7 +130,7 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   (et sous-pages) ; la section 10 de src/css/main.css applique la charte du pôle au seul <main>
   (CréaBot : charte officielle Orbitron / Exo 2 ; Schlouk : affiche bénévoles, Bebas Neue / Poppins ;
   Sciences participatives : charte globale, titres Space Mono italique vert sauge, motifs du rapport d'activités).
-- inc/intro.php + section 11 de src/css/main.css : animation d'entrée (logo plein écran 1,2 s puis fondu).
+- inc/intro.php + section 11 de src/css/main.css : animation d’entrée (logo plein écran 0,6 s puis fondu).
   Logo SV à la 1re page de la session, logo CréaBot / Schlouk à la 1re entrée dans l'univers du pôle ; jamais au
   rechargement ni au retour arrière. Choix fait par un script en tête de <head> (classe sv-intro-* sur <html>,
   sessionStorage « sv-intro-vus » : chaque logo une seule fois par visite). RGAA : aria-hidden, < 5 s (13.8), sans clignotement, pointer-events: none,
@@ -109,14 +146,14 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   (contenus), e-mails destinés à l'équipe, fichiers de protection générés.
 - Textes d'un modèle .html : impossible en gettext → les déplacer dans une composition PHP appelée par le modèle.
   Une apostrophe droite d'un modèle est affichée « ’ » (wptexturize) : écrire directement « ’ » dans les chaînes.
-- Dictionnaire : `wp i18n make-pot . languages/savoirs-vivants.pot --domain=savoirs-vivants --exclude=node_modules,assets/vendor,src`.
+- Dictionnaire : `wp i18n make-pot . languages/savoirs-vivants.pot --domain=savoirs-vivants --exclude=node_modules,assets/vendor,src,extension` ; extension : voir son README.md.
   Traductions DANS le thème : `languages/de_DE.po` / `de_DE.mo` (nom = locale seule, sans préfixe de domaine).
 - inc/univers.php compare aussi le slug de la traduction dans la langue par défaut (Polylang, `sv_univers_source()`).
 - Bannière tarteaucitron : langue = `determine_locale()` si le fichier de langue existe, sinon `fr`.
 - Reste à faire : JS (carrousel.js, editeur-champs.js : `wp_set_script_translations`), liens internes en dur
   (/agenda/, /contact/…) dans les compositions et le pied de page.
 
-## État d'avancement (v0.2)
+## État d'avancement (v0.3)
 - Fait : header, footer, soutien, tous les modèles, toutes les pages en compositions, agenda,
   ressourcerie, formulaire, cookies, redirections, plan du site, déclaration d'accessibilité (non conforme),
   mentions légales, politique de confidentialité, faire un don, carrousel d'actualités.
@@ -142,7 +179,7 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   hors dépôt depuis octobre 2026 (.gitignore) mais reste dans l'historique git (purge = git filter-repo, décision d'équipe).
 - `?ver=` des CSS/JS : version de WordPress **masquée** (empreinte, inc/securite.php), jamais supprimée
   (sinon cache navigateur périmé après mise à jour). Ne pas reposer la question.
-- Code de sécurité dans inc/securite.php ; functions.php ne fait que charger les fichiers de inc/.
+- Code de sécurité dans inc/securite.php (extension) ; functions.php ne fait que charger les fichiers de inc/.
 - Formatage PHP : standard WordPress (tabulations), défini par `.phpcs.xml.dist` (WordPress-Extra, I18n,
   PHPCompatibilityWP 8.2+, syntaxe courte `[]` autorisée). Vérifier avec `phpcs`, corriger avec `phpcbf`.
   Ne plus formater au style PEAR (ancien réglage du formateur VS Code).

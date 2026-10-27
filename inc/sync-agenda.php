@@ -90,16 +90,33 @@ function sv_gcal_synchroniser(): ?array {
 			return null;
 		}
 
-		$bilan = [
+		$bilan   = [
 			'crees'      => 0,
 			'mis_a_jour' => 0,
 			'inchanges'  => 0,
 			'ignores'    => 0,
 		];
+		$details = [];
 		foreach ( sv_gcal_parser( $ics ) as $evenement ) {
 			$resultat = sv_gcal_enregistrer( $evenement );
 			++$bilan[ $resultat ];
+			// Les événements passés jamais importés (historique Google) ne sont pas détaillés.
+			$id = sv_gcal_trouver( $evenement['uid'] );
+			if ( 'ignores' !== $resultat || $id ) {
+				$details[] = [
+					'id'       => $id,
+					'titre'    => $evenement['titre'],
+					'date'     => $evenement['date'],
+					'resultat' => $resultat,
+				];
+			}
 		}
+		sv_gcal_journal(
+			[
+				'bilan'   => $bilan,
+				'details' => array_slice( $details, 0, 200 ),
+			]
+		);
 
 		if ( $bilan['crees'] || $bilan['mis_a_jour'] ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
@@ -126,6 +143,7 @@ function sv_gcal_recuperer( string $url ): ?string {
 	if ( is_wp_error( $reponse ) ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : échec de la requête (' . $reponse->get_error_message() . ').' );
+		sv_gcal_journal( [ 'erreur' => $reponse->get_error_message() ] );
 		return null;
 	}
 
@@ -133,6 +151,7 @@ function sv_gcal_recuperer( string $url ): ?string {
 	if ( 200 !== $code ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : réponse HTTP ' . $code . ' au lieu de 200.' );
+		sv_gcal_journal( [ 'erreur' => 'HTTP ' . $code ] );
 		return null;
 	}
 
@@ -140,9 +159,170 @@ function sv_gcal_recuperer( string $url ): ?string {
 	if ( ! str_contains( $corps, 'BEGIN:VCALENDAR' ) ) {
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- journal voulu (tâche planifiée sans écran).
 		error_log( '[Savoirs Vivants] Agenda Google : la réponse n\'est pas un fichier iCalendar.' );
+		sv_gcal_journal( [ 'erreur' => 'iCalendar' ] );
 		return null;
 	}
 	return $corps;
+}
+
+/**
+ * Mémorise le résultat de la dernière synchronisation (page Agenda → Synchronisation Google).
+ *
+ * @param array{bilan?:array<string,int>, details?:list<array<string,mixed>>, erreur?:string} $donnees
+ */
+function sv_gcal_journal( array $donnees ): void {
+	update_option( 'sv_gcal_journal', [ 'quand' => time() ] + $donnees, false );
+}
+
+/* ---------- Page « Agenda → Synchronisation Google » ---------- */
+
+/*
+ * État de la synchronisation et bouton « Synchroniser maintenant » : sans attendre la tâche horaire,
+ * et pour voir, événement par événement, ce que Google a envoyé (créé, mis à jour, inchangé).
+ * Réservé aux personnes qui peuvent modifier les événements des autres (éditeurs, administrateurs).
+ */
+add_action(
+	'admin_menu',
+	function (): void {
+		add_submenu_page(
+			'edit.php?post_type=sv_evenement',
+			__( 'Synchronisation Google Agenda', 'savoirs-vivants' ),
+			__( 'Synchronisation Google', 'savoirs-vivants' ),
+			'edit_others_posts',
+			'sv-sync-google',
+			'sv_gcal_page'
+		);
+	}
+);
+
+add_action(
+	'admin_post_sv_gcal_sync',
+	function (): void {
+		if ( ! current_user_can( 'edit_others_posts' ) ) {
+			wp_die( esc_html__( 'Action non autorisée.', 'savoirs-vivants' ), '', [ 'response' => 403 ] );
+		}
+		check_admin_referer( 'sv_gcal_sync' );
+		$bilan = sv_gcal_synchroniser();
+		wp_safe_redirect(
+			add_query_arg(
+				[
+					'post_type' => 'sv_evenement',
+					'page'      => 'sv-sync-google',
+					'sv_sync'   => null === $bilan ? 'non' : 'ok',
+				],
+				admin_url( 'edit.php' )
+			)
+		);
+		exit;
+	}
+);
+
+function sv_gcal_page(): void {
+	$journal    = get_option( 'sv_gcal_journal', [] );
+	$configure  = '' !== SV_GCAL_ICS_URL && ! str_contains( SV_GCAL_ICS_URL, 'VOTRE_IDENTIFIANT' );
+	$prochaine  = wp_next_scheduled( SV_GCAL_CRON );
+	$retour     = isset( $_GET['sv_sync'] ) ? sanitize_key( $_GET['sv_sync'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- simple message d'état.
+	$format     = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+	$libelles   = [
+		'crees'      => __( 'Créé en brouillon', 'savoirs-vivants' ),
+		'mis_a_jour' => __( 'Mis à jour', 'savoirs-vivants' ),
+		'inchanges'  => __( 'Inchangé dans Google', 'savoirs-vivants' ),
+		'ignores'    => __( 'Ignoré (corbeille ou erreur)', 'savoirs-vivants' ),
+	];
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Synchronisation Google Agenda', 'savoirs-vivants' ); ?></h1>
+
+		<?php if ( 'ok' === $retour ) : ?>
+			<div class="notice notice-success"><p><?php esc_html_e( 'Synchronisation terminée : voir le détail ci-dessous.', 'savoirs-vivants' ); ?></p></div>
+		<?php elseif ( 'non' === $retour ) : ?>
+			<div class="notice notice-error"><p><?php esc_html_e( 'Synchronisation impossible : adresse non configurée, synchronisation déjà en cours, ou Google injoignable (voir « Dernier passage »).', 'savoirs-vivants' ); ?></p></div>
+		<?php endif; ?>
+
+		<p><?php esc_html_e( 'Le site lit l’agenda Google toutes les heures. Un événement modifié dans Google est mis à jour sur le site (titre, texte, dates, heures, lieu), sans changer son statut ; image, agendas et lien d’inscription ajoutés sur le site sont conservés.', 'savoirs-vivants' ); ?></p>
+		<p><?php esc_html_e( 'Attention : Google ne met à jour le fichier qu’il partage qu’avec un délai (souvent plusieurs heures). Si un événement modifié dans Google apparaît ci-dessous comme « Inchangé dans Google », c’est que Google n’a pas encore publié la modification : réessayer plus tard.', 'savoirs-vivants' ); ?></p>
+
+		<h2><?php esc_html_e( 'État', 'savoirs-vivants' ); ?></h2>
+		<ul>
+			<li><?php echo $configure ? esc_html__( 'Adresse de l’agenda Google : configurée.', 'savoirs-vivants' ) : esc_html__( 'Adresse de l’agenda Google : non configurée (SV_GCAL_ICS_URL dans wp-config.php).', 'savoirs-vivants' ); ?></li>
+			<li>
+				<?php
+				echo esc_html(
+					! empty( $journal['quand'] )
+						/* translators: %s : date et heure de la dernière synchronisation. */
+						? sprintf( __( 'Dernier passage : %s', 'savoirs-vivants' ), wp_date( $format, (int) $journal['quand'] ) )
+						: __( 'Dernier passage : aucun depuis l’installation de cette page.', 'savoirs-vivants' )
+				);
+				if ( ! empty( $journal['erreur'] ) ) {
+					/* translators: %s : message d'erreur technique. */
+					echo ' — ' . esc_html( sprintf( __( 'échec : %s', 'savoirs-vivants' ), $journal['erreur'] ) );
+				}
+				?>
+			</li>
+			<li>
+				<?php
+				echo esc_html(
+					$prochaine
+						/* translators: %s : date et heure du prochain passage automatique. */
+						? sprintf( __( 'Prochain passage automatique : %s (déclenché par une visite du site).', 'savoirs-vivants' ), wp_date( $format, $prochaine ) )
+						: __( 'Prochain passage automatique : non programmé.', 'savoirs-vivants' )
+				);
+				?>
+			</li>
+		</ul>
+
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="sv_gcal_sync">
+			<?php wp_nonce_field( 'sv_gcal_sync' ); ?>
+			<?php submit_button( __( 'Synchroniser maintenant', 'savoirs-vivants' ), 'primary', 'submit', false, $configure ? [] : [ 'disabled' => 'disabled' ] ); ?>
+		</form>
+
+		<?php if ( ! empty( $journal['bilan'] ) ) : ?>
+			<h2><?php esc_html_e( 'Détail du dernier passage', 'savoirs-vivants' ); ?></h2>
+			<p>
+				<?php
+				echo esc_html(
+					sprintf(
+						/* translators: 1 : créés, 2 : mis à jour, 3 : inchangés, 4 : ignorés (nombres d'événements). */
+						__( '%1$d créé(s), %2$d mis à jour, %3$d inchangé(s), %4$d ignoré(s) (passés ou à la corbeille).', 'savoirs-vivants' ),
+						$journal['bilan']['crees'] ?? 0,
+						$journal['bilan']['mis_a_jour'] ?? 0,
+						$journal['bilan']['inchanges'] ?? 0,
+						$journal['bilan']['ignores'] ?? 0
+					)
+				);
+				?>
+			</p>
+			<?php if ( ! empty( $journal['details'] ) ) : ?>
+				<table class="widefat striped">
+					<caption class="screen-reader-text"><?php esc_html_e( 'Événements lus dans l’agenda Google au dernier passage', 'savoirs-vivants' ); ?></caption>
+					<thead>
+						<tr>
+							<th scope="col"><?php esc_html_e( 'Événement (titre dans Google)', 'savoirs-vivants' ); ?></th>
+							<th scope="col"><?php esc_html_e( 'Date', 'savoirs-vivants' ); ?></th>
+							<th scope="col"><?php esc_html_e( 'Résultat', 'savoirs-vivants' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $journal['details'] as $ligne ) : ?>
+							<tr>
+								<td>
+									<?php if ( ! empty( $ligne['id'] ) && get_post( (int) $ligne['id'] ) ) : ?>
+										<a href="<?php echo esc_url( (string) get_edit_post_link( (int) $ligne['id'] ) ); ?>"><?php echo esc_html( '' !== $ligne['titre'] ? $ligne['titre'] : __( 'Événement sans titre', 'savoirs-vivants' ) ); ?></a>
+									<?php else : ?>
+										<?php echo esc_html( $ligne['titre'] ); ?>
+									<?php endif; ?>
+								</td>
+								<td><?php echo esc_html( wp_date( get_option( 'date_format' ), (int) strtotime( $ligne['date'] . ' 12:00:00' ) ) ); ?></td>
+								<td><?php echo esc_html( $libelles[ $ligne['resultat'] ] ?? $ligne['resultat'] ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+		<?php endif; ?>
+	</div>
+	<?php
 }
 
 /* ---------- Lecture du format iCalendar (RFC 5545) ---------- */
@@ -230,17 +410,43 @@ function sv_gcal_lire_ligne( string $ligne ): ?array {
  * Texte iCalendar → texte brut : \n, \, \; et \\ sont des séquences d'échappement.
  */
 function sv_gcal_texte( string $valeur ): string {
-	return trim(
-		strtr(
-			$valeur,
-			[
-				'\\n'  => "\n",
-				'\\N'  => "\n",
-				'\\,'  => ',',
-				'\\;'  => ';',
-				'\\\\' => '\\',
-			]
+	return sv_gcal_caracteres(
+		trim(
+			strtr(
+				$valeur,
+				[
+					'\\n'  => "\n",
+					'\\N'  => "\n",
+					'\\,'  => ',',
+					'\\;'  => ';',
+					'\\\\' => '\\',
+				]
+			)
 		)
+	);
+}
+
+/**
+ * Caractères hors du plan de base (émojis, « gras » LinkedIn 𝗖𝗿𝗲́𝗮𝗕𝗼𝘁) : la base du site est en utf8 sur
+ * 3 octets et les remplacerait par « ? ».
+ * - Lettres et chiffres « mathématiques » (U+1D400 à U+1D7FF, faux gras ou italique des réseaux sociaux) :
+ *   ramenés aux lettres ordinaires, que les lecteurs d'écran lisent normalement (RGAA) ; le gras se perd.
+ * - Autres (émojis…) : entité HTML (&#x1F916;), affichée telle quelle par le navigateur.
+ */
+function sv_gcal_caracteres( string $texte ): string {
+	$normaliser = class_exists( 'Normalizer' );
+	$texte      = (string) preg_replace_callback(
+		'/[\x{1D400}-\x{1D7FF}]/u',
+		static fn( array $m ): string => $normaliser ? (string) Normalizer::normalize( $m[0], Normalizer::FORM_KC ) : $m[0],
+		$texte
+	);
+	if ( $normaliser ) {
+		$texte = (string) Normalizer::normalize( $texte, Normalizer::FORM_C ); // e + accent combinant → é
+	}
+	return (string) preg_replace_callback(
+		'/[\x{10000}-\x{10FFFF}]/u',
+		static fn( array $m ): string => '&#x' . strtoupper( dechex( mb_ord( $m[0], 'UTF-8' ) ) ) . ';',
+		$texte
 	);
 }
 
