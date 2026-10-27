@@ -68,6 +68,12 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
   Panneau d'un événement (assets/js/editeur-champs.js) : cases « Agendas » (termes sv_pole, plusieurs possibles)
   obligatoires — enregistrement verrouillé (lockPostSaving) tant qu'aucune n'est cochée ; avertissement si date
   absente ou passée ; boîte « Pôles » d'origine masquée. Plus de pôle deviné d'après le titre.
+  « Image d'illustration » (= image mise en avant, MediaUpload) dans le même panneau, boîte d'origine masquée ;
+  bouton « Aperçu de la carte » : fenêtre (Ordinateur / Mobile) avec une iframe remplie par POST des valeurs en
+  cours de saisie vers home_url('/') (champ sv_apercu_carte + jeton « sv-apercu-carte » + edit_post) ;
+  sv_apercu_carte() rend la carte de la composition agenda-liste (WP_Block) en remplaçant méta, titre, pôles et
+  image par filtres, page nue (sans barre d'admin ni tarteaucitron) ; hauteur renvoyée par postMessage
+  (l'éditeur ne peut pas lire le document de l'iframe). Aperçu au style de l'agenda général (pas des univers).
 - inc/agenda-filtres.php : agenda général = **vraie page « Agenda »** (/agenda/, composition page-agenda =
   agenda-hero + agenda-liste, catégorie « SV · Agenda » ; plus d'archive : has_archive false). Code court
   [sv_filtres_agenda] = formulaire GET sans JS (cases agendas[] = termes sv_pole, liste « mois » des mois ayant un

@@ -445,6 +445,185 @@ add_filter(
 );
 
 /**
+ * Aperçu de la carte d'un événement dans l'éditeur (assets/js/editeur-champs.js, fenêtre « Aperçu de la carte »).
+ * Le panneau envoie en POST, dans une iframe, les valeurs en cours de saisie (même non enregistrées) ;
+ * cette page les rend avec la vraie carte de la composition agenda-liste et les styles du site.
+ * Réservé aux personnes qui peuvent modifier l'événement (jeton + droit edit_post).
+ */
+function sv_apercu_carte_valeurs( int $id ): array {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- jeton vérifié dans sv_apercu_carte().
+	$texte = static function ( string $cle ): string {
+		return isset( $_POST[ $cle ] ) ? sanitize_text_field( wp_unslash( $_POST[ $cle ] ) ) : '';
+	};
+	$motif = static function ( string $cle, string $regex ) use ( $texte ): string {
+		$valeur = $texte( $cle );
+		return preg_match( $regex, $valeur ) ? $valeur : '';
+	};
+	$poles = isset( $_POST['poles'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['poles'] ) ) : [];
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+	return [
+		'titre' => $texte( 'titre' ),
+		'image' => absint( $texte( 'image' ) ),
+		'poles' => array_filter( $poles ),
+		'meta'  => [
+			'sv_date'        => $motif( 'sv_date', '/^\d{4}-\d{2}-\d{2}$/' ),
+			'sv_date_fin'    => $motif( 'sv_date_fin', '/^\d{4}-\d{2}-\d{2}$/' ),
+			'sv_heure_debut' => $motif( 'sv_heure_debut', '/^\d{2}:\d{2}$/' ),
+			'sv_heure_fin'   => $motif( 'sv_heure_fin', '/^\d{2}:\d{2}$/' ),
+			'sv_lieu'        => $texte( 'sv_lieu' ),
+		],
+	];
+}
+
+/**
+ * Carte de l'agenda général (premier modèle de « Modèle de publication » de la composition agenda-liste).
+ */
+function sv_apercu_carte_modele(): ?array {
+	$composition = WP_Block_Patterns_Registry::get_instance()->get_registered( 'savoirs-vivants/agenda-liste' );
+	$chercher    = static function ( array $blocs ) use ( &$chercher ): ?array {
+		foreach ( $blocs as $bloc ) {
+			if ( 'core/post-template' === $bloc['blockName'] && ! empty( $bloc['innerBlocks'][0] ) ) {
+				return $bloc['innerBlocks'][0];
+			}
+			$trouve = $chercher( $bloc['innerBlocks'] ?? [] );
+			if ( $trouve ) {
+				return $trouve;
+			}
+		}
+		return null;
+	};
+	return $composition ? $chercher( parse_blocks( $composition['content'] ) ) : null;
+}
+
+function sv_apercu_carte(): void {
+	$id = isset( $_POST['sv_apercu_carte'] ) ? absint( $_POST['sv_apercu_carte'] ) : 0;
+	if ( ! $id || 'sv_evenement' !== get_post_type( $id ) || ! current_user_can( 'edit_post', $id )
+		|| ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'sv-apercu-carte' ) ) {
+		wp_die( esc_html__( 'Aperçu indisponible : rechargez l’éditeur.', 'savoirs-vivants' ), '', [ 'response' => 403 ] );
+	}
+	$valeurs = sv_apercu_carte_valeurs( $id );
+	$modele  = sv_apercu_carte_modele();
+
+	// Valeurs saisies à la place des valeurs enregistrées, pour cet événement seulement.
+	add_filter(
+		'get_post_metadata',
+		static function ( $valeur, $objet, $cle ) use ( $id, $valeurs ) {
+			if ( (int) $objet !== $id ) {
+				return $valeur;
+			}
+			if ( '_thumbnail_id' === $cle ) {
+				return [ (string) $valeurs['image'] ];
+			}
+			return array_key_exists( $cle, $valeurs['meta'] ) ? [ $valeurs['meta'][ $cle ] ] : $valeur;
+		},
+		10,
+		3
+	);
+	add_filter(
+		'the_title',
+		static function ( $titre, $objet = 0 ) use ( $id, $valeurs ) {
+			return (int) $objet === $id ? esc_html( $valeurs['titre'] ) : $titre;
+		},
+		10,
+		2
+	);
+	add_filter(
+		'get_the_terms',
+		static function ( $termes, $objet, $taxonomie ) use ( $id, $valeurs ) {
+			if ( (int) $objet !== $id || 'sv_pole' !== $taxonomie ) {
+				return $termes;
+			}
+			$choisis = array_filter( array_map( static fn( $t ) => get_term( $t, 'sv_pole' ), $valeurs['poles'] ), static fn( $t ) => $t instanceof WP_Term );
+			return $choisis ? array_values( $choisis ) : false;
+		},
+		10,
+		3
+	);
+
+	// Page nue : ni barre d'administration, ni bannière de cookies ; styles de tous les blocs chargés d'emblée.
+	show_admin_bar( false );
+	add_filter( 'should_load_separate_core_block_assets', '__return_false' );
+	add_action(
+		'wp_enqueue_scripts',
+		static function () {
+			wp_dequeue_script( 'tarteaucitron' );
+		},
+		20
+	);
+
+	global $post;
+	$post = get_post( $id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- contexte de la carte (vignette, liaisons).
+	setup_postdata( $post );
+	$carte = $modele ? ( new WP_Block(
+		$modele,
+		[
+			'postId'   => $id,
+			'postType' => 'sv_evenement',
+		]
+	) )->render() : '';
+
+	nocache_headers();
+	?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+<meta charset="<?php bloginfo( 'charset' ); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+	<?php wp_head(); ?>
+<style>html{margin-top:0!important}#wpadminbar{display:none!important}body{margin:0;background:var(--color-blanc,#fff)}.sv-apercu{max-width:60rem;margin:0 auto;padding:1rem}.sv-apercu a{pointer-events:none}</style>
+</head>
+<body class="sv-apercu-carte">
+<main class="sv-apercu"><?php echo $carte; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- rendu des blocs. ?></main>
+	<?php wp_footer(); ?>
+<script>(function(){function h(){parent.postMessage({svApercuHauteur:Math.ceil(document.body.getBoundingClientRect().height)},"*");}new ResizeObserver(h).observe(document.body);h();})();</script>
+</body>
+</html>
+	<?php
+	exit;
+}
+
+add_action(
+	'template_redirect',
+	function () {
+		if ( isset( $_POST['sv_apercu_carte'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- vérifié dans sv_apercu_carte().
+			sv_apercu_carte();
+		}
+	},
+	0
+);
+
+// Adresse et jeton de l'aperçu, textes du choix d'image et de la fenêtre (assets/js/editeur-champs.js).
+add_action(
+	'enqueue_block_editor_assets',
+	function () {
+		if ( ! wp_script_is( 'sv-editeur-champs', 'enqueued' ) ) {
+			return;
+		}
+		$config = [
+			'url'    => home_url( '/' ),
+			'nonce'  => wp_create_nonce( 'sv-apercu-carte' ),
+			'textes' => [
+				'image'          => __( 'Image d’illustration', 'savoirs-vivants' ),
+				'image_aide'     => __( 'Affichée à côté de la date dans les listes de l’agenda et en haut de la page de l’événement. Une affiche convient : le haut de l’image est conservé.', 'savoirs-vivants' ),
+				'choisir'        => __( 'Choisir une image', 'savoirs-vivants' ),
+				'remplacer'      => __( 'Remplacer', 'savoirs-vivants' ),
+				'retirer'        => __( 'Retirer', 'savoirs-vivants' ),
+				'apercu'         => __( 'Aperçu de la carte', 'savoirs-vivants' ),
+				'apercu_aide'    => __( 'Carte telle qu’elle apparaîtra dans l’agenda, avec les informations en cours de saisie.', 'savoirs-vivants' ),
+				'ordinateur'     => __( 'Ordinateur', 'savoirs-vivants' ),
+				'mobile'         => __( 'Mobile', 'savoirs-vivants' ),
+				'titre_iframe'   => __( 'Aperçu de la carte de l’événement', 'savoirs-vivants' ),
+				'titre_manquant' => __( 'Titre de l’événement', 'savoirs-vivants' ),
+			],
+		];
+		wp_add_inline_script( 'sv-editeur-champs', 'window.svApercuCarte = ' . wp_json_encode( $config ) . ';', 'before' );
+	},
+	20
+);
+
+/**
  * Agenda : n'afficher que les événements à venir ou en cours (plusieurs jours : jusqu'au dernier),
  * du plus proche au plus lointain (tri sur le premier jour).
  * S'applique aux blocs « Boucle de requête » et à la page /agenda/.
