@@ -114,7 +114,8 @@ association loi 1901 de Haguenau (Nord Alsace). Dev local : LocalWP sous Linux (
 - inc/formulaire-contact.php : code court [sv_formulaire_contact] ; page jamais en cache (nocache_headers +
   DONOTCACHEPAGE, nonce) ; IP de la limite d'envois = REMOTE_ADDR, en-têtes de proxy lus seulement si
   SV_PROXIES_CONFIANCE (wp-config.php, adresses ou CIDR) contient REMOTE_ADDR.
-- inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs), import .zip
+- inc/mini-sites.php : type « sv_minisite » (menu Ressourcerie → Mini-sites, administrateurs et éditeurs :
+  sv_minisites_capacite() = edit_others_pages, filtre « sv_minisites_capacite » ; import réservé en plus à unfiltered_html), import .zip
   vérifié et extrait dans uploads/mini-sites/<id>-<jeton>/, servi par /mini-sites/<slug>/ avec CSP « sandbox »
   (aucune ressource tierce), taxonomie hiérarchique « sv_minisite_cat » (Ressourcerie → Catégories de mini-sites,
   distincte des pôles de l'agenda sv_pole ; catégories principales creabot, schlouk-de-sciences, sciences-participatives),

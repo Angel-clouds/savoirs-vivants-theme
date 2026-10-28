@@ -2,7 +2,7 @@
 /**
  * Mini-sites pédagogiques (HTML, CSS, JS) importés en .zip et présentés sur la page Ressourcerie.
  *
- * Administration : menu Ressourcerie → Mini-sites (administrateurs uniquement). Le .zip déposé
+ * Administration : menu Ressourcerie → Mini-sites (administrateurs et éditeurs, sv_minisites_capacite()). Le .zip déposé
  * dans le cadre « Fichiers du mini-site » est vérifié, extrait fichier par fichier dans
  * wp-content/uploads/mini-sites/<id>-<jeton aléatoire>/, puis supprimé.
  * Affichage : code court [sv_mini_sites pole="creabot"] (composition « Ressourcerie – Mini-sites »).
@@ -95,11 +95,19 @@ function sv_minisites_base(): string {
 }
 
 /**
- * Seuls les administrateurs autorisés à publier du code (unfiltered_html) peuvent importer :
+ * Droit qui ouvre le menu Mini-sites et ses catégories : edit_others_pages = administrateurs et
+ * éditeurs (l'équipe gère la Ressourcerie sans être administratrice). Modifiable par filtre.
+ */
+function sv_minisites_capacite(): string {
+	return (string) apply_filters( 'sv_minisites_capacite', 'edit_others_pages' );
+}
+
+/**
+ * Seuls les comptes qui gèrent les mini-sites ET peuvent publier du code (unfiltered_html) importent :
  * avec DISALLOW_UNFILTERED_HTML ou en multisite, personne ne peut, ce qui est voulu.
  */
 function sv_minisites_peut_importer(): bool {
-	return current_user_can( 'manage_options' ) && current_user_can( 'unfiltered_html' );
+	return current_user_can( sv_minisites_capacite() ) && current_user_can( 'unfiltered_html' );
 }
 
 /* -------------------------------------------------------------------------
@@ -111,7 +119,7 @@ add_action(
 	function () {
 		$capacites = array_fill_keys(
 			[ 'edit_post', 'read_post', 'delete_post', 'edit_posts', 'edit_others_posts', 'edit_published_posts', 'publish_posts', 'read_private_posts', 'delete_posts', 'delete_others_posts', 'delete_published_posts', 'create_posts' ],
-			'manage_options'
+			sv_minisites_capacite()
 		);
 
 		register_post_type(
@@ -135,7 +143,7 @@ add_action(
 				'exclude_from_search' => true,
 				'rewrite'             => false,
 				'query_var'           => false,
-				'capabilities'        => $capacites, // administrateurs uniquement
+				'capabilities'        => $capacites, // administrateurs et éditeurs
 				'map_meta_cap'        => false,
 				'supports'            => [ 'title', 'excerpt', 'thumbnail' ],
 			]
@@ -182,7 +190,7 @@ add_action(
 				'show_tagcloud'     => false,
 				'query_var'         => false,
 				'rewrite'           => false,
-				'capabilities'      => array_fill_keys( [ 'manage_terms', 'edit_terms', 'delete_terms', 'assign_terms' ], 'manage_options' ), // administrateurs, comme les mini-sites
+				'capabilities'      => array_fill_keys( [ 'manage_terms', 'edit_terms', 'delete_terms', 'assign_terms' ], sv_minisites_capacite() ), // mêmes droits que les mini-sites
 			]
 		);
 	},
@@ -196,7 +204,7 @@ add_action(
 			'edit.php?post_type=sv_materiel',
 			__( 'Catégories de mini-sites', 'savoirs-vivants' ),
 			__( 'Catégories de mini-sites', 'savoirs-vivants' ),
-			'manage_options',
+			sv_minisites_capacite(),
 			'edit-tags.php?taxonomy=sv_minisite_cat&post_type=sv_minisite'
 		);
 	}
